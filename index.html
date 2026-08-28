@@ -753,6 +753,10 @@ body {
     flex-wrap: wrap;
     margin-top: 20px;
 }
+.btn-group .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
 
 /* ===== 结果展示 ===== */
 .result-section {
@@ -1119,6 +1123,8 @@ body {
     color: var(--gray-600);
 }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -1262,6 +1268,9 @@ body {
                 </button>
                 <button class="btn btn-secondary" onclick="resetForm()">
                     🔄 重置参数
+                </button>
+                <button class="btn" id="generateReportBtn" onclick="generateReport()" style="background: var(--success); color: white; display: none;">
+                    📄 一键生成选型报告
                 </button>
             </div>
         </div>
@@ -2475,6 +2484,7 @@ function renderSelectionResult(heat, config, latPredict, targetLAT, regionType, 
     const resultDiv = document.getElementById('selectionResult');
     resultDiv.style.display = 'block';
     resultDiv.classList.add('fade-in');
+    document.getElementById('generateReportBtn').style.display = 'inline-block';
     
     // LAT等级判定
     const latVal = parseFloat(latPredict.lat);
@@ -3080,7 +3090,10 @@ function resetForm() {
     document.getElementById('ambientTemp').value = 30;
     document.getElementById('altitude').value = 500;
     document.getElementById('regionType').value = 'II';
+    document.getElementById('radHeatInput').value = '';
+    document.getElementById('icHeatInput').value = '';
     document.getElementById('selectionResult').style.display = 'none';
+    document.getElementById('generateReportBtn').style.display = 'none';
 }
 
 function resetDiagnosis() {
@@ -3351,6 +3364,159 @@ function showTypingIndicator() {
 function removeTypingIndicator() {
     const el = document.getElementById('typingIndicator');
     if (el) el.remove();
+}
+
+/**
+ * 一键生成选型报告（PDF）
+ */
+async function generateReport() {
+    const resultDiv = document.getElementById('selectionResult');
+    if (resultDiv.style.display === 'none') {
+        alert('请先完成选型计算，再生成报告');
+        return;
+    }
+
+    const btn = document.getElementById('generateReportBtn');
+    btn.textContent = '⏳ 正在生成...';
+    btn.disabled = true;
+
+    try {
+        // 收集输入参数
+        const supplier = document.getElementById('supplier');
+        const fuelType = document.getElementById('fuelType');
+        const hp = document.getElementById('horsepower').value;
+        const maxTemp = document.getElementById('maxTemp').value;
+        const ambientTemp = document.getElementById('ambientTemp').value;
+        const altitude = document.getElementById('altitude').value;
+        const regionType = document.getElementById('regionType');
+        const radHeat = document.getElementById('radHeatInput').value || '自动计算';
+        const icHeat = document.getElementById('icHeatInput').value || '自动计算';
+
+        const supplierText = supplier.options[supplier.selectedIndex].text;
+        const fuelText = fuelType.options[fuelType.selectedIndex].text;
+        const regionText = regionType.options[regionType.selectedIndex].text;
+        const vehicleText = currentVehicle === 'light' ? '轻卡（N2类）' : '重卡（N3类）';
+
+        // 创建报告HTML容器（离屏渲染）
+        const reportContainer = document.createElement('div');
+        reportContainer.style.cssText = 'position:fixed; left:-9999px; top:0; width:800px; background:white; padding:40px; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; color:#333;';
+        
+        const now = new Date();
+        const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+
+        // 提取结果数据
+        const summaryCards = document.getElementById('summaryCards');
+        const recommendedConfig = document.getElementById('recommendedConfig');
+        const dimensionRecommendation = document.getElementById('dimensionRecommendation');
+        const designSuggestions = document.getElementById('designSuggestions');
+        const riskAnalysis = document.getElementById('riskAnalysis');
+        const calcDetail = document.getElementById('calcDetail');
+
+        reportContainer.innerHTML = `
+            <div style="text-align:center; margin-bottom:30px; border-bottom:3px solid #1a56db; padding-bottom:20px;">
+                <h1 style="font-size:24px; color:#1a56db; margin-bottom:8px;">商用车冷却系统选型报告</h1>
+                <p style="color:#666; font-size:14px;">生成日期：${dateStr}</p>
+            </div>
+            
+            <div style="margin-bottom:24px;">
+                <h2 style="font-size:18px; color:#1a56db; border-left:4px solid #1a56db; padding-left:10px; margin-bottom:12px;">一、输入参数</h2>
+                <table style="width:100%; border-collapse:collapse; font-size:14px;">
+                    <tr style="background:#f8f9fa;"><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600; width:35%;">车型类别</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${vehicleText}</td></tr>
+                    <tr><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600;">供应商</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${supplierText}</td></tr>
+                    <tr style="background:#f8f9fa;"><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600;">燃料类型</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${fuelText}</td></tr>
+                    <tr><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600;">发动机马力</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${hp} HP</td></tr>
+                    <tr style="background:#f8f9fa;"><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600;">散热器需求散热量</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${radHeat}${radHeat !== '自动计算' ? ' kW（用户输入）' : ' kW'}</td></tr>
+                    <tr><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600;">中冷器需求散热量</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${icHeat}${icHeat !== '自动计算' ? ' kW（用户输入）' : ' kW'}</td></tr>
+                    <tr style="background:#f8f9fa;"><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600;">最高允许温度</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${maxTemp} ℃</td></tr>
+                    <tr><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600;">环境温度</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${ambientTemp} ℃</td></tr>
+                    <tr style="background:#f8f9fa;"><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600;">海拔高度</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${altitude} m</td></tr>
+                    <tr><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600;">目标地区类型</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${regionText}</td></tr>
+                </table>
+            </div>
+
+            <div style="margin-bottom:24px;">
+                <h2 style="font-size:18px; color:#1a56db; border-left:4px solid #1a56db; padding-left:10px; margin-bottom:12px;">二、核心指标</h2>
+                <div id="reportSummaryCards" style="padding:8px;">${summaryCards.innerHTML}</div>
+            </div>
+
+            <div style="margin-bottom:24px;">
+                <h2 style="font-size:18px; color:#1a56db; border-left:4px solid #1a56db; padding-left:10px; margin-bottom:12px;">三、推荐配置方案</h2>
+                <div style="padding:8px;">${recommendedConfig.innerHTML}</div>
+            </div>
+
+            <div style="margin-bottom:24px;">
+                <h2 style="font-size:18px; color:#1a56db; border-left:4px solid #1a56db; padding-left:10px; margin-bottom:12px;">四、推荐尺寸参数（K值反算）</h2>
+                <div style="padding:8px;">${dimensionRecommendation.innerHTML}</div>
+            </div>
+
+            <div style="margin-bottom:24px;">
+                <h2 style="font-size:18px; color:#1a56db; border-left:4px solid #1a56db; padding-left:10px; margin-bottom:12px;">五、设计建议</h2>
+                <div style="padding:8px;">${designSuggestions.innerHTML}</div>
+            </div>
+
+            <div style="margin-bottom:24px;">
+                <h2 style="font-size:18px; color:#1a56db; border-left:4px solid #1a56db; padding-left:10px; margin-bottom:12px;">六、风险点提示</h2>
+                <div style="padding:8px;">${riskAnalysis.innerHTML}</div>
+            </div>
+
+            <div style="margin-bottom:24px;">
+                <h2 style="font-size:18px; color:#1a56db; border-left:4px solid #1a56db; padding-left:10px; margin-bottom:12px;">七、计算详情</h2>
+                <div style="padding:8px; font-size:13px;">${calcDetail.innerHTML}</div>
+            </div>
+
+            <div style="margin-top:30px; padding-top:16px; border-top:1px solid #e5e7eb; text-align:center; font-size:12px; color:#999;">
+                由「商用车冷却系统选型工具」自动生成 | 基于一维计算模型，最终方案以整车热平衡试验为准
+            </div>
+        `;
+
+        document.body.appendChild(reportContainer);
+
+        // 使用 html2canvas 渲染为图片
+        const canvas = await html2canvas(reportContainer, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: '#ffffff',
+            width: 800,
+            windowWidth: 800,
+        });
+
+        document.body.removeChild(reportContainer);
+
+        // 生成 PDF
+        const { jsPDF } = window.jspdf;
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('p', 'mm', 'A4');
+        
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const imgWidth = pdfWidth - 20; // 留边距
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        
+        // 如果内容超过一页，分页处理
+        let heightLeft = imgHeight;
+        let position = 10;
+        
+        pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+        heightLeft -= (pdfHeight - 20);
+        
+        while (heightLeft > 0) {
+            position = heightLeft - imgHeight + 10;
+            pdf.addPage();
+            pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+            heightLeft -= (pdfHeight - 20);
+        }
+
+        // 下载 PDF
+        const fileName = `冷却系统选型报告_${vehicleText}_${hp}HP_${dateStr}.pdf`;
+        pdf.save(fileName);
+
+    } catch (err) {
+        console.error('生成报告失败:', err);
+        alert('生成报告失败：' + err.message);
+    } finally {
+        btn.textContent = '📄 一键生成选型报告';
+        btn.disabled = false;
+    }
 }
 </script>
 </body>
