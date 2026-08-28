@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0318)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E5%86%B7%E5%8D%B4%E7%B3%BB%E7%BB%9F%E9%80%89%E5%9E%8B%E5%B7%A5%E5%85%B7.html?sign=1790392993-fd945c3198-0-2c4346eae115c556a8e43d9eb47119c97044f46a3137e6e53bceef893ccc4ac7 -->
-<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>商用车冷却系统选型工具</title>
 <style>
@@ -191,8 +191,8 @@ body {
     position: fixed;
     bottom: 100px;
     right: 30px;
-    width: 400px;
-    height: 520px;
+    width: 500px;
+    height: 560px;
     background: white;
     border-radius: 16px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.15);
@@ -302,8 +302,11 @@ body {
     padding: 12px 16px;
     border-radius: 12px;
     font-size: 14px;
-    line-height: 1.6;
+    line-height: 1.7;
     word-break: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    word-wrap: break-word;
 }
 .chat-msg.bot .msg-bubble {
     background: white;
@@ -1035,6 +1038,7 @@ body {
     .tab-btn { flex-shrink: 0; }
     .config-table { font-size: 12px; }
     .config-table th, .config-table td { padding: 8px; }
+    .chat-panel { width: 95vw; right: 2.5vw; height: 500px; }
 }
 
 @media (max-width: 480px) {
@@ -1127,13 +1131,13 @@ body {
 
     <!-- Tab切换 -->
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab(&#39;selection&#39;)">
+        <button class="tab-btn active" onclick="switchTab('selection')">
             <span class="icon">📐</span> 选型推荐
         </button>
-        <button class="tab-btn" onclick="switchTab(&#39;diagnosis&#39;)">
+        <button class="tab-btn" onclick="switchTab('diagnosis')">
             <span class="icon">🔍</span> 配置诊断
         </button>
-        <button class="tab-btn" onclick="switchTab(&#39;reference&#39;)">
+        <button class="tab-btn" onclick="switchTab('reference')">
             <span class="icon">📚</span> 参考数据
         </button>
     </div>
@@ -1146,12 +1150,12 @@ body {
                 <span class="icon">🚛</span> 选择车型类别
             </div>
             <div class="vehicle-type-selector">
-                <div class="vehicle-card active" onclick="selectVehicle(&#39;light&#39;)" id="vehicle-light">
+                <div class="vehicle-card active" onclick="selectVehicle('light')" id="vehicle-light">
                     <div class="vehicle-icon">🚚</div>
                     <div class="vehicle-name">轻卡</div>
                     <div class="vehicle-desc">N2类 | Q/SQCV 101087-2025<br>4套标准模块配置</div>
                 </div>
-                <div class="vehicle-card" onclick="selectVehicle(&#39;heavy&#39;)" id="vehicle-heavy">
+                <div class="vehicle-card" onclick="selectVehicle('heavy')" id="vehicle-heavy">
                     <div class="vehicle-icon">🚛</div>
                     <div class="vehicle-name">重卡</div>
                     <div class="vehicle-desc">N3类 | Q/SQCV 17111-2020 + GB/T 12542-2020<br>按车架分级配置</div>
@@ -1327,11 +1331,11 @@ body {
 
             <!-- 车型选择 -->
             <div class="vehicle-type-selector" style="max-width: 600px;">
-                <div class="vehicle-card active" onclick="selectDiagVehicle(&#39;light&#39;)" id="diag-vehicle-light">
+                <div class="vehicle-card active" onclick="selectDiagVehicle('light')" id="diag-vehicle-light">
                     <div class="vehicle-icon">🚚</div>
                     <div class="vehicle-name">轻卡</div>
                 </div>
-                <div class="vehicle-card" onclick="selectDiagVehicle(&#39;heavy&#39;)" id="diag-vehicle-heavy">
+                <div class="vehicle-card" onclick="selectDiagVehicle('heavy')" id="diag-vehicle-heavy">
                     <div class="vehicle-icon">🚛</div>
                     <div class="vehicle-name">重卡</div>
                 </div>
@@ -1513,47 +1517,7 @@ body {
                             <th>进出水口</th>
                         </tr>
                     </thead>
-                    <tbody id="lightTruckConfigTable">
-        <tr>
-            <td class="config-name">模块一</td>
-            <td>600 × 542.5 × 36 mm</td>
-            <td>15.9 m²</td>
-            <td>0.32 m²</td>
-            <td>513 × 332 × 50 mm</td>
-            <td>4.8 m²</td>
-            <td>上左下右 (Φ38)</td>
-        </tr>
-    
-        <tr>
-            <td class="config-name">模块二</td>
-            <td>620 × 582.5 × 36 mm</td>
-            <td>16.7 m²</td>
-            <td>0.36 m²</td>
-            <td>535 × 352 × 50 mm</td>
-            <td>5.39 m²</td>
-            <td>上右下左 (Φ45)</td>
-        </tr>
-    
-        <tr>
-            <td class="config-name">模块三</td>
-            <td>620 × 582.5 × 36 mm</td>
-            <td>16.7 m²</td>
-            <td>0.36 m²</td>
-            <td>562 × 332 × 50 mm</td>
-            <td>5.26 m²</td>
-            <td>上左下右 (Φ45)</td>
-        </tr>
-    
-        <tr>
-            <td class="config-name">模块四</td>
-            <td>700 × 582 × 36 mm</td>
-            <td>18.64 m²</td>
-            <td>0.41 m²</td>
-            <td>559 × 412 × 50 mm</td>
-            <td>6.6 m²</td>
-            <td>上右下左 (Φ45)</td>
-        </tr>
-    </tbody>
+                    <tbody id="lightTruckConfigTable"></tbody>
                 </table>
             </div>
         </div>
@@ -1577,87 +1541,7 @@ body {
                             <th>匹配发动机</th>
                         </tr>
                     </thead>
-                    <tbody id="heavyTruckRadTable">
-        <tr>
-            <td>970-850变截梁</td>
-            <td>850 × 988 × 42 mm</td>
-            <td>83.9 dm²</td>
-            <td>对角线 (Φ60)</td>
-            <td>13L级燃气/柴油</td>
-        </tr>
-    
-        <tr>
-            <td>970-850变截梁</td>
-            <td>800 × 988 × 42 mm</td>
-            <td>79.1 dm²</td>
-            <td>对角线 (Φ60)</td>
-            <td>11L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>850直通梁/861直通梁/940-860变截梁</td>
-            <td>950 × 638 × 56 mm</td>
-            <td>61.6 dm²</td>
-            <td>上右下左 (Φ60)</td>
-            <td>11L级柴油/9L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>850直通梁/861直通梁/940-860变截梁</td>
-            <td>880 × 638 × 56 mm</td>
-            <td>56.1 dm²</td>
-            <td>上右下左 (Φ60)</td>
-            <td>6.7L级柴油/8L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>850 × 608 × 52 mm</td>
-            <td>51.6 dm²</td>
-            <td>对角线 (Φ上44下58)</td>
-            <td>6.7L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>800 × 608 × 52 mm</td>
-            <td>48.6 dm²</td>
-            <td>对角线 (Φ上44下58)</td>
-            <td>6L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>770 × 600 × 42 mm</td>
-            <td>46.2 dm²</td>
-            <td>对角线 (Φ上44下58)</td>
-            <td>4.5L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>770 × 576 × 42 mm</td>
-            <td>44.3 dm²</td>
-            <td>上右下左 (Φ45)</td>
-            <td>4.5L/4L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>650 × 576 × 32 mm</td>
-            <td>37.4 dm²</td>
-            <td>上右下左 (Φ45)</td>
-            <td>4L/2.8L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>600 × 576 × 32 mm</td>
-            <td>34.5 dm²</td>
-            <td>上右下左 (Φ45)</td>
-            <td>2.0L级柴油</td>
-        </tr>
-    </tbody>
+                    <tbody id="heavyTruckRadTable"></tbody>
                 </table>
             </div>
         </div>
@@ -1677,71 +1561,7 @@ body {
                             <th>匹配发动机</th>
                         </tr>
                     </thead>
-                    <tbody id="heavyTruckIcTable">
-        <tr>
-            <td>970-850变截梁</td>
-            <td>900 × 792 × 64 mm</td>
-            <td>71.2 dm²</td>
-            <td>右进左出 (Φ100)</td>
-            <td>13L级燃气/柴油</td>
-        </tr>
-    
-        <tr>
-            <td>970-850变截梁</td>
-            <td>900 × 652 × 64 mm</td>
-            <td>58.6 dm²</td>
-            <td>右进左出 (Φ100)</td>
-            <td>11L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>850直通梁/861直通梁/940-860变截梁</td>
-            <td>570 × 832 × 50 mm</td>
-            <td>47.4 dm²</td>
-            <td>右进左出 (Φ100)</td>
-            <td>11L级/9L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>850直通梁/861直通梁/940-860变截梁</td>
-            <td>570 × 712 × 50 mm</td>
-            <td>40.5 dm²</td>
-            <td>右进左出 (Φ100)</td>
-            <td>6.7L级/6L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>550 × 492 × 64 mm</td>
-            <td>27.1 dm²</td>
-            <td>右进左出 (Φ82)</td>
-            <td>6L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>550 × 552 × 64 mm</td>
-            <td>30.3 dm²</td>
-            <td>右进左出 (Φ82)</td>
-            <td>6.7L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>372 × 520 × 50 mm</td>
-            <td>25.1 dm²</td>
-            <td>右进左出 (Φ70)</td>
-            <td>4L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>545 × 482 × 38 mm</td>
-            <td>26.2 dm²</td>
-            <td>右进左出 (Φ76)</td>
-            <td>4L级/2.8L级柴油</td>
-        </tr>
-    </tbody>
+                    <tbody id="heavyTruckIcTable"></tbody>
                 </table>
             </div>
         </div>
@@ -1921,7 +1741,7 @@ body {
         </div>
     </div>
     <div class="chat-input-area">
-        <input type="text" id="chatInput" placeholder="输入你的问题..." onkeydown="if(event.key===&#39;Enter&#39;)sendChatMsg()">
+        <input type="text" id="chatInput" placeholder="输入你的问题..." onkeydown="if(event.key==='Enter')sendChatMsg()">
         <button class="chat-send-btn" id="chatSendBtn" onclick="sendChatMsg()">➤</button>
     </div>
 </div>
@@ -3533,6 +3353,5 @@ function removeTypingIndicator() {
     if (el) el.remove();
 }
 </script>
-
-
-</body></html>
+</body>
+</html>
