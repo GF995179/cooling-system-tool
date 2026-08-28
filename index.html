@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0318)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E5%86%B7%E5%8D%B4%E7%B3%BB%E7%BB%9F%E9%80%89%E5%9E%8B%E5%B7%A5%E5%85%B7.html?sign=1790390913-a6a0360c0d-0-4fbdb3689565348496af97635f973a8fa49ce984d4b21d6375f33aef785dae04 -->
+<!-- saved from url=(0318)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E5%86%B7%E5%8D%B4%E7%B3%BB%E7%BB%9F%E9%80%89%E5%9E%8B%E5%B7%A5%E5%85%B7.html?sign=1790392166-b3a405737e-0-f7a224b9ac90b2d8f07d8ac75aff310034afb9815fd345f9f66ad7d8b9649f55 -->
 <html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1901,7 +1901,7 @@ body {
             支持轻卡/重卡散热器与中冷器选型
         </p>
         <p style="margin:0 0 8px;font-size:12px;color:#999;line-height:1.6;">
-            内嵌智能应答引擎 | 专业知识库驱动<br>
+            AI智能体 · 实时对话<br>
             修正系数: 云内0.70 / 康明斯1.00 / 玉柴1.05<br>
             K值: 轻卡散热器95 / 重卡80 W/(m²·K)
         </p>
@@ -3320,9 +3320,12 @@ document.addEventListener('DOMContentLoaded', function() {
     renderReferenceData();
 });
 
-// ========== AI 智能问答（内嵌智能应答引擎） ==========
+// ========== AI 智能问答（Cloudflare Worker 代理 → 扣子智能体） ==========
 
 let isChatLoading = false;
+let sessionId = 'session_' + Date.now();
+const WORKER_URL = 'https://raspy-salad-d447.gf343764757.workers.dev/';
+const PROJECT_ID = 76783713900575149106;
 
 /**
  * 切换聊天面板显隐
@@ -3340,269 +3343,87 @@ function toggleChatSettings() {
 }
 
 /**
- * 内嵌智能应答引擎
- * 基于选型工具内置的专业知识库和数据，直接生成专业回复，无需外部API
+ * 调用 Cloudflare Worker 代理，转发请求到扣子智能体
+ * 解析 SSE 流式响应，返回完整 AI 回复文本
  */
 async function callCozeAPI(query) {
-    const q = query.trim();
+    const payload = {
+        content: {
+            query: {
+                prompt: [{ type: 'text', content: { text: query } }]
+            }
+        },
+        type: 'query',
+        session_id: sessionId,
+        project_id: PROJECT_ID
+    };
 
-    // 提取马力数
-    const hpMatch = q.match(/(\d+(?:\.\d+)?)\s*(?:马力|hp|HP|匹)/);
-    const hp = hpMatch ? parseFloat(hpMatch[1]) : null;
+    const response = await fetch(WORKER_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    });
 
-    // 判断车型
-    let vehicleType = null;
-    if (/轻卡|轻载|N[12]|4\.?2米|4\.?5米|5米|6米/i.test(q)) vehicleType = '轻卡';
-    else if (/重卡|重载|N[34]|9\.?6米|12米|13米|17\.?5米|半挂|牵引/i.test(q)) vehicleType = '重卡';
-
-    // 判断组件
-    let component = null;
-    if (/散热器|水箱|water/i.test(q)) component = '散热器';
-    else if (/中冷器|intercooler|中冷/i.test(q)) component = '中冷器';
-
-    // 判断问题类型
-    let questionType = 'general';
-    if (/选型|怎么选|推荐|配多大|选什么|如何选/i.test(q)) questionType = 'selection';
-    else if (/尺寸|多大|宽|高|厚|大小/i.test(q)) questionType = 'size';
-    else if (/散热量|发热量|功率.*散热|heat/i.test(q)) questionType = 'heat';
-    else if (/K值|传热系数|k[\s值]/i.test(q)) questionType = 'kvalue';
-    else if (/LAT|液气温差|温降/i.test(q)) questionType = 'lat';
-    else if (/故障|高温|报警|异常|过热|漏水|堵塞/i.test(q)) questionType = 'fault';
-    else if (/修正系数|α|alpha|云内|康明斯|玉柴.*系数/i.test(q)) questionType = 'correction';
-    else if (/迎风面积|面积.*要求|cm/i.test(q)) questionType = 'facing';
-    else if (/你好|hi|hello|您好|在吗/i.test(q)) questionType = 'greeting';
-
-    // --- 生成回复 ---
-    let reply = '';
-
-    if (questionType === 'greeting') {
-        reply = '您好！我是商用车冷却系统AI选型助手。\n\n' +
-            '我可以帮您：\n' +
-            '🔹 **选型推荐**：根据马力、发动机、车型推荐散热器/中冷器配置\n' +
-            ' **散热量计算**：自动计算发动机散热需求\n' +
-            '🔹 **尺寸推荐**：通过K值反算推荐散热器/中冷器的宽×高×厚\n' +
-            '🔹 **LAT预测**：预估液气温差，判断是否满足要求\n' +
-            '🔹 **故障诊断**：分析高温、过热等故障原因\n' +
-            '🔹 **知识问答**：修正系数、K值、迎风面积等专业参数\n\n' +
-            '请问有什么可以帮您？';
+    if (!response.ok) {
+        throw new Error('HTTP ' + response.status);
     }
-    else if (questionType === 'correction') {
-        reply = '**发动机散热量修正系数 α**\n\n' +
-            '基于145条脱敏热平衡试验数据统计分析得出：\n\n' +
-            '| 发动机供应商 | 修正系数 α | 说明 |\n' +
-            '|---|---|---|\n' +
-            '| **云内** | **0.70** | 标称散热量虚高约40%，需下调 |\n' +
-            '| **康明斯** | **1.00** | 标称散热量准确，无需修正 |\n' +
-            '| **玉柴** | **1.05** | 实际散热量略高于标称值 |\n' +
-            '| 其他供应商 | 0.97 | 默认保守取值 |\n\n' +
-            '💡 实际散热量 = 标称散热量 × α\n\n' +
-            '例如：云内发动机标称散热量100kW，实际仅70kW，选型时可相应减小模块规格。';
-    }
-    else if (questionType === 'kvalue') {
-        reply = '**散热器/中冷器传热系数 K 值**\n\n' +
-            'K值是影响LAT预测的关键参数，单位 W/(m²·K)：\n\n' +
-            '**散热器 K 值推荐：**\n' +
-            '| 车型 | K 值 | 翅片密度 |\n' +
-            '|---|---|---|\n' +
-            '| 轻卡 | **95** W/(m²·K) | 48倍（36mm芯厚基准） |\n' +
-            '| 重卡 | **80** W/(m²·K) | 65倍（42mm芯厚基准） |\n\n' +
-            '**中冷器 K 值推荐（空空中冷）：**\n' +
-            '| 车型 | K 值 | 说明 |\n' +
-            '|---|---|---|\n' +
-            '| 轻卡 | **70** W/(m²·K) | 铝制板翅式 |\n' +
-            '| 重卡 | **75** W/(m²·K) | 铝制板翅式 |\n\n' +
-            '💡 K值反算公式：所需散热面积 A = Q × 1000 / (K × ΔT)\n' +
-            '其中 Q 为散热量(kW)，ΔT 为液气温差(℃)。\n\n' +
-            '📊 基于83条实测数据反算，散热器综合推荐 K=**108** W/(m²·K)（翅片密度900 m²/m³时）。';
-    }
-    else if (questionType === 'heat' && hp !== null) {
-        // 计算散热量
-        const isGas = /燃气|天然气|LNG|CNG/i.test(q);
-        const fuelType = isGas ? 'gas' : 'diesel';
-        const coeff = isGas ? 0.25 : 0.32;
-        const qEngine = hp * coeff;
 
-        // 修正系数
-        let alpha = 0.97;
-        let supplierName = '其他';
-        if (/云内/i.test(q)) { alpha = 0.70; supplierName = '云内'; }
-        else if (/康明斯/i.test(q)) { alpha = 1.00; supplierName = '康明斯'; }
-        else if (/玉柴/i.test(q)) { alpha = 1.05; supplierName = '玉柴'; }
+    // 解析 SSE 流式响应
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let fullText = '';
+    let buffer = '';
 
-        const qActual = qEngine * alpha;
-        const qRadiator = qActual * 0.52;
-        const qIntercooler = isGas ? qActual * 0.15 : qActual * 0.18;
+    while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
 
-        reply = '**' + hp + '马力' + (isGas ? '燃气' : '柴油') + '发动机散热量分析**\n\n' +
-            '📐 **计算过程：**\n' +
-            '• 发动机功率：' + hp + ' 马力 ≈ ' + (hp * 0.735).toFixed(0) + ' kW\n' +
-            '• 散热量系数：' + coeff + ' kW/马力（' + (isGas ? '燃气机' : '柴油机') + '）\n' +
-            '• 标称散热量：' + qEngine.toFixed(1) + ' kW\n\n' +
-            (supplierName !== '其他' ?
-                '• ' + supplierName + '修正系数 α=' + alpha + '\n' :
-                '• 默认修正系数 α=0.97\n') +
-            '• **实际散热量：' + qActual.toFixed(1) + ' kW**\n\n' +
-            '📊 **分项散热量：**\n' +
-            '• 水套散热量：' + qRadiator.toFixed(1) + ' kW（占52%）\n' +
-            '• 中冷散热量：' + qIntercooler.toFixed(1) + ' kW（占' + (isGas ? '15' : '18') + '%）\n' +
-            '• 其他散热：' + (qActual - qRadiator - qIntercooler).toFixed(1) + ' kW\n\n' +
-            '💡 可直接使用此数据在选型工具中进行散热器/中冷器匹配。';
-    }
-    else if (questionType === 'heat' && hp === null) {
-        reply = '**发动机散热量计算方法**\n\n' +
-            '📐 **基本公式：**\n' +
-            'Q_发动机 = 马力 × 散热量系数\n\n' +
-            '**散热量系数（基于145条试验数据统计）：**\n' +
-            '| 燃料类型 | 系数 | 说明 |\n' +
-            '|---|---|---|\n' +
-            '| 柴油 | **0.32** kW/马力 | 水套52% + 中冷18% + 其他 |\n' +
-            '| 燃气 | **0.25** kW/马力 | 水套65% + 中冷15% + 其他 |\n\n' +
-            '📊 **分项比例：**\n' +
-            '• 柴油机：水套52% + 中冷18% + 其他30%\n' +
-            '• 燃气机：水套65% + 中冷15% + 其他20%\n\n' +
-            '💡 请告诉我具体马力数和发动机品牌（如"160马力云内"），我可以帮您精确计算。\n\n' +
-            '**修正系数 α：** 云内0.70 / 康明斯1.00 / 玉柴1.05 / 其他0.97';
-    }
-    else if (questionType === 'selection' || (questionType === 'size' && hp !== null)) {
-        const isGas = /燃气|天然气|LNG|CNG/i.test(q);
-        const coeff = isGas ? 0.25 : 0.32;
-        const qEngine = hp ? hp * coeff : null;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || '';
 
-        let alpha = 0.97;
-        let supplierName = '其他';
-        if (/云内/i.test(q)) { alpha = 0.70; supplierName = '云内'; }
-        else if (/康明斯/i.test(q)) { alpha = 1.00; supplierName = '康明斯'; }
-        else if (/玉柴/i.test(q)) { alpha = 1.05; supplierName = '玉柴'; }
-
-        if (qEngine !== null) {
-            const qActual = qEngine * alpha;
-            const qComp = component === '中冷器' ? qActual * (isGas ? 0.15 : 0.18) : qActual * 0.52;
-
-            // K值反算
-            const kRadiator = vehicleType === '重卡' ? 80 : 95;
-            const kIntercooler = vehicleType === '重卡' ? 75 : 70;
-            const k = component === '中冷器' ? kIntercooler : kRadiator;
-            const deltaT = 30; // 典型温差
-            const areaReq = (qComp * 1000) / (k * deltaT);
-
-            // 宽高比
-            const ratio = (component === '中冷器') ?
-                (vehicleType === '重卡' ? 1.1 : 1.5) :
-                (vehicleType === '重卡' ? 1.3 : 1.1);
-            const width = Math.sqrt(areaReq * 1000000 * ratio);
-            const height = width / ratio;
-
-            reply = '**' + hp + '马力' + (vehicleType || '通用') + (component || '散热器') + '选型建议**\n\n' +
-                '📐 **散热量计算：**\n' +
-                '• 标称散热量：' + qEngine.toFixed(1) + ' kW\n' +
-                '• ' + supplierName + '修正(α=' + alpha + ')：实际 ' + qActual.toFixed(1) + ' kW\n' +
-                '• ' + (component || '散热器') + '散热量：' + qComp.toFixed(1) + ' kW\n\n' +
-                '📏 **K值反算推荐尺寸：**\n' +
-                '• K值：' + k + ' W/(m²·K)（' + (vehicleType || '轻卡') + ' ' + (component || '散热器') + '典型值）\n' +
-                '• 液气温差 ΔT：' + deltaT + ' ℃\n' +
-                '• 所需散热面积：' + areaReq.toFixed(2) + ' m²\n' +
-                '• 推荐尺寸（宽×高）：约 **' + Math.round(width) + ' × ' + Math.round(height) + ' mm**\n\n' +
-                '⚠️ 以上为初步估算，建议在上方面板输入完整参数，使用K值反算功能获取精确推荐（含多种芯厚方案对比）。';
-        } else {
-            reply = '**选型推荐**\n\n请告诉我以下信息，我为您精确推荐：\n\n' +
-                '1. **马力数**（如 160马力）\n' +
-                '2. **车型**（轻卡/重卡）\n' +
-                '3. **发动机品牌**（云内/康明斯/玉柴/其他）\n' +
-                '4. **燃料类型**（柴油/燃气）\n\n' +
-                '示例："160马力轻卡云内柴油机配多大散热器？"';
+        for (const line of lines) {
+            if (line.startsWith('data: ')) {
+                const data = line.slice(6).trim();
+                if (!data || data === '[DONE]') continue;
+                try {
+                    const json = JSON.parse(data);
+                    const text = extractTextFromEvent(json);
+                    if (text) fullText += text;
+                } catch (e) {
+                    if (data.length > 0) fullText += data;
+                }
+            }
         }
     }
-    else if (questionType === 'facing') {
-        reply = '**迎风面积要求**\n\n' +
-            '迎风面积直接影响散热效率和LAT表现：\n\n' +
-            '| 车型 | 最低迎风面积要求 |\n' +
-            '|---|---|\n' +
-            '| 轻卡 | **≥ 27 cm²/kW** |\n' +
-            '| 重卡 | **≥ 30 cm²/kW** |\n\n' +
-            '📐 **计算方法：**\n' +
-            '迎风面积 = 芯体宽度 × 芯体高度\n\n' +
-            '例如：轻卡散热器需求散热量80kW\n' +
-            '→ 最小迎风面积 = 80 × 27 = 2160 cm²\n' +
-            '→ 可选尺寸：600mm × 360mm = 2160 cm² ✓\n\n' +
-            '💡 迎风面积越大，LAT越低，散热性能越好。但受限于前端空间，需综合权衡。';
-    }
-    else if (questionType === 'lat') {
-        reply = '**LAT（液气温差）预测说明**\n\n' +
-            'LAT是衡量冷却系统性能的核心指标，指散热器出口水温与环境温度的差值。\n\n' +
-            '📐 **预测方法：**\n' +
-            '• **校准K值法**：使用反算K值预测LAT\n' +
-            '  - 轻卡散热器 K≈95 W/(m²·K)\n' +
-            '  - 重卡散热器 K≈80 W/(m²·K)\n\n' +
-            '• **迎风面积法**：快速判断\n' +
-            '  - 轻卡：≥27 cm²/kW\n' +
-            '  - 重卡：≥30 cm²/kW\n\n' +
-            '📊 **LAT合格标准：**\n' +
-            '• 一般要求 LAT ≤ 环境温度 + 10~15℃\n' +
-            '• 云内发动机可下调一级（散热量低）\n' +
-            '• 燃气机需上调一级（水套散热量大）\n\n' +
-            '💡 在上方面板输入完整参数后，工具会自动计算LAT并给出判断。';
-    }
-    else if (questionType === 'fault') {
-        reply = '**常见冷却系统故障诊断**\n\n' +
-            '🔴 **高温报警/水温过高：**\n' +
-            '1. 散热器迎风面积不足 → 检查是否满足≥27cm²/kW(轻卡)/≥30cm²/kW(重卡)\n' +
-            '2. 散热量计算偏小 → 检查修正系数α是否正确\n' +
-            '3. 芯厚偏小 → 尝试增大一档芯厚\n' +
-            '4. 风扇风量不足 → 检查风扇匹配\n\n' +
-            '🟡 **LAT超标：**\n' +
-            '1. K值偏高 → 重新核算实际K值\n' +
-            '2. 迎风面积不够 → 增大芯体尺寸\n' +
-            '3. 修正系数未考虑 → 云内×0.70可下调一级\n\n' +
-            '🟢 **漏水/堵塞：**\n' +
-            '1. 检查芯体材质与工艺\n' +
-            '2. 确认管路连接密封性\n' +
-            '3. 检查冷却液品质\n\n' +
-            '💡 建议在上方面板输入实际参数，让工具帮您分析具体原因。';
-    }
-    else if (hp !== null && questionType === 'general') {
-        // 有马力数但没有明确问题类型，给出综合建议
-        const isGas = /燃气|天然气|LNG|CNG/i.test(q);
-        const coeff = isGas ? 0.25 : 0.32;
-        const qEngine = hp * coeff;
 
-        let alpha = 0.97;
-        let supplierName = '其他';
-        if (/云内/i.test(q)) { alpha = 0.70; supplierName = '云内'; }
-        else if (/康明斯/i.test(q)) { alpha = 1.00; supplierName = '康明斯'; }
-        else if (/玉柴/i.test(q)) { alpha = 1.05; supplierName = '玉柴'; }
-
-        const qActual = qEngine * alpha;
-
-        reply = '**' + hp + '马力' + (isGas ? '燃气' : '柴油') + '发动机综合分析**\n\n' +
-            '📐 **散热量：** ' + qActual.toFixed(1) + ' kW（α=' + alpha + '，' + supplierName + '）\n' +
-            '• 水套散热量：' + (qActual * 0.52).toFixed(1) + ' kW\n' +
-            '• 中冷散热量：' + (qActual * (isGas ? 0.15 : 0.18)).toFixed(1) + ' kW\n\n' +
-            '📏 **选型建议：**\n' +
-            '• 轻卡散热器迎风面积 ≥ ' + Math.round(qActual * 27) + ' cm²\n' +
-            '• 重卡散热器迎风面积 ≥ ' + Math.round(qActual * 30) + ' cm²\n\n' +
-            '💡 如需精确选型推荐，请补充车型（轻卡/重卡）和组件类型（散热器/中冷器），或使用上方面板的K值反算功能。';
-    }
-    else {
-        reply = '您好！我是商用车冷却系统AI选型助手，可以帮您解决以下问题：\n\n' +
-            '🔹 **选型推荐**："160马力轻卡配多大散热器？"\n' +
-            '🔹 **散热量计算**："200马力康明斯散热量多少？"\n' +
-            '🔹 **修正系数**："云内发动机修正系数是多少？"\n' +
-            '🔹 **K值参数**："散热器K值一般取多少？"\n' +
-            '🔹 **迎风面积**："轻卡迎风面积要求多少？"\n' +
-            '🔹 **故障诊断**："水温过高是什么原因？"\n\n' +
-            '💡 提示：在上方面板输入完整参数可获得更精确的选型计算和K值反算推荐。\n\n' +
-            '请描述您的具体问题，我来帮您分析！';
-    }
-
-    // 模拟流式输出效果（逐字显示）
-    return new Promise((resolve) => {
-        setTimeout(() => resolve(reply), 300 + Math.random() * 400);
-    });
+    return fullText || 'AI回复已完成，但内容解析为空。请检查智能体状态。';
 }
 
 /**
- * 发送快捷问题
+ * 从SSE事件中提取文本内容
  */
+function extractTextFromEvent(json) {
+    if (!json) return null;
+    if (json.content && typeof json.content === 'string') return json.content;
+    if (json.text) return json.text;
+    if (json.message && json.message.content) {
+        if (typeof json.message.content === 'string') return json.message.content;
+        if (Array.isArray(json.message.content)) {
+            return json.message.content.map(c => c.text || c.content || '').join('');
+        }
+    }
+    if (json.data && json.data.content) {
+        if (typeof json.data.content === 'string') return json.data.content;
+        if (Array.isArray(json.data.content)) {
+            return json.data.content.map(c => c.text || '').join('');
+        }
+    }
+    const str = JSON.stringify(json);
+    if (str.length < 500) return str;
+    return null;
+}
+
 function sendQuickMsg(text) {
     document.getElementById('chatInput').value = text;
     sendChatMsg();
