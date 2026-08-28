@@ -1,0 +1,3710 @@
+<!DOCTYPE html>
+<!-- saved from url=(0318)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E5%86%B7%E5%8D%B4%E7%B3%BB%E7%BB%9F%E9%80%89%E5%9E%8B%E5%B7%A5%E5%85%B7.html?sign=1790390913-a6a0360c0d-0-4fbdb3689565348496af97635f973a8fa49ce984d4b21d6375f33aef785dae04 -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>商用车冷却系统选型工具</title>
+<style>
+/* ===== 全局样式 ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+    --primary: #1a56db;
+    --primary-dark: #1e429f;
+    --primary-light: #e1effe;
+    --success: #0e9f6e;
+    --success-light: #def7ec;
+    --warning: #d69e2e;
+    --warning-light: #fdf6b2;
+    --danger: #e02424;
+    --danger-light: #fde8e8;
+    --info: #0891b2;
+    --info-light: #cffafe;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+    --gray-900: #111827;
+    --shadow-sm: 0 1px 2px 0 rgba(0,0,0,0.05);
+    --shadow: 0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+    --radius: 8px;
+    --radius-lg: 12px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: linear-gradient(135deg, #f0f4ff 0%, #e0e7ff 50%, #f0fdfa 100%);
+    min-height: 100vh;
+    color: var(--gray-800);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ===== 头部 ===== */
+.header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 30px 40px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 24px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 300px;
+    height: 300px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+}
+
+.header::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: 10%;
+    width: 200px;
+    height: 200px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+}
+
+.header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+}
+
+.header p {
+    font-size: 14px;
+    opacity: 0.9;
+    position: relative;
+    z-index: 1;
+}
+
+.header .version {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 12px;
+    opacity: 0.8;
+    z-index: 1;
+}
+
+/* ===== Tab 切换 ===== */
+.tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius);
+    background: white;
+    color: var(--gray-600);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tab-btn:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.tab-btn.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.tab-btn .icon { font-size: 18px; }
+
+/* ===== AI 聊天浮动按钮 ===== */
+.chat-fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1a56db, #1e429f);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    box-shadow: 0 4px 16px rgba(26,86,219,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+.chat-fab:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(26,86,219,0.5);
+}
+.chat-fab .badge {
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 18px;
+    height: 18px;
+    background: #e02424;
+    border-radius: 50%;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+/* ===== AI 聊天面板 ===== */
+.chat-panel {
+    position: fixed;
+    bottom: 100px;
+    right: 30px;
+    width: 400px;
+    height: 520px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+.chat-panel.open {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    pointer-events: all;
+}
+.chat-panel-header {
+    background: linear-gradient(135deg, #1a56db, #1e429f);
+    color: white;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+.chat-panel-header .avatar {
+    width: 36px;
+    height: 36px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+.chat-panel-header .info h3 {
+    font-size: 15px;
+    font-weight: 600;
+}
+.chat-panel-header .info p {
+    font-size: 12px;
+    opacity: 0.8;
+}
+.chat-panel-close {
+    margin-left: auto;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+.chat-panel-close:hover {
+    background: rgba(255,255,255,0.3);
+}
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: #f8f9fa;
+}
+.chat-messages::-webkit-scrollbar { width: 4px; }
+.chat-messages::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 2px; }
+
+.chat-msg {
+    display: flex;
+    gap: 10px;
+    max-width: 88%;
+    animation: msgIn 0.3s ease;
+}
+@keyframes msgIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.chat-msg.bot { align-self: flex-start; }
+.chat-msg.user { align-self: flex-end; flex-direction: row-reverse; }
+
+.chat-msg .msg-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+.chat-msg.bot .msg-avatar {
+    background: linear-gradient(135deg, #1a56db, #1e429f);
+    color: white;
+}
+.chat-msg.user .msg-avatar {
+    background: var(--gray-200);
+    color: var(--gray-600);
+}
+.chat-msg .msg-bubble {
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    word-break: break-word;
+}
+.chat-msg.bot .msg-bubble {
+    background: white;
+    color: var(--gray-800);
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.06);
+}
+.chat-msg.user .msg-bubble {
+    background: #1a56db;
+    color: white;
+    border-bottom-right-radius: 4px;
+}
+.chat-msg .msg-bubble pre {
+    background: var(--gray-100);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    overflow-x: auto;
+    margin: 8px 0;
+}
+.chat-msg .msg-bubble code {
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+}
+.chat-msg .msg-bubble strong { font-weight: 700; }
+.chat-msg .msg-bubble em { font-style: italic; }
+.chat-msg .msg-bubble ul, .chat-msg .msg-bubble ol {
+    padding-left: 20px;
+    margin: 6px 0;
+}
+.chat-msg .msg-bubble li { margin: 4px 0; }
+
+.typing-indicator {
+    display: flex;
+    gap: 4px;
+    padding: 4px 0;
+}
+.typing-indicator span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gray-400);
+    animation: typingBounce 1.4s infinite ease-in-out;
+}
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typingBounce {
+    0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+    40% { transform: scale(1.2); opacity: 1; }
+}
+
+.chat-input-area {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    border-top: 1px solid var(--gray-200);
+    background: white;
+    flex-shrink: 0;
+}
+.chat-input-area input {
+    flex: 1;
+    border: 1px solid var(--gray-300);
+    border-radius: 20px;
+    padding: 10px 16px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+.chat-input-area input:focus {
+    border-color: var(--primary);
+}
+.chat-send-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+    flex-shrink: 0;
+}
+.chat-send-btn:hover { background: var(--primary-dark); }
+.chat-send-btn:disabled {
+    background: var(--gray-300);
+    cursor: not-allowed;
+}
+
+/* ===== 智能体设置面板 ===== */
+.chat-settings-btn {
+    margin-left: 4px;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+.chat-settings-btn:hover { background: rgba(255,255,255,0.3); }
+.chat-settings-panel {
+    display: none;
+    padding: 12px 16px;
+    background: #f0f4ff;
+    border-bottom: 1px solid #e0e7ff;
+    flex-shrink: 0;
+}
+.chat-settings-panel.open { display: block; }
+.chat-settings-panel label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--gray-600);
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.chat-settings-panel input {
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid var(--gray-300);
+    border-radius: 6px;
+    font-size: 12px;
+    margin-bottom: 8px;
+    background: white;
+    font-family: 'Courier New', monospace;
+}
+.chat-settings-panel input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(26,86,219,0.1);
+}
+.chat-settings-panel .settings-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 4px;
+}
+.chat-settings-panel .settings-actions button {
+    flex: 1;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background 0.2s;
+}
+.chat-settings-panel .btn-save {
+    background: var(--primary);
+    color: white;
+}
+.chat-settings-panel .btn-save:hover { background: var(--primary-dark); }
+.chat-settings-panel .btn-reset {
+    background: var(--gray-200);
+    color: var(--gray-700);
+}
+.chat-settings-panel .btn-reset:hover { background: var(--gray-300); }
+.settings-status {
+    font-size: 11px;
+    color: var(--success);
+    margin-top: 4px;
+    display: none;
+}
+.settings-status.show { display: block; }
+
+.chat-welcome {
+    text-align: center;
+    padding: 30px 20px;
+    color: var(--gray-500);
+}
+.chat-welcome .welcome-icon {
+    font-size: 40px;
+    margin-bottom: 12px;
+}
+.chat-welcome h4 {
+    font-size: 15px;
+    color: var(--gray-700);
+    margin-bottom: 8px;
+}
+.chat-welcome p {
+    font-size: 13px;
+    line-height: 1.6;
+}
+.chat-quick-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 16px;
+    justify-content: center;
+}
+.chat-quick-btn {
+    padding: 6px 12px;
+    border: 1px solid var(--gray-300);
+    border-radius: 16px;
+    background: white;
+    font-size: 12px;
+    color: var(--gray-600);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.chat-quick-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-light);
+}
+
+/* ===== 卡片 ===== */
+.card {
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+.card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gray-800);
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid var(--gray-100);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.card-title .icon {
+    width: 28px;
+    height: 28px;
+    background: var(--primary-light);
+    color: var(--primary);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+/* ===== 表单样式 ===== */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-700);
+}
+
+.form-group label .required {
+    color: var(--danger);
+    margin-left: 2px;
+}
+
+.form-group input,
+.form-group select {
+    padding: 10px 12px;
+    border: 1.5px solid var(--gray-300);
+    border-radius: var(--radius);
+    font-size: 14px;
+    color: var(--gray-800);
+    background: var(--gray-50);
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: white;
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.form-group input::placeholder {
+    color: var(--gray-400);
+}
+
+.form-group .hint {
+    font-size: 11px;
+    color: var(--gray-500);
+    line-height: 1.4;
+}
+
+.form-group .unit {
+    position: relative;
+}
+
+.form-group .unit input {
+    padding-right: 40px;
+}
+
+.form-group .unit span {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 13px;
+    color: var(--gray-500);
+    pointer-events: none;
+}
+
+/* ===== 车辆类型选择 ===== */
+.vehicle-type-selector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.vehicle-card {
+    padding: 20px;
+    border: 2px solid var(--gray-200);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: var(--gray-50);
+    text-align: center;
+}
+
+.vehicle-card:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.vehicle-card.active {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(26,86,219,0.2);
+}
+
+.vehicle-card .vehicle-icon {
+    font-size: 40px;
+    margin-bottom: 8px;
+}
+
+.vehicle-card .vehicle-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--gray-800);
+    margin-bottom: 4px;
+}
+
+.vehicle-card .vehicle-desc {
+    font-size: 12px;
+    color: var(--gray-500);
+}
+
+/* ===== 功能模式切换 ===== */
+.mode-selector {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    padding: 4px;
+    background: var(--gray-100);
+    border-radius: var(--radius);
+    max-width: 500px;
+}
+
+.mode-btn {
+    flex: 1;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--gray-600);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mode-btn.active {
+    background: white;
+    color: var(--primary);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ===== 按钮 ===== */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-lg);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background: var(--gray-100);
+    color: var(--gray-700);
+}
+
+.btn-secondary:hover {
+    background: var(--gray-200);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--success) 0%, #057a55 100%);
+    color: white;
+}
+
+.btn-group {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+/* ===== 结果展示 ===== */
+.result-section {
+    display: none;
+}
+
+.result-section.active {
+    display: block;
+}
+
+.result-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.summary-card {
+    background: linear-gradient(135deg, var(--primary-light) 0%, #dbeafe 100%);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    text-align: center;
+    border: 1px solid rgba(26,86,219,0.1);
+}
+
+.summary-card.success {
+    background: linear-gradient(135deg, var(--success-light) 0%, #a7f3d0 100%);
+    border-color: rgba(14,159,110,0.1);
+}
+
+.summary-card.warning {
+    background: linear-gradient(135deg, var(--warning-light) 0%, #fcd34d 100%);
+    border-color: rgba(214,158,46,0.1);
+}
+
+.summary-card.danger {
+    background: linear-gradient(135deg, var(--danger-light) 0%, #fca5a5 100%);
+    border-color: rgba(224,36,36,0.1);
+}
+
+.summary-card .summary-label {
+    font-size: 12px;
+    color: var(--gray-600);
+    margin-bottom: 6px;
+    font-weight: 600;
+}
+
+.summary-card .summary-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gray-800);
+    line-height: 1.2;
+}
+
+.summary-card .summary-value .unit {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--gray-600);
+}
+
+.summary-card .summary-badge {
+    display: inline-block;
+    margin-top: 8px;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.badge-success { background: var(--success-light); color: var(--success); }
+.badge-warning { background: var(--warning-light); color: #92400e; }
+.badge-danger { background: var(--danger-light); color: var(--danger); }
+.badge-info { background: var(--info-light); color: var(--info); }
+
+/* ===== 配置推荐表格 ===== */
+.config-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+    font-size: 14px;
+}
+
+.config-table th,
+.config-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.config-table th {
+    background: var(--gray-50);
+    font-weight: 600;
+    color: var(--gray-700);
+    font-size: 13px;
+}
+
+.config-table tr:hover {
+    background: var(--gray-50);
+}
+
+.config-table .highlight {
+    background: var(--primary-light) !important;
+    font-weight: 600;
+}
+
+.config-table .config-name {
+    font-weight: 700;
+    color: var(--primary);
+}
+
+/* ===== 风险提示 ===== */
+.risk-list {
+    list-style: none;
+    padding: 0;
+}
+
+.risk-item {
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.risk-item .risk-icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+}
+
+.risk-high {
+    background: var(--danger-light);
+    border-left: 4px solid var(--danger);
+}
+.risk-high .risk-icon {
+    background: var(--danger);
+    color: white;
+}
+
+.risk-medium {
+    background: var(--warning-light);
+    border-left: 4px solid var(--warning);
+}
+.risk-medium .risk-icon {
+    background: var(--warning);
+    color: white;
+}
+
+.risk-low {
+    background: var(--success-light);
+    border-left: 4px solid var(--success);
+}
+.risk-low .risk-icon {
+    background: var(--success);
+    color: white;
+}
+
+.risk-content {
+    flex: 1;
+}
+
+.risk-title {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.risk-desc {
+    font-size: 13px;
+    color: var(--gray-600);
+}
+
+/* ===== 建议列表 ===== */
+.suggestion-list {
+    list-style: none;
+    padding: 0;
+}
+
+.suggestion-item {
+    padding: 10px 0 10px 30px;
+    position: relative;
+    border-bottom: 1px dashed var(--gray-200);
+    font-size: 14px;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item::before {
+    content: '💡';
+    position: absolute;
+    left: 0;
+    top: 10px;
+}
+
+/* ===== 诊断结果 ===== */
+.diagnosis-result {
+    padding: 16px;
+    border-radius: var(--radius);
+    margin-bottom: 16px;
+}
+
+.diagnosis-pass {
+    background: var(--success-light);
+    border: 1px solid var(--success);
+}
+
+.diagnosis-fail {
+    background: var(--danger-light);
+    border: 1px solid var(--danger);
+}
+
+.diagnosis-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ===== 计算详情 ===== */
+.calc-detail {
+    background: var(--gray-50);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-top: 12px;
+}
+
+.calc-detail summary {
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 14px;
+    user-select: none;
+}
+
+.calc-detail[open] summary {
+    margin-bottom: 12px;
+}
+
+.calc-formula {
+    font-family: "Courier New", monospace;
+    font-size: 13px;
+    background: white;
+    padding: 10px 12px;
+    border-radius: 6px;
+    margin: 6px 0;
+    border-left: 3px solid var(--primary);
+}
+
+/* ===== 页脚 ===== */
+.footer {
+    text-align: center;
+    padding: 20px;
+    color: var(--gray-500);
+    font-size: 12px;
+    margin-top: 30px;
+}
+
+.footer a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 768px) {
+    .container { padding: 12px; }
+    .header { padding: 20px; }
+    .header h1 { font-size: 22px; }
+    .vehicle-type-selector { grid-template-columns: 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .result-summary { grid-template-columns: repeat(2, 1fr); }
+    .card { padding: 16px; }
+    .tabs { overflow-x: auto; }
+    .tab-btn { flex-shrink: 0; }
+    .config-table { font-size: 12px; }
+    .config-table th, .config-table td { padding: 8px; }
+}
+
+@media (max-width: 480px) {
+    .result-summary { grid-template-columns: 1fr; }
+    .btn-group { flex-direction: column; }
+    .btn { justify-content: center; }
+}
+
+/* ===== 动画 ===== */
+.fade-in {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 可折叠区块 ===== */
+.collapsible-section {
+    margin-bottom: 16px;
+}
+
+.collapsible-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 12px 16px;
+    background: var(--gray-50);
+    border-radius: var(--radius);
+    font-weight: 600;
+    color: var(--gray-700);
+    transition: background 0.2s;
+}
+
+.collapsible-header:hover {
+    background: var(--gray-100);
+}
+
+.collapsible-header .arrow {
+    transition: transform 0.2s;
+}
+
+.collapsible-header.open .arrow {
+    transform: rotate(180deg);
+}
+
+.collapsible-content {
+    display: none;
+    padding-top: 12px;
+}
+
+.collapsible-content.open {
+    display: block;
+}
+
+/* ===== 对比条 ===== */
+.compare-bar {
+    height: 24px;
+    background: var(--gray-200);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    margin: 8px 0;
+}
+
+.compare-bar-fill {
+    height: 100%;
+    border-radius: 12px;
+    transition: width 0.5s ease;
+}
+
+.compare-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--gray-600);
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <!-- 头部 -->
+    <div class="header">
+        <div class="version">V2.0 | 基于145条试验数据训练</div>
+        <h1>🔧 商用车冷却系统选型工具</h1>
+        <p>基于 Q/SQCV 101087-2025（轻卡）、Q/SQCV 17111-2020（重卡）及 GB/T 12542-2020 标准</p>
+    </div>
+
+    <!-- Tab切换 -->
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab(&#39;selection&#39;)">
+            <span class="icon">📐</span> 选型推荐
+        </button>
+        <button class="tab-btn" onclick="switchTab(&#39;diagnosis&#39;)">
+            <span class="icon">🔍</span> 配置诊断
+        </button>
+        <button class="tab-btn" onclick="switchTab(&#39;reference&#39;)">
+            <span class="icon">📚</span> 参考数据
+        </button>
+    </div>
+
+    <!-- ========== 选型推荐 ========== -->
+    <div id="tab-selection" class="result-section active">
+        <!-- 车型选择 -->
+        <div class="card">
+            <div class="card-title">
+                <span class="icon">🚛</span> 选择车型类别
+            </div>
+            <div class="vehicle-type-selector">
+                <div class="vehicle-card active" onclick="selectVehicle(&#39;light&#39;)" id="vehicle-light">
+                    <div class="vehicle-icon">🚚</div>
+                    <div class="vehicle-name">轻卡</div>
+                    <div class="vehicle-desc">N2类 | Q/SQCV 101087-2025<br>4套标准模块配置</div>
+                </div>
+                <div class="vehicle-card" onclick="selectVehicle(&#39;heavy&#39;)" id="vehicle-heavy">
+                    <div class="vehicle-icon">🚛</div>
+                    <div class="vehicle-name">重卡</div>
+                    <div class="vehicle-desc">N3类 | Q/SQCV 17111-2020 + GB/T 12542-2020<br>按车架分级配置</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 参数输入 -->
+        <div class="card">
+            <div class="card-title">
+                <span class="icon">⚙️</span> 发动机与工况参数
+            </div>
+            
+            <div class="form-grid">
+                <!-- 发动机参数 -->
+                <div class="form-group">
+                    <label>供应商 <span class="required">*</span></label>
+                    <select id="supplier">
+                        <option value="cummins">康明斯</option>
+                        <option value="yunnei">云内</option>
+                        <option value="yuchai">玉柴</option>
+
+                        <option value="other">其他/未知</option>
+                    </select>
+                    <div class="hint">影响散热量修正系数</div>
+                </div>
+
+                <div class="form-group">
+                    <label>燃料类型 <span class="required">*</span></label>
+                    <select id="fuelType">
+                        <option value="diesel">柴油</option>
+                        <option value="gas">天然气（LNG/CNG）</option>
+                    </select>
+                    <div class="hint">燃气机散热量高于柴油机</div>
+                </div>
+
+                <div class="form-group">
+                    <label>发动机马力 <span class="required">*</span></label>
+                    <div class="unit">
+                        <input type="number" id="horsepower" placeholder="如：160" min="50" max="800" value="160">
+                        <span>HP</span>
+                    </div>
+                    <div class="hint">轻卡: 100~250HP, 重卡: 250~700HP</div>
+                </div>
+
+                <div class="form-group">
+                    <label>散热器需求散热量 <span style="color: var(--info);">(选填)</span></label>
+                    <div class="unit">
+                        <input type="number" id="radHeatInput" placeholder="留空则按马力自动计算" min="10" max="200" step="0.5">
+                        <span>kW</span>
+                    </div>
+                    <div class="hint">若已知散热器需求散热量，直接填写；不填则按马力自动计算</div>
+                </div>
+
+                <div class="form-group">
+                    <label>中冷器需求散热量 <span style="color: var(--info);">(选填)</span></label>
+                    <div class="unit">
+                        <input type="number" id="icHeatInput" placeholder="留空则按马力自动计算" min="5" max="100" step="0.5">
+                        <span>kW</span>
+                    </div>
+                    <div class="hint">若已知中冷器需求散热量，直接填写；不填则按马力自动计算</div>
+                </div>
+
+                <div class="form-group">
+                    <label>最高允许温度 <span class="required">*</span></label>
+                    <div class="unit">
+                        <input type="number" id="maxTemp" placeholder="如：105" min="90" max="120" value="105" step="0.5">
+                        <span>℃</span>
+                    </div>
+                    <div class="hint">发动机出水许用最高温度</div>
+                </div>
+
+                <div class="form-group">
+                    <label>环境温度 <span class="required">*</span></label>
+                    <div class="unit">
+                        <input type="number" id="ambientTemp" placeholder="如：30" min="-20" max="60" value="30" step="0.5">
+                        <span>℃</span>
+                    </div>
+                    <div class="hint">目标使用地区最高环境温度</div>
+                </div>
+
+                <div class="form-group">
+                    <label>海拔高度</label>
+                    <div class="unit">
+                        <input type="number" id="altitude" placeholder="如：500" min="0" max="5000" value="500">
+                        <span>m</span>
+                    </div>
+                    <div class="hint">影响沸点温度与散热效率</div>
+                </div>
+
+                <div class="form-group">
+                    <label>目标地区类型</label>
+                    <select id="regionType">
+                        <option value="II">II类地区（南方高温）</option>
+                        <option value="I">I类地区（北方普通）</option>
+                    </select>
+                    <div class="hint">决定LAT合格判定标准</div>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="calculateSelection()">
+                    🔍 开始选型计算
+                </button>
+                <button class="btn btn-secondary" onclick="resetForm()">
+                    🔄 重置参数
+                </button>
+            </div>
+        </div>
+
+        <!-- 选型结果 -->
+        <div id="selectionResult" class="card" style="display:none;">
+            <div class="card-title">
+                <span class="icon">📊</span> 选型计算结果
+            </div>
+
+            <!-- 核心指标 -->
+            <div id="summaryCards" class="result-summary"></div>
+
+            <!-- 推荐配置 -->
+            <div class="collapsible-section">
+                <div class="collapsible-header open" onclick="toggleCollapse(this)">
+                    <span>🎯 推荐配置方案</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="collapsible-content open" id="recommendedConfig"></div>
+            </div>
+
+            <!-- 推荐尺寸参数（基于K值反算） -->
+            <div class="collapsible-section">
+                <div class="collapsible-header open" onclick="toggleCollapse(this)">
+                    <span>📐 推荐尺寸参数范围（K值反算）</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="collapsible-content open" id="dimensionRecommendation"></div>
+            </div>
+
+            <!-- 设计建议 -->
+            <div class="collapsible-section">
+                <div class="collapsible-header open" onclick="toggleCollapse(this)">
+                    <span>💡 设计建议</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="collapsible-content open" id="designSuggestions"></div>
+            </div>
+
+            <!-- 风险点 -->
+            <div class="collapsible-section">
+                <div class="collapsible-header" onclick="toggleCollapse(this)">
+                    <span>⚠️ 风险点提示</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="collapsible-content" id="riskAnalysis"></div>
+            </div>
+
+            <!-- 计算详情 -->
+            <details class="calc-detail">
+                <summary>📐 查看完整计算过程</summary>
+                <div id="calcDetail"></div>
+            </details>
+        </div>
+    </div>
+
+    <!-- ========== 配置诊断 ========== -->
+    <div id="tab-diagnosis" class="result-section">
+        <div class="card">
+            <div class="card-title">
+                <span class="icon">🔍</span> 现有配置诊断
+            </div>
+            <p style="color: var(--gray-600); margin-bottom: 16px; font-size: 14px;">
+                输入您现有的冷却系统配置，系统将自动判断是否满足散热要求，并给出改进建议。
+            </p>
+
+            <!-- 车型选择 -->
+            <div class="vehicle-type-selector" style="max-width: 600px;">
+                <div class="vehicle-card active" onclick="selectDiagVehicle(&#39;light&#39;)" id="diag-vehicle-light">
+                    <div class="vehicle-icon">🚚</div>
+                    <div class="vehicle-name">轻卡</div>
+                </div>
+                <div class="vehicle-card" onclick="selectDiagVehicle(&#39;heavy&#39;)" id="diag-vehicle-heavy">
+                    <div class="vehicle-icon">🚛</div>
+                    <div class="vehicle-name">重卡</div>
+                </div>
+            </div>
+
+            <!-- 发动机参数 -->
+            <h4 style="margin: 20px 0 12px; color: var(--gray-700);">发动机参数</h4>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>供应商 <span class="required">*</span></label>
+                    <select id="diagSupplier">
+                        <option value="cummins">康明斯</option>
+                        <option value="yunnei">云内</option>
+                        <option value="yuchai">玉柴</option>
+
+                        <option value="other">其他/未知</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>燃料类型 <span class="required">*</span></label>
+                    <select id="diagFuelType">
+                        <option value="diesel">柴油</option>
+                        <option value="gas">天然气</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>发动机马力 <span class="required">*</span></label>
+                    <div class="unit">
+                        <input type="number" id="diagHorsepower" placeholder="如：160" value="160">
+                        <span>HP</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>最高允许温度 <span class="required">*</span></label>
+                    <div class="unit">
+                        <input type="number" id="diagMaxTemp" placeholder="如：105" value="105" step="0.5">
+                        <span>℃</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 散热器参数 -->
+            <h4 style="margin: 20px 0 12px; color: var(--gray-700);">散热器参数</h4>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>散热器芯体宽度 <span class="required">*</span></label>
+                    <div class="unit">
+                        <input type="number" id="radWidth" placeholder="宽" value="620">
+                        <span>mm</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>散热器芯体高度 <span class="required">*</span></label>
+                    <div class="unit">
+                        <input type="number" id="radHeight" placeholder="高" value="582">
+                        <span>mm</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>散热器芯体厚度 <span class="required">*</span></label>
+                    <div class="unit">
+                        <input type="number" id="radThickness" placeholder="厚" value="36">
+                        <span>mm</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 中冷器参数 -->
+            <h4 style="margin: 20px 0 12px; color: var(--gray-700);">中冷器参数</h4>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>中冷器芯体宽度 <span class="required">*</span></label>
+                    <div class="unit">
+                        <input type="number" id="icWidth" placeholder="宽" value="535">
+                        <span>mm</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>中冷器芯体高度 <span class="required">*</span></label>
+                    <div class="unit">
+                        <input type="number" id="icHeight" placeholder="高" value="352">
+                        <span>mm</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>中冷器芯体厚度 <span class="required">*</span></label>
+                    <div class="unit">
+                        <input type="number" id="icThickness" placeholder="厚" value="50">
+                        <span>mm</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 风扇参数 -->
+            <h4 style="margin: 20px 0 12px; color: var(--gray-700);">风扇参数</h4>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>风扇直径 <span class="required">*</span></label>
+                    <div class="unit">
+                        <input type="number" id="fanDiameter" placeholder="如：490" value="510">
+                        <span>mm</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>风扇速比</label>
+                    <div class="unit">
+                        <input type="number" id="fanRatio" placeholder="如：1.2" value="1.15" step="0.05" min="0.8" max="1.5">
+                        <span>—</span>
+                    </div>
+                    <div class="hint">风扇转速/发动机转速</div>
+                </div>
+            </div>
+
+            <!-- 工况参数 -->
+            <h4 style="margin: 20px 0 12px; color: var(--gray-700);">工况参数</h4>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>环境温度</label>
+                    <div class="unit">
+                        <input type="number" id="diagAmbientTemp" placeholder="如：30" value="30" step="0.5">
+                        <span>℃</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>海拔高度</label>
+                    <div class="unit">
+                        <input type="number" id="diagAltitude" placeholder="如：500" value="500">
+                        <span>m</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>目标地区</label>
+                    <select id="diagRegionType">
+                        <option value="II">II类地区（南方高温）</option>
+                        <option value="I">I类地区（北方普通）</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" onclick="diagnoseConfig()">
+                    🔍 开始诊断
+                </button>
+                <button class="btn btn-secondary" onclick="resetDiagnosis()">
+                    🔄 重置
+                </button>
+            </div>
+        </div>
+
+        <!-- 诊断结果 -->
+        <div id="diagnosisResult" class="card" style="display:none;">
+            <div class="card-title">
+                <span class="icon">📋</span> 诊断结果
+            </div>
+            <div id="diagContent"></div>
+        </div>
+    </div>
+
+    <!-- ========== 参考数据 ========== -->
+    <div id="tab-reference" class="result-section">
+        <!-- 轻卡配置库 -->
+        <div class="card">
+            <div class="card-title">
+                <span class="icon">📦</span> 轻卡标准模块配置库
+                <span style="font-size: 12px; font-weight: normal; color: var(--gray-500); margin-left: auto;">
+                    来源：Q/SQCV 101087-2025 附录A
+                </span>
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th>模块</th>
+                            <th>散热器芯体 (宽×高×厚)</th>
+                            <th>散热面积 (m²)</th>
+                            <th>迎风面积 (dm²)</th>
+                            <th>中冷器芯体 (宽×高×厚)</th>
+                            <th>中冷散热面积 (m²)</th>
+                            <th>进出水口</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lightTruckConfigTable">
+        <tr>
+            <td class="config-name">模块一</td>
+            <td>600 × 542.5 × 36 mm</td>
+            <td>15.9 m²</td>
+            <td>0.32 m²</td>
+            <td>513 × 332 × 50 mm</td>
+            <td>4.8 m²</td>
+            <td>上左下右 (Φ38)</td>
+        </tr>
+    
+        <tr>
+            <td class="config-name">模块二</td>
+            <td>620 × 582.5 × 36 mm</td>
+            <td>16.7 m²</td>
+            <td>0.36 m²</td>
+            <td>535 × 352 × 50 mm</td>
+            <td>5.39 m²</td>
+            <td>上右下左 (Φ45)</td>
+        </tr>
+    
+        <tr>
+            <td class="config-name">模块三</td>
+            <td>620 × 582.5 × 36 mm</td>
+            <td>16.7 m²</td>
+            <td>0.36 m²</td>
+            <td>562 × 332 × 50 mm</td>
+            <td>5.26 m²</td>
+            <td>上左下右 (Φ45)</td>
+        </tr>
+    
+        <tr>
+            <td class="config-name">模块四</td>
+            <td>700 × 582 × 36 mm</td>
+            <td>18.64 m²</td>
+            <td>0.41 m²</td>
+            <td>559 × 412 × 50 mm</td>
+            <td>6.6 m²</td>
+            <td>上右下左 (Φ45)</td>
+        </tr>
+    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 重卡配置库 -->
+        <div class="card">
+            <div class="card-title">
+                <span class="icon">📦</span> 重卡散热器配置库（按车架分级）
+                <span style="font-size: 12px; font-weight: normal; color: var(--gray-500); margin-left: auto;">
+                    来源：Q/SQCV 17111-2020 表1
+                </span>
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th>适用车架</th>
+                            <th>散热器芯体 (宽×高×厚)</th>
+                            <th>迎风面积 (dm²)</th>
+                            <th>进出水口布置</th>
+                            <th>匹配发动机</th>
+                        </tr>
+                    </thead>
+                    <tbody id="heavyTruckRadTable">
+        <tr>
+            <td>970-850变截梁</td>
+            <td>850 × 988 × 42 mm</td>
+            <td>83.9 dm²</td>
+            <td>对角线 (Φ60)</td>
+            <td>13L级燃气/柴油</td>
+        </tr>
+    
+        <tr>
+            <td>970-850变截梁</td>
+            <td>800 × 988 × 42 mm</td>
+            <td>79.1 dm²</td>
+            <td>对角线 (Φ60)</td>
+            <td>11L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>850直通梁/861直通梁/940-860变截梁</td>
+            <td>950 × 638 × 56 mm</td>
+            <td>61.6 dm²</td>
+            <td>上右下左 (Φ60)</td>
+            <td>11L级柴油/9L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>850直通梁/861直通梁/940-860变截梁</td>
+            <td>880 × 638 × 56 mm</td>
+            <td>56.1 dm²</td>
+            <td>上右下左 (Φ60)</td>
+            <td>6.7L级柴油/8L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>850 × 608 × 52 mm</td>
+            <td>51.6 dm²</td>
+            <td>对角线 (Φ上44下58)</td>
+            <td>6.7L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>800 × 608 × 52 mm</td>
+            <td>48.6 dm²</td>
+            <td>对角线 (Φ上44下58)</td>
+            <td>6L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>770 × 600 × 42 mm</td>
+            <td>46.2 dm²</td>
+            <td>对角线 (Φ上44下58)</td>
+            <td>4.5L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>770 × 576 × 42 mm</td>
+            <td>44.3 dm²</td>
+            <td>上右下左 (Φ45)</td>
+            <td>4.5L/4L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>650 × 576 × 32 mm</td>
+            <td>37.4 dm²</td>
+            <td>上右下左 (Φ45)</td>
+            <td>4L/2.8L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>600 × 576 × 32 mm</td>
+            <td>34.5 dm²</td>
+            <td>上右下左 (Φ45)</td>
+            <td>2.0L级柴油</td>
+        </tr>
+    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                <span class="icon">📦</span> 重卡中冷器配置库
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th>适用车架</th>
+                            <th>中冷器芯体 (宽×高×厚)</th>
+                            <th>迎风面积 (dm²)</th>
+                            <th>气口布置</th>
+                            <th>匹配发动机</th>
+                        </tr>
+                    </thead>
+                    <tbody id="heavyTruckIcTable">
+        <tr>
+            <td>970-850变截梁</td>
+            <td>900 × 792 × 64 mm</td>
+            <td>71.2 dm²</td>
+            <td>右进左出 (Φ100)</td>
+            <td>13L级燃气/柴油</td>
+        </tr>
+    
+        <tr>
+            <td>970-850变截梁</td>
+            <td>900 × 652 × 64 mm</td>
+            <td>58.6 dm²</td>
+            <td>右进左出 (Φ100)</td>
+            <td>11L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>850直通梁/861直通梁/940-860变截梁</td>
+            <td>570 × 832 × 50 mm</td>
+            <td>47.4 dm²</td>
+            <td>右进左出 (Φ100)</td>
+            <td>11L级/9L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>850直通梁/861直通梁/940-860变截梁</td>
+            <td>570 × 712 × 50 mm</td>
+            <td>40.5 dm²</td>
+            <td>右进左出 (Φ100)</td>
+            <td>6.7L级/6L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>550 × 492 × 64 mm</td>
+            <td>27.1 dm²</td>
+            <td>右进左出 (Φ82)</td>
+            <td>6L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>550 × 552 × 64 mm</td>
+            <td>30.3 dm²</td>
+            <td>右进左出 (Φ82)</td>
+            <td>6.7L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>372 × 520 × 50 mm</td>
+            <td>25.1 dm²</td>
+            <td>右进左出 (Φ70)</td>
+            <td>4L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>545 × 482 × 38 mm</td>
+            <td>26.2 dm²</td>
+            <td>右进左出 (Φ76)</td>
+            <td>4L级/2.8L级柴油</td>
+        </tr>
+    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 修正系数 -->
+        <div class="card">
+            <div class="card-title">
+                <span class="icon">🔧</span> 散热量修正系数（按供应商）
+            </div>
+            <div style="overflow-x: auto;">
+                <table class="config-table">
+                    <thead>
+                        <tr>
+                            <th>供应商</th>
+                            <th>推荐修正系数 α</th>
+                            <th>置信度</th>
+                            <th>偏差方向</th>
+                            <th>说明</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>云内</strong></td>
+                            <td style="color: var(--warning); font-weight: 600;">0.70</td>
+                            <td>★★★★</td>
+                            <td>散热量虚高约40%</td>
+                            <td>过度设计倾向明显，需大幅下调</td>
+                        </tr>
+                        <tr>
+                            <td><strong>康明斯</strong></td>
+                            <td style="color: var(--success); font-weight: 600;">1.00</td>
+                            <td>★★★★★</td>
+                            <td>无偏差</td>
+                            <td>散热量最为准确，无需修正</td>
+                        </tr>
+                        <tr>
+                            <td><strong>玉柴</strong></td>
+                            <td style="color: var(--info); font-weight: 600;">1.05</td>
+                            <td>★★★★</td>
+                            <td>轻微偏低约5%</td>
+                            <td>需小幅上调</td>
+                        </tr>
+                        <tr>
+                            <td><strong>其他/未知</strong></td>
+                            <td style="font-weight: 600;">0.97</td>
+                            <td>★★★</td>
+                            <td>总体均值</td>
+                            <td>供应商不在列表中时使用</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 判定标准 -->
+        <div class="card">
+            <div class="card-title">
+                <span class="icon">✅</span> LAT 判定标准
+            </div>
+            <div class="form-grid">
+                <div>
+                    <h4 style="margin-bottom: 12px; color: var(--gray-700);">轻卡（Q/SQCV 101087-2025）</h4>
+                    <table class="config-table">
+                        <thead>
+                            <tr><th>性能指标</th><th>工况</th><th>I类地区</th><th>II类地区</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>LAT</td><td>功率点</td><td>≥46℃</td><td>≥41℃</td></tr>
+                            <tr><td>LAT</td><td>扭矩点</td><td>≥41℃</td><td>≥38℃</td></tr>
+                            <tr><td>中冷温升</td><td>各工况</td><td>≤30℃</td><td>≤30℃</td></tr>
+                            <tr><td>中冷压降</td><td>各工况</td><td>≤13.5kPa</td><td>≤13.5kPa</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h4 style="margin-bottom: 12px; color: var(--gray-700);">重卡（企业规范）</h4>
+                    <table class="config-table">
+                        <thead>
+                            <tr><th>地区类型</th><th>极限环境温度要求</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>普通地区</td><td>≥42℃</td></tr>
+                            <tr><td>高温地区</td><td>≥48℃</td></tr>
+                            <tr><td>功率点LAT标准</td><td>≥41~46℃（因项目而异）</td></tr>
+                            <tr><td>扭矩点LAT标准</td><td>≥41~46℃（因项目而异）</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- 核心公式 -->
+        <div class="card">
+            <div class="card-title">
+                <span class="icon">📐</span> 核心计算公式
+            </div>
+            <div style="font-size: 14px; line-height: 2;">
+                <p><strong>1. 散热器传热方程：</strong> Q = K × A × ΔT</p>
+                <p style="margin-left: 20px; color: var(--gray-600);">
+                    Q: 散热量(kW)，K: 传热系数[kW/(m²·℃)]，A: 散热面积(m²)，ΔT: 液气温差(℃)
+                </p>
+                <p><strong>2. 冷却常数：</strong> ΔTk = T₀ - Ta</p>
+                <p style="margin-left: 20px; color: var(--gray-600);">
+                    T₀: 冷却液平衡温度，Ta: 环境温度
+                </p>
+                <p><strong>3. 许用环境温度（LAT）：</strong> LAT = TL - ΔTk</p>
+                <p style="margin-left: 20px; color: var(--gray-600);">
+                    TL: 发动机最高允许出水温度
+                </p>
+                <p><strong>4. 散热面积需求：</strong> A = Q / (K × ΔTk_required)</p>
+                <p><strong>5. 冷却系统效率：</strong> η = ηf × ηs × ηe</p>
+                <p style="margin-left: 20px; color: var(--gray-600);">
+                    轻卡：0.9×0.84×0.8 = 0.60；重卡：0.9×0.92×0.85 = 0.70
+                </p>
+                <p style="margin-top: 12px; color: var(--gray-500); font-size: 13px;">
+                    ⚠️ 注：本工具采用双维度选型方法：
+                    <br>1) <strong>迎风面积法初筛</strong>：基于行业标准30~37.5 cm²/kW（Q/SQCV 101087-2025）
+                    <br>2) <strong>校准K值法LAT预测</strong>：K_eff（综合有效传热系数，已含效率）
+                    <br>&nbsp;&nbsp;&nbsp;- 轻卡标定工况: ~95 W/(m²·K)
+                    <br>&nbsp;&nbsp;&nbsp;- 重卡标定工况: ~65 W/(m²·K)
+                    <br>选型结果作为初步方案参考，最终冷却性能应以整车热平衡试验为准。
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <div class="footer">
+        <p>💡 本工具为选型辅助工具，计算结果仅供参考。最终选型应以整车热平衡试验验证为准。</p>
+        <p>数据来源：Q/SQCV 101087-2025 | Q/SQCV 17111-2020 | GB/T 12542-2020 | 内部145条试验数据</p>
+    </div>
+</div>
+
+<!-- AI 智能问答浮动按钮 -->
+<button class="chat-fab" id="chatFab" onclick="toggleChatPanel()">
+    💬
+    <span class="badge">AI</span>
+</button>
+
+<!-- AI 智能问答面板 -->
+<div class="chat-panel" id="chatPanel">
+    <div class="chat-panel-header">
+        <div class="avatar">🧊</div>
+        <div class="info">
+            <h3 id="chatAgentName">AI 选型助手</h3>
+            <p id="chatAgentDesc">商用车冷却系统智能问答</p>
+        </div>
+        <button class="chat-settings-btn" onclick="toggleChatSettings()" title="智能体设置">⚙</button>
+        <button class="chat-panel-close" onclick="toggleChatPanel()">✕</button>
+    </div>
+    <!-- 关于面板 -->
+    <div class="chat-settings-panel" id="chatSettingsPanel">
+        <h4 style="margin:0 0 12px;font-size:15px;">关于本工具</h4>
+        <p style="margin:0 0 8px;font-size:13px;color:#666;line-height:1.6;">
+            商用车冷却系统AI选型助手<br>
+            基于145条脱敏热平衡试验数据<br>
+            支持轻卡/重卡散热器与中冷器选型
+        </p>
+        <p style="margin:0 0 8px;font-size:12px;color:#999;line-height:1.6;">
+            内嵌智能应答引擎 | 专业知识库驱动<br>
+            修正系数: 云内0.70 / 康明斯1.00 / 玉柴1.05<br>
+            K值: 轻卡散热器95 / 重卡80 W/(m²·K)
+        </p>
+        <div class="settings-status" style="color:#52c41a;">✓ 知识库已加载</div>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+        <div class="chat-welcome">
+            <div class="welcome-icon">🧊</div>
+            <h4>你好！我是冷却系统AI选型助手</h4>
+            <p>可以问我选型、诊断、散热量计算、K值等任何冷却系统专业问题</p>
+            <div class="chat-quick-btns">
+                <button class="chat-quick-btn" onclick="sendQuickMsg(this.textContent)">160马力轻卡怎么选配散热器？</button>
+                <button class="chat-quick-btn" onclick="sendQuickMsg(this.textContent)">云内发动机散热量修正系数是多少？</button>
+                <button class="chat-quick-btn" onclick="sendQuickMsg(this.textContent)">重卡LAT预测怎么计算？</button>
+                <button class="chat-quick-btn" onclick="sendQuickMsg(this.textContent)">散热器K值是什么意思？</button>
+            </div>
+        </div>
+    </div>
+    <div class="chat-input-area">
+        <input type="text" id="chatInput" placeholder="输入你的问题..." onkeydown="if(event.key===&#39;Enter&#39;)sendChatMsg()">
+        <button class="chat-send-btn" id="chatSendBtn" onclick="sendChatMsg()">➤</button>
+    </div>
+</div>
+
+<script>
+// ========== 配置数据 ==========
+
+// 轻卡4套标准模块配置
+const lightTruckModules = [
+    {
+        name: '模块一',
+        radiator: {
+            coreSize: [600, 542.5, 36],
+            outerSize: [746, 572, 105],
+            facingArea: 0.32, // m²
+            heatArea: 15.9,   // m²
+            layout: '上左下右',
+            pipeDiameter: 38
+        },
+        intercooler: {
+            coreSize: [513, 332, 50],
+            outerSize: [413, 724, 156],
+            facingArea: 0.17,
+            heatArea: 4.8,
+            layout: '右进左出',
+            pipeDiameter: 65
+        },
+        fanOptions: ['Φ490']
+    },
+    {
+        name: '模块二',
+        radiator: {
+            coreSize: [620, 582.5, 36],
+            outerSize: [740, 618, 120],
+            facingArea: 0.36,
+            heatArea: 16.7,
+            layout: '上右下左',
+            pipeDiameter: 45
+        },
+        intercooler: {
+            coreSize: [535, 352, 50],
+            outerSize: [400, 800, 132],
+            facingArea: 0.19,
+            heatArea: 5.39,
+            layout: '右进左出',
+            pipeDiameter: 63
+        },
+        fanOptions: ['Φ490', 'Φ510']
+    },
+    {
+        name: '模块三',
+        radiator: {
+            coreSize: [620, 582.5, 36],
+            outerSize: [740, 618, 120],
+            facingArea: 0.36,
+            heatArea: 16.7,
+            layout: '上左下右',
+            pipeDiameter: 45
+        },
+        intercooler: {
+            coreSize: [562, 332, 50],
+            outerSize: [414, 773, 150],
+            facingArea: 0.19,
+            heatArea: 5.26,
+            layout: '右进左出',
+            pipeDiameter: 63
+        },
+        fanOptions: ['Φ490', 'Φ550']
+    },
+    {
+        name: '模块四',
+        radiator: {
+            coreSize: [700, 582, 36],
+            outerSize: [820, 618, 120],
+            facingArea: 0.41,
+            heatArea: 18.64,
+            layout: '上右下左',
+            pipeDiameter: 45
+        },
+        intercooler: {
+            coreSize: [559, 412, 50],
+            outerSize: [490, 805, 143],
+            facingArea: 0.23,
+            heatArea: 6.6,
+            layout: '右进左出',
+            pipeDiameter: 70
+        },
+        fanOptions: ['Φ550']
+    }
+];
+
+// 重卡散热器配置（按车架分级）
+const heavyTruckRadiators = [
+    { frameType: '970-850变截梁', coreSize: [850, 988, 42], outerSize: [1025, 1042, 82], facingArea: 83.9, layout: '对角线', pipeDiameter: 60, engine: '13L级燃气/柴油', hpRange: [460, 680] },
+    { frameType: '970-850变截梁', coreSize: [800, 988, 42], outerSize: [972, 1042, 82], facingArea: 79.1, layout: '对角线', pipeDiameter: 60, engine: '11L级柴油', hpRange: [400, 500] },
+    { frameType: '850直通梁/861直通梁/940-860变截梁', coreSize: [950, 638, 56], outerSize: [1128, 680, 82], facingArea: 61.6, layout: '上右下左', pipeDiameter: 60, engine: '11L级柴油/9L级柴油', hpRange: [350, 500] },
+    { frameType: '850直通梁/861直通梁/940-860变截梁', coreSize: [880, 638, 56], outerSize: [1016, 680, 82], facingArea: 56.1, layout: '上右下左', pipeDiameter: 60, engine: '6.7L级柴油/8L级柴油', hpRange: [280, 400] },
+    { frameType: '860直通梁/860-850变截梁', coreSize: [850, 608, 52], outerSize: [984, 644, 82], facingArea: 51.6, layout: '对角线', pipeDiameter: '上44下58', engine: '6.7L级柴油', hpRange: [260, 350] },
+    { frameType: '860直通梁/860-850变截梁', coreSize: [800, 608, 52], outerSize: [934, 644, 82], facingArea: 48.6, layout: '对角线', pipeDiameter: '上44下58', engine: '6L级柴油', hpRange: [220, 300] },
+    { frameType: '860直通梁/860-850变截梁', coreSize: [770, 600, 42], outerSize: [904, 644, 82], facingArea: 46.2, layout: '对角线', pipeDiameter: '上44下58', engine: '4.5L级柴油', hpRange: [180, 260] },
+    { frameType: '800直通梁', coreSize: [770, 576, 42], outerSize: [900, 624, 85], facingArea: 44.3, layout: '上右下左', pipeDiameter: 45, engine: '4.5L/4L级柴油', hpRange: [150, 220] },
+    { frameType: '800直通梁', coreSize: [650, 576, 32], outerSize: [774, 624, 75], facingArea: 37.4, layout: '上右下左', pipeDiameter: 45, engine: '4L/2.8L级柴油', hpRange: [100, 180] },
+    { frameType: '800直通梁', coreSize: [600, 576, 32], outerSize: [722, 624, 75], facingArea: 34.5, layout: '上右下左', pipeDiameter: 45, engine: '2.0L级柴油', hpRange: [60, 120] }
+];
+
+// 重卡中冷器配置
+const heavyTruckIntercoolers = [
+    { frameType: '970-850变截梁', coreSize: [900, 792, 64], outerSize: [865, 1142, 420], facingArea: 71.2, layout: '右进左出', pipeDiameter: 100, engine: '13L级燃气/柴油', hpRange: [460, 680] },
+    { frameType: '970-850变截梁', coreSize: [900, 652, 64], outerSize: [725, 1142, 420], facingArea: 58.6, layout: '右进左出', pipeDiameter: 100, engine: '11L级柴油', hpRange: [400, 500] },
+    { frameType: '850直通梁/861直通梁/940-860变截梁', coreSize: [570, 832, 50], outerSize: [832, 1008, 159], facingArea: 47.4, layout: '右进左出', pipeDiameter: 100, engine: '11L级/9L级柴油', hpRange: [350, 500] },
+    { frameType: '850直通梁/861直通梁/940-860变截梁', coreSize: [570, 712, 50], outerSize: [712, 1008, 159], facingArea: 40.5, layout: '右进左出', pipeDiameter: 100, engine: '6.7L级/6L级柴油', hpRange: [280, 400] },
+    { frameType: '860直通梁/860-850变截梁', coreSize: [550, 492, 64], outerSize: [570, 850, 215], facingArea: 27.1, layout: '右进左出', pipeDiameter: 82, engine: '6L级柴油', hpRange: [220, 300] },
+    { frameType: '860直通梁/860-850变截梁', coreSize: [550, 552, 64], outerSize: [620, 850, 215], facingArea: 30.3, layout: '右进左出', pipeDiameter: 82, engine: '6.7L级柴油', hpRange: [260, 350] },
+    { frameType: '800直通梁', coreSize: [372, 520, 50], outerSize: [406, 620, 50], facingArea: 25.1, layout: '右进左出', pipeDiameter: 70, engine: '4L级柴油', hpRange: [100, 180] },
+    { frameType: '800直通梁', coreSize: [545, 482, 38], outerSize: [826, 546, 158], facingArea: 26.2, layout: '右进左出', pipeDiameter: 76, engine: '4L级/2.8L级柴油', hpRange: [60, 150] }
+];
+
+// 供应商修正系数
+const supplierCorrection = {
+    cummins: { alpha: 1.00, name: '康明斯', confidence: '高' },
+    yunnei: { alpha: 0.70, name: '云内', confidence: '中高' },
+    yuchai: { alpha: 1.05, name: '玉柴', confidence: '中高' },
+    other: { alpha: 0.97, name: '其他', confidence: '中' }
+};
+
+// LAT标准
+const latStandards = {
+    light: {
+        I: { power: 46, torque: 41 },
+        II: { power: 41, torque: 38 }
+    },
+    heavy: {
+        normal: 42,
+        highTemp: 48
+    }
+};
+
+// 风扇规格（轻卡）
+const lightTruckFans = [
+    { diameter: 490, type: '开口', clutch: '温控硅油离合器', blades: 9 },
+    { diameter: 510, type: '开口', clutch: '温控硅油离合器', blades: 10 },
+    { diameter: 510, type: '环形', clutch: '温控硅油离合器', blades: 9 },
+    { diameter: 550, type: '开口', clutch: '温控硅油离合器', blades: 10 }
+];
+
+// ========== 全局状态 ==========
+let currentVehicle = 'light';
+let currentDiagVehicle = 'light';
+
+// ========== Tab切换 ==========
+function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+        btn.classList.toggle('active', ['selection', 'diagnosis', 'reference'][i] === tab);
+    });
+    document.querySelectorAll('.result-section').forEach(s => s.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+}
+
+// ========== 车型选择 ==========
+function selectVehicle(type) {
+    currentVehicle = type;
+    document.getElementById('vehicle-light').classList.toggle('active', type === 'light');
+    document.getElementById('vehicle-heavy').classList.toggle('active', type === 'heavy');
+    // 更新提示信息
+    const hpInput = document.getElementById('horsepower');
+    if (type === 'light') {
+        hpInput.value = 160;
+        hpInput.max = 300;
+    } else {
+        hpInput.value = 460;
+        hpInput.max = 800;
+    }
+    // 隐藏结果
+    document.getElementById('selectionResult').style.display = 'none';
+}
+
+function selectDiagVehicle(type) {
+    currentDiagVehicle = type;
+    document.getElementById('diag-vehicle-light').classList.toggle('active', type === 'light');
+    document.getElementById('diag-vehicle-heavy').classList.toggle('active', type === 'heavy');
+    // 设置默认值
+    if (type === 'light') {
+        document.getElementById('diagHorsepower').value = 160;
+        document.getElementById('radWidth').value = 620;
+        document.getElementById('radHeight').value = 582;
+        document.getElementById('radThickness').value = 36;
+        document.getElementById('icWidth').value = 535;
+        document.getElementById('icHeight').value = 352;
+        document.getElementById('icThickness').value = 50;
+        document.getElementById('fanDiameter').value = 510;
+    } else {
+        document.getElementById('diagHorsepower').value = 460;
+        document.getElementById('radWidth').value = 880;
+        document.getElementById('radHeight').value = 638;
+        document.getElementById('radThickness').value = 56;
+        document.getElementById('icWidth').value = 570;
+        document.getElementById('icHeight').value = 712;
+        document.getElementById('icThickness').value = 50;
+        document.getElementById('fanDiameter').value = 704;
+    }
+    document.getElementById('diagnosisResult').style.display = 'none';
+}
+
+// ========== 可折叠区块 ==========
+function toggleCollapse(header) {
+    header.classList.toggle('open');
+    const content = header.nextElementSibling;
+    content.classList.toggle('open');
+}
+
+// ========== 核心计算函数 ==========
+
+/**
+ * 计算发动机散热量
+ * 基于知识库中历史试验数据统计的散热量/功率比
+ * @param {number} hp - 马力
+ * @param {string} fuelType - 燃料类型
+ * @param {string} supplier - 供应商
+ * @returns {object} 散热量详情
+ */
+function calculateHeatDissipation(hp, fuelType, supplier) {
+    // 1 kW = 1.3596 HP
+    const power_kW = hp / 1.3596;
+    
+    // 散热量/制动功率 比值（基于145条试验数据统计）
+    // 柴油机: 水套+中冷 约占制动功率的 70%
+    // 燃气机: 水套散热量更高，但中冷略低，总散热量约 80%
+    let waterJacketRatio = 0.52;  // 水套散热量/制动功率
+    let intercoolerRatio = 0.18;  // 中冷散热量/制动功率
+    
+    if (fuelType === 'gas') {
+        waterJacketRatio = 0.65;   // 燃气机水套散热量更高
+        intercoolerRatio = 0.15;   // 中冷散热量相对略低
+    }
+    
+    let q_water = power_kW * waterJacketRatio;
+    let q_ic = power_kW * intercoolerRatio;
+    
+    // 供应商修正系数（基于历史数据校准）
+    // 云内: 0.70（散热量虚高约40%）
+    // 康明斯: 1.00（数据准确）
+    // 玉柴: 1.05（轻微偏低约5%）
+    const correction = supplierCorrection[supplier] || supplierCorrection.other;
+    q_water = q_water * correction.alpha;
+    q_ic = q_ic * correction.alpha;
+    
+    const q_total = q_water + q_ic;
+    
+    return {
+        power_kW: power_kW.toFixed(1),
+        q_water: q_water.toFixed(1),
+        q_ic: q_ic.toFixed(1),
+        q_total: q_total.toFixed(1),
+        correction: correction.alpha,
+        correctionName: correction.name,
+        waterJacketRatio: waterJacketRatio,
+        intercoolerRatio: intercoolerRatio
+    };
+}
+
+/**
+ * 计算所需迎风面积（基于行业经验公式）
+ * 轻卡正面积/功率推荐值：30~37.5 cm²/kW（Q/SQCV 101087-2025）
+ * 重卡推荐值类似，取30~35 cm²/kW
+ * @param {number} power_kW - 发动机功率 (kW)
+ * @param {string} vehicleType - 车型类型
+ * @returns {object} 迎风面积需求
+ */
+function calculateFacingAreaRequirement(power_kW, vehicleType) {
+    // 单位功率迎风面积推荐值 (cm²/kW)
+    // 轻卡：基于4套标准模块配置反推，推荐值27 cm²/kW
+    //   - 模块一(0.32m²)适用于~118kW(160HP) → 27.1 cm²/kW
+    //   - 模块二(0.36m²)适用于~133kW(181HP) → 27.1 cm²/kW
+    //   - 模块四(0.41m²)适用于~152kW(206HP) → 27.0 cm²/kW
+    //   依据：D2.5NS6B180(132kW/180HP)配模块二(0.36m²) = 27.3 cm²/kW
+    // 重卡：推荐值30 cm²/kW（配置表反推约28~32）
+    // 行业参考范围：30~37.5 cm²/kW（较保守）
+    const rec_cm2_per_kW = vehicleType === 'light' ? 27 : 30;
+    const min_cm2_per_kW = vehicleType === 'light' ? 25 : 28;
+    const max_cm2_per_kW = 37.5;
+    
+    const rec_facing = power_kW * rec_cm2_per_kW / 10000;  // m²
+    const min_facing = power_kW * min_cm2_per_kW / 10000;
+    const max_facing = power_kW * max_cm2_per_kW / 10000;
+    
+    return {
+        recommended: rec_facing.toFixed(3),
+        min: min_facing.toFixed(3),
+        max: max_facing.toFixed(3),
+        unit: 'm²'
+    };
+}
+
+/**
+ * 计算LAT预测值（基于校准K值法）
+ * 使用有效综合传热系数K_eff（已包含冷却系统效率）
+ * 基于知识库实际案例校准：
+ *   轻卡标定工况: K_eff ≈ 0.095 kW/(m²·℃)
+ *   重卡标定工况: K_eff ≈ 0.065 kW/(m²·℃)
+ * K值随芯厚、翅片密度、风量等变化，此处取典型工况经验值
+ * @param {number} q_total - 总散热量 (kW)
+ * @param {number} heatArea - 散热面积 (m²)
+ * @param {number} maxTemp - 最高允许温度 (℃)
+ * @param {string} vehicleType - 车型类型
+ * @param {number} coreThickness - 芯体厚度 (mm)，用于修正K值
+ * @returns {object} LAT预测
+ */
+function calculateLAT(q_total, heatArea, maxTemp, vehicleType, coreThickness) {
+    // 有效综合传热系数（已包含效率，基于标定工况校准）
+    // 轻卡: 0.095 kW/(m²·℃) （基于D2.5NS6B180案例反推，与实际误差<5%）
+    // 重卡: 0.080 kW/(m²·℃) （基于历史试验数据统计，因面积密度不确定性较大，仅供参考）
+    // K值随芯厚增加略有提高，修正系数：以40mm为基准
+    let K_eff_base = vehicleType === 'light' ? 0.095 : 0.080;
+    const thicknessCorrection = 1 + (coreThickness - 40) / 300; // 芯厚影响系数
+    const K_eff = K_eff_base * thicknessCorrection;
+    
+    // Q = K_eff * A * ΔTk
+    // ΔTk = Q / (K_eff * A)
+    const deltaTk = q_total / (K_eff * heatArea);
+    const lat = maxTemp - deltaTk;
+    
+    return {
+        deltaTk: deltaTk.toFixed(1),
+        lat: lat.toFixed(1),
+        K_eff: K_eff.toFixed(4),
+        K_eff_W: (K_eff * 1000).toFixed(1),
+        note: vehicleType === 'light' 
+            ? '轻卡标定工况校准值，与试验误差约5%'
+            : '重卡标定工况估算值，因面积密度不确定性较大，误差约±15%，仅供参考'
+    };
+}
+
+/**
+ * 估算散热器散热面积
+ * 基于迎风面积和芯厚估算
+ * 经验：面积密度随芯厚近似线性增长
+ * @param {number} facingArea - 迎风面积 (m²)
+ * @param {number} coreThickness - 芯体厚度 (mm)
+ * @param {string} vehicleType - 车型类型
+ * @returns {number} 估算散热面积 (m²)
+ */
+function estimateHeatArea(facingArea, coreThickness, vehicleType) {
+    // 基准面积密度（基准芯厚时的散热面积/迎风面积比）
+    // 轻卡管带式: 约48倍（36mm芯厚基准）
+    // 重卡管带式: 约65倍（42mm芯厚基准）
+    // 注：面积密度因厂家工艺、翅片密度差异较大，此处为典型值
+    const baseDensity = vehicleType === 'light' ? 48 : 65;
+    const baseThickness = vehicleType === 'light' ? 36 : 42;
+    
+    // 面积密度随芯厚近似成正比
+    const density = baseDensity * (coreThickness / baseThickness);
+    
+    return facingArea * density;
+}
+
+/**
+ * 轻卡模块选型推荐
+ * 基于迎风面积法初筛（行业标准30~37.5cm²/kW），配合LAT预测验证
+ * @param {number} power_kW - 发动机功率 (kW)
+ * @param {number} q_total - 总散热量 (kW)
+ * @param {number} maxTemp - 最高允许温度 (℃)
+ * @param {number} hp - 马力
+ * @param {string} supplier - 供应商
+ * @param {string} fuelType - 燃料类型
+ * @returns {object} 推荐配置
+ */
+function selectLightTruckModule(power_kW, q_total, maxTemp, hp, supplier, fuelType) {
+    // 计算所需迎风面积
+    const facingReq = calculateFacingAreaRequirement(power_kW, 'light');
+    const reqFacing = parseFloat(facingReq.recommended);
+    
+    // 按迎风面积从小到大排序
+    const sorted = [...lightTruckModules].sort((a, b) => 
+        a.radiator.facingArea - b.radiator.facingArea
+    );
+    
+    // 找到第一个满足迎风面积要求的模块
+    let recommended = null;
+    let alternatives = [];
+    
+    for (const module of sorted) {
+        if (module.radiator.facingArea >= reqFacing) {
+            recommended = module;
+            break;
+        }
+    }
+    
+    // 如果都不满足，选最大的
+    if (!recommended) {
+        recommended = sorted[sorted.length - 1];
+    }
+    
+    // 如果是云内发动机（修正系数0.7），可以下调一级
+    if (supplier === 'yunnei' && recommended !== sorted[0]) {
+        const recIndex = sorted.findIndex(m => m.name === recommended.name);
+        // 云内散热量低一级，可以考虑小一号模块
+        const prevModule = sorted[recIndex - 1];
+        if (prevModule) {
+            // 验证小一号是否满足LAT要求
+            const lat_prev = calculateLAT(
+                q_total, prevModule.radiator.heatArea, maxTemp, 'light',
+                prevModule.radiator.coreSize[2]
+            );
+            // 如果云内的话，小一号也可能满足，按LAT≥41（II类）判断
+            if (parseFloat(lat_prev.lat) >= 41) {
+                recommended = prevModule;
+            }
+        }
+    }
+    
+    // 燃气机需要加大一级
+    if (fuelType === 'gas') {
+        const recIndex = sorted.findIndex(m => m.name === recommended.name);
+        if (recIndex < sorted.length - 1) {
+            recommended = sorted[recIndex + 1];
+        }
+    }
+    
+    // 收集备选升级方案
+    const recIndex = sorted.findIndex(m => m.name === recommended.name);
+    for (let i = recIndex + 1; i < sorted.length; i++) {
+        alternatives.push(sorted[i]);
+    }
+    
+    // 计算LAT预测
+    const latPredict = calculateLAT(
+        q_total, recommended.radiator.heatArea, maxTemp, 'light',
+        recommended.radiator.coreSize[2]
+    );
+    
+    // 风扇推荐
+    const fanSize = recommendFan(hp, supplier, 'light');
+    
+    // 裕量（基于迎风面积）
+    const margin = ((recommended.radiator.facingArea - reqFacing) / reqFacing * 100).toFixed(1);
+    
+    return {
+        recommended: recommended,
+        alternatives: alternatives,
+        fanSize: fanSize,
+        margin: margin,
+        latPredict: latPredict,
+        facingRequired: reqFacing.toFixed(3)
+    };
+}
+
+/**
+ * 重卡配置选型推荐
+ * 基于马力范围 + 迎风面积双维度匹配
+ * @param {number} power_kW - 发动机功率 (kW)
+ * @param {number} q_total - 总散热量 (kW)
+ * @param {number} maxTemp - 最高允许温度 (℃)
+ * @param {number} hp - 马力
+ * @param {string} supplier - 供应商
+ * @param {string} fuelType - 燃料类型
+ * @returns {object} 推荐配置
+ */
+function selectHeavyTruckConfig(power_kW, q_total, maxTemp, hp, supplier, fuelType) {
+    // 计算所需迎风面积
+    const facingReq = calculateFacingAreaRequirement(power_kW, 'heavy');
+    const reqFacing = parseFloat(facingReq.recommended); // m²
+    
+    // 估算散热面积用于LAT预测
+    const estHeatFromFacing = (facing_dm2, thickness, type) => {
+        return estimateHeatArea(facing_dm2 / 100, thickness, type);
+    };
+    
+    let radRec = null;
+    let icRec = null;
+    
+    // 按迎风面积从小到大排序
+    const sortedRads = [...heavyTruckRadiators].sort((a, b) => a.facingArea - b.facingArea);
+    const sortedIcs = [...heavyTruckIntercoolers].sort((a, b) => a.facingArea - b.facingArea);
+    
+    // 策略1：优先按马力范围匹配
+    for (const rad of sortedRads) {
+        if (hp >= rad.hpRange[0] && hp <= rad.hpRange[1]) {
+            radRec = rad;
+            break;
+        }
+    }
+    
+    // 策略2：如果马力范围没匹配到，按迎风面积匹配
+    if (!radRec) {
+        for (const rad of sortedRads) {
+            const radFacing_m2 = rad.facingArea / 100; // dm²转m²
+            if (radFacing_m2 >= reqFacing) {
+                radRec = rad;
+                break;
+            }
+        }
+    }
+    
+    // 还是没找到，选最大的
+    if (!radRec) {
+        radRec = sortedRads[sortedRads.length - 1];
+    }
+    
+    // 燃气机需要加大一级
+    if (fuelType === 'gas') {
+        const idx = sortedRads.findIndex(r => r.frameType === radRec.frameType && 
+            r.coreSize[0] === radRec.coreSize[0] && r.coreSize[1] === radRec.coreSize[1]);
+        if (idx >= 0 && idx < sortedRads.length - 1) {
+            radRec = sortedRads[idx + 1];
+        }
+    }
+    
+    radRec.estHeatArea = estHeatFromFacing(radRec.facingArea, radRec.coreSize[2], 'heavy').toFixed(2);
+    
+    // 中冷器匹配（优先按马力范围）
+    for (const ic of sortedIcs) {
+        if (hp >= ic.hpRange[0] && hp <= ic.hpRange[1]) {
+            icRec = ic;
+            break;
+        }
+    }
+    
+    if (!icRec) {
+        for (const ic of sortedIcs) {
+            if (ic.facingArea / 100 >= reqFacing * 0.7) { // 中冷迎风面积约为散热器的70%
+                icRec = ic;
+                break;
+            }
+        }
+    }
+    
+    if (!icRec) {
+        icRec = sortedIcs[sortedIcs.length - 1];
+    }
+    icRec.estHeatArea = estHeatFromFacing(icRec.facingArea, icRec.coreSize[2], 'heavy').toFixed(2);
+    
+    // LAT预测
+    const latPredict = calculateLAT(
+        q_total, parseFloat(radRec.estHeatArea), maxTemp, 'heavy',
+        radRec.coreSize[2]
+    );
+    
+    // 如果LAT不满足标准（高温地区48℃为目标），升级一级
+    const targetLAT = 45; // 保守目标
+    if (parseFloat(latPredict.lat) < targetLAT) {
+        const idx = sortedRads.findIndex(r => r.frameType === radRec.frameType && 
+            r.coreSize[0] === radRec.coreSize[0] && r.coreSize[1] === radRec.coreSize[1]);
+        if (idx >= 0 && idx < sortedRads.length - 1) {
+            radRec = sortedRads[idx + 1];
+            radRec.estHeatArea = estHeatFromFacing(radRec.facingArea, radRec.coreSize[2], 'heavy').toFixed(2);
+        }
+    }
+    
+    // 风扇推荐
+    const fanSize = recommendFan(hp, supplier, 'heavy');
+    
+    // 裕量
+    const margin = ((radRec.facingArea / 100 - reqFacing) / reqFacing * 100).toFixed(1);
+    
+    return {
+        radiator: radRec,
+        intercooler: icRec,
+        fanSize: fanSize,
+        margin: margin,
+        latPredict: latPredict,
+        facingRequired: reqFacing.toFixed(3)
+    };
+}
+
+/**
+ * 风扇直径推荐
+ */
+function recommendFan(hp, supplier, vehicleType) {
+    if (vehicleType === 'light') {
+        // 轻卡风扇推荐
+        if (hp <= 150) return { diameter: 490, type: '开口', ratio: '1.0~1.15' };
+        if (hp <= 190) return { diameter: 510, type: '开口/环形', ratio: '1.1~1.25' };
+        return { diameter: 550, type: '开口', ratio: '1.15~1.3' };
+    } else {
+        // 重卡风扇推荐
+        if (hp <= 300) return { diameter: 650, type: '环形', ratio: '1.05~1.2' };
+        if (hp <= 400) return { diameter: 704, type: '环形', ratio: '1.1~1.25' };
+        if (hp <= 500) return { diameter: 750, type: '环形', ratio: '1.15~1.3' };
+        if (hp <= 600) return { diameter: 790, type: '环形', ratio: '1.15~1.35' };
+        return { diameter: 810, type: '环形', ratio: '1.2~1.35' };
+    }
+}
+
+/**
+ * 基于K值反算推荐散热器/中冷器尺寸参数
+ * 根据需求散热量，通过传热公式反算所需散热面积，再推算出宽×高×厚的推荐尺寸范围
+ * 不局限于配置库中的已有型号，可输出任意合理尺寸
+ *
+ * 核心公式：Q = K × A × ΔTk → A = Q / (K × ΔTk)
+ * 其中 ΔTk = maxTemp - LAT_target
+ * 面积密度 = baseDensity × (thickness / baseThickness)
+ * 散热面积 = 迎风面积 × 面积密度
+ */
+function calculateRecommendedDimensions(radHeat, icHeat, vehicleType, maxTemp, targetLAT) {
+    const deltaT = maxTemp - targetLAT; // 允许的最大温升 ℃
+    if (deltaT <= 0) return null;
+
+    // --- 散热器参数 ---
+    const K_rad = vehicleType === 'light' ? 95 : 80; // W/(m²·K)，校准K值
+    const A_rad_req = (radHeat * 1000) / (K_rad * deltaT); // 所需散热面积 m²
+
+    // 从训练数据统计的典型宽高比
+    const radAspectRatio = vehicleType === 'light' ? 1.1 : 1.3; // 宽/高
+    const radBaseDensity = vehicleType === 'light' ? 48 : 65;
+    const radBaseThickness = vehicleType === 'light' ? 36 : 42;
+    const radStdThicknesses = vehicleType === 'light' ? [32, 36, 42] : [32, 42, 50, 56, 64];
+    const radMinW = vehicleType === 'light' ? 500 : 600;
+    const radMinH = vehicleType === 'light' ? 450 : 500;
+
+    const radOptions = [];
+    for (const t of radStdThicknesses) {
+        const density = radBaseDensity * (t / radBaseThickness); // 面积密度
+        const facingNeeded = A_rad_req / density; // 所需迎风面积 m²
+        let w = Math.sqrt(facingNeeded * radAspectRatio) * 1000;
+        let h = Math.sqrt(facingNeeded / radAspectRatio) * 1000;
+        w = Math.max(Math.round(w / 10) * 10, radMinW);
+        h = Math.max(Math.round(h / 10) * 10, radMinH);
+        const actualFacing = (w * h) / 1e6;
+        const actualHeatArea = actualFacing * density;
+        const estLAT = maxTemp - (radHeat * 1000) / (K_rad * actualHeatArea);
+        radOptions.push({ width: w, height: h, thickness: t,
+            facingArea: actualFacing.toFixed(3), heatArea: actualHeatArea.toFixed(1), estLAT: estLAT.toFixed(1) });
+    }
+
+    // --- 中冷器参数 ---
+    const K_ic = vehicleType === 'light' ? 70 : 75; // W/(m²·K)，空空中冷典型值
+    const A_ic_req = (icHeat * 1000) / (K_ic * deltaT);
+
+    const icAspectRatio = vehicleType === 'light' ? 1.5 : 1.1;
+    const icBaseDensity = vehicleType === 'light' ? 40 : 55;
+    const icBaseThickness = 50;
+    const icStdThicknesses = vehicleType === 'light' ? [38, 50, 60] : [38, 50, 64];
+    const icMinW = vehicleType === 'light' ? 400 : 500;
+    const icMinH = vehicleType === 'light' ? 280 : 450;
+
+    const icOptions = [];
+    for (const t of icStdThicknesses) {
+        const density = icBaseDensity * (t / icBaseThickness);
+        const facingNeeded = A_ic_req / density;
+        let w = Math.sqrt(facingNeeded * icAspectRatio) * 1000;
+        let h = Math.sqrt(facingNeeded / icAspectRatio) * 1000;
+        w = Math.max(Math.round(w / 10) * 10, icMinW);
+        h = Math.max(Math.round(h / 10) * 10, icMinH);
+        const actualFacing = (w * h) / 1e6;
+        const actualHeatArea = actualFacing * density;
+        icOptions.push({ width: w, height: h, thickness: t,
+            facingArea: actualFacing.toFixed(3), heatArea: actualHeatArea.toFixed(1) });
+    }
+
+    return {
+        radiator: { reqHeatArea: A_rad_req.toFixed(2), K: K_rad, options: radOptions },
+        intercooler: { reqHeatArea: A_ic_req.toFixed(2), K: K_ic, options: icOptions }
+    };
+}
+
+// ========== 选型计算主函数 ==========
+function calculateSelection() {
+    const supplier = document.getElementById('supplier').value;
+    const fuelType = document.getElementById('fuelType').value;
+    const hp = parseFloat(document.getElementById('horsepower').value);
+    const maxTemp = parseFloat(document.getElementById('maxTemp').value);
+    const ambientTemp = parseFloat(document.getElementById('ambientTemp').value);
+    const altitude = parseFloat(document.getElementById('altitude').value);
+    const regionType = document.getElementById('regionType').value;
+    
+    // 读取用户直接输入的散热量（选填）
+    const userRadHeat = parseFloat(document.getElementById('radHeatInput').value);
+    const userIcHeat  = parseFloat(document.getElementById('icHeatInput').value);
+    
+    // 验证
+    if (!hp || hp <= 0) { alert('请输入有效的发动机马力'); return; }
+    if (!maxTemp || maxTemp <= 0) { alert('请输入有效的最高允许温度'); return; }
+    
+    // 目标LAT
+    let targetLAT;
+    if (currentVehicle === 'light') {
+        targetLAT = regionType === 'I' ? latStandards.light.I.power : latStandards.light.II.power;
+    } else {
+        targetLAT = regionType === 'I' ? latStandards.heavy.normal : latStandards.heavy.highTemp;
+    }
+    
+    // 1. 散热量计算（基础值）
+    const heatCalc = calculateHeatDissipation(hp, fuelType, supplier);
+    
+    // 2. 若用户直接输入了散热量，则优先使用；否则使用按马力计算的值
+    const radHeat = userRadHeat > 0 ? userRadHeat : parseFloat(heatCalc.q_water);
+    const icHeat  = userIcHeat  > 0 ? userIcHeat  : parseFloat(heatCalc.q_ic);
+    const qTotal  = radHeat + icHeat;
+    
+    // 构建最终使用的 heat 对象
+    const heat = {
+        power_kW:  heatCalc.power_kW,
+        q_water:   radHeat.toFixed(1),
+        q_ic:      icHeat.toFixed(1),
+        q_total:   qTotal.toFixed(1),
+        correction: heatCalc.correction,
+        correctionName: heatCalc.correctionName,
+        waterJacketRatio: heatCalc.waterJacketRatio,
+        intercoolerRatio: heatCalc.intercoolerRatio,
+        userRadHeat: userRadHeat > 0,
+        userIcHeat:  userIcHeat > 0
+    };
+    
+    // 3. 配置选型推荐（基于迎风面积法初筛 + K值法LAT验证）
+    let config;
+    
+    if (currentVehicle === 'light') {
+        config = selectLightTruckModule(
+            parseFloat(heat.power_kW),
+            qTotal,
+            maxTemp, hp, supplier, fuelType
+        );
+    } else {
+        config = selectHeavyTruckConfig(
+            parseFloat(heat.power_kW),
+            qTotal,
+            maxTemp, hp, supplier, fuelType
+        );
+    }
+    
+    const latPredict = config.latPredict;
+    
+    // 4. 基于K值反算推荐尺寸参数（不局限于配置库型号）
+    const dimRecommend = calculateRecommendedDimensions(radHeat, icHeat, currentVehicle, maxTemp, targetLAT);
+    
+    // 5. 结果展示
+    renderSelectionResult(heat, config, latPredict, targetLAT, regionType, hp, supplier, fuelType, maxTemp, ambientTemp, altitude, dimRecommend);
+}
+
+function renderSelectionResult(heat, config, latPredict, targetLAT, regionType, hp, supplier, fuelType, maxTemp, ambientTemp, altitude, dimRecommend) {
+    const resultDiv = document.getElementById('selectionResult');
+    resultDiv.style.display = 'block';
+    resultDiv.classList.add('fade-in');
+    
+    // LAT等级判定
+    const latVal = parseFloat(latPredict.lat);
+    let latLevel = 'success';
+    let latText = '优良';
+    if (latVal < targetLAT) { latLevel = 'danger'; latText = '不满足'; }
+    else if (latVal < targetLAT + 5) { latLevel = 'warning'; latText = '勉强满足'; }
+    
+    // 核心指标卡片
+    const heatSourceTag = (heat.userRadHeat || heat.userIcHeat) ? '<div style="font-size:11px; color:var(--info); margin-top:2px;">✓ 含用户输入值</div>' : '';
+    const summaryHtml = `
+        <div class="summary-card ${latLevel}">
+            <div class="summary-label">预测LAT（许用环境温度）</div>
+            <div class="summary-value">${latPredict.lat}<span class="unit">℃</span></div>
+            <span class="summary-badge badge-${latLevel}">${latText}</span>
+        </div>
+        <div class="summary-card">
+            <div class="summary-label">散热器散热量</div>
+            <div class="summary-value">${heat.q_water}<span class="unit">kW</span></div>
+            ${heat.userRadHeat ? '<div style="font-size:11px; color:var(--info); margin-top:2px;">✓ 用户输入</div>' : ''}
+        </div>
+        <div class="summary-card">
+            <div class="summary-label">中冷器散热量</div>
+            <div class="summary-value">${heat.q_ic}<span class="unit">kW</span></div>
+            ${heat.userIcHeat ? '<div style="font-size:11px; color:var(--info); margin-top:2px;">✓ 用户输入</div>' : ''}
+        </div>
+        <div class="summary-card">
+            <div class="summary-label">总散热量</div>
+            <div class="summary-value">${heat.q_total}<span class="unit">kW</span></div>
+            ${heatSourceTag}
+        </div>
+        <div class="summary-card">
+            <div class="summary-label">冷却常数 ΔTk</div>
+            <div class="summary-value">${latPredict.deltaTk}<span class="unit">℃</span></div>
+        </div>
+        <div class="summary-card">
+            <div class="summary-label">目标LAT标准</div>
+            <div class="summary-value">${targetLAT}<span class="unit">℃</span></div>
+            <span class="summary-badge badge-info">${regionType === 'I' ? 'I类地区' : 'II类地区'}</span>
+        </div>
+    `;
+    document.getElementById('summaryCards').innerHTML = summaryHtml;
+    
+    // 推荐配置
+    let configHtml = '';
+    if (currentVehicle === 'light') {
+        const rec = config.recommended;
+        configHtml = `
+            <div style="background: var(--primary-light); padding: 20px; border-radius: var(--radius-lg); border: 2px solid var(--primary); margin-bottom: 16px;">
+                <div style="font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 12px;">
+                    ✅ 推荐：${rec.name}
+                </div>
+                <table class="config-table" style="margin:0;">
+                    <tr><td style="width:120px; font-weight:600;">散热器芯体</td><td>${rec.radiator.coreSize[0]} × ${rec.radiator.coreSize[1]} × ${rec.radiator.coreSize[2]} mm（宽×高×厚）</td></tr>
+                    <tr><td style="font-weight:600;">散热面积</td><td>${rec.radiator.heatArea} m²</td></tr>
+                    <tr><td style="font-weight:600;">迎风面积</td><td>${rec.radiator.facingArea} m²</td></tr>
+                    <tr><td style="font-weight:600;">中冷器芯体</td><td>${rec.intercooler.coreSize[0]} × ${rec.intercooler.coreSize[1]} × ${rec.intercooler.coreSize[2]} mm（宽×高×厚）</td></tr>
+                    <tr><td style="font-weight:600;">中冷散热面积</td><td>${rec.intercooler.heatArea} m²</td></tr>
+                    <tr><td style="font-weight:600;">进出水口</td><td>${rec.radiator.layout}，直径 ${rec.radiator.pipeDiameter}mm</td></tr>
+                    <tr><td style="font-weight:600;">迎风面积裕量</td><td style="color: var(--success); font-weight:600;">+${config.margin}%</td></tr>
+                </table>
+            </div>
+            <h4 style="margin-bottom: 12px;">🌀 推荐风扇</h4>
+            <p style="font-size: 14px;">
+                <strong>直径：</strong>Φ${config.fanSize.diameter}mm（${config.fanSize.type}）<br>
+                <strong>离合器：</strong>温控硅油离合器<br>
+                <strong>速比范围：</strong>${config.fanSize.ratio}<br>
+                <strong>叶尖线速度：</strong>康明斯≤87m/s，玉柴≤91m/s
+            </p>
+            ${config.alternatives.length > 0 ? `
+                <h4 style="margin: 16px 0 12px;">📋 备选升级方案</h4>
+                ${config.alternatives.map(alt => `
+                    <div style="padding: 10px; background: var(--gray-50); border-radius: 6px; margin-bottom: 8px;">
+                        <strong>${alt.name}</strong> — 散热器 ${alt.radiator.heatArea}m²，中冷 ${alt.intercooler.heatArea}m²
+                    </div>
+                `).join('')}
+            ` : ''}
+        `;
+    } else {
+        const rad = config.radiator;
+        const ic = config.intercooler;
+        configHtml = `
+            <div style="background: var(--primary-light); padding: 20px; border-radius: var(--radius-lg); border: 2px solid var(--primary); margin-bottom: 16px;">
+                <div style="font-size: 20px; font-weight: 700; color: var(--primary); margin-bottom: 12px;">
+                    ✅ 推荐配置方案
+                </div>
+                <table class="config-table" style="margin:0;">
+                    <tr><td style="width:140px; font-weight:600;">适用车架</td><td>${rad.frameType}</td></tr>
+                    <tr><td style="font-weight:600;">散热器芯体</td><td>${rad.coreSize[0]} × ${rad.coreSize[1]} × ${rad.coreSize[2]} mm（宽×高×厚）</td></tr>
+                    <tr><td style="font-weight:600;">散热面积（估算）</td><td>${rad.estHeatArea} m²</td></tr>
+                    <tr><td style="font-weight:600;">迎风面积</td><td>${rad.facingArea} dm²</td></tr>
+                    <tr><td style="font-weight:600;">进出水口</td><td>${rad.layout}，直径 ${rad.pipeDiameter}mm</td></tr>
+                    <tr><td style="font-weight:600;">匹配发动机</td><td>${rad.engine}（${rad.hpRange[0]}~${rad.hpRange[1]}HP）</td></tr>
+                    <tr><td style="font-weight:600;">中冷器芯体</td><td>${ic.coreSize[0]} × ${ic.coreSize[1]} × ${ic.coreSize[2]} mm（宽×高×厚）</td></tr>
+                    <tr><td style="font-weight:600;">中冷迎风面积</td><td>${ic.facingArea} dm²</td></tr>
+                    <tr><td style="font-weight:600;">中冷气口</td><td>${ic.layout}，直径 Φ${ic.pipeDiameter}mm</td></tr>
+                    <tr><td style="font-weight:600;">迎风面积裕量</td><td style="color: var(--success); font-weight:600;">+${config.margin}%</td></tr>
+                </table>
+            </div>
+            <h4 style="margin-bottom: 12px;">🌀 推荐风扇</h4>
+            <p style="font-size: 14px;">
+                <strong>直径：</strong>Φ${config.fanSize.diameter}mm（${config.fanSize.type}）<br>
+                <strong>离合器：</strong>电控硅油离合器（国六车型标配）<br>
+                <strong>速比范围：</strong>${config.fanSize.ratio}<br>
+                <strong>滑差：</strong>3%~5%（电控硅油离合器）
+            </p>
+        `;
+    }
+    document.getElementById('recommendedConfig').innerHTML = configHtml;
+    
+    // === 推荐尺寸参数（K值反算） ===
+    let dimHtml = '';
+    if (dimRecommend) {
+        const radK = dimRecommend.radiator.K;
+        const icK = dimRecommend.intercooler.K;
+        dimHtml += `
+            <div style="background: #f0fdfa; border: 1px solid #99f6e4; border-radius: var(--radius-lg); padding: 16px; margin-bottom: 16px;">
+                <p style="font-size: 13px; color: var(--gray-600); margin-bottom: 12px;">
+                    💡 以下尺寸基于传热公式 <strong>Q = K × A × ΔT</strong> 反算，不局限于配置库已有型号。
+                    可根据实际供应商产品目录，在推荐范围内选择最接近的标准尺寸。
+                </p>
+                <p style="font-size: 13px; color: var(--gray-600); margin-bottom: 4px;">
+                    散热器所需最小散热面积：<strong>${dimRecommend.radiator.reqHeatArea} m²</strong>（K=${radK} W/(m²·K)）
+                </p>
+                <p style="font-size: 13px; color: var(--gray-600); margin-bottom: 12px;">
+                    中冷器所需最小散热面积：<strong>${dimRecommend.intercooler.reqHeatArea} m²</strong>（K=${icK} W/(m²·K)）
+                </p>
+            </div>
+        `;
+        
+        // 散热器推荐尺寸表
+        dimHtml += `<h4 style="margin-bottom: 10px;">🌡️ 散热器推荐尺寸（宽×高×厚）</h4>`;
+        dimHtml += `<table class="config-table"><thead><tr>
+            <th>芯厚(mm)</th><th>推荐宽度(mm)</th><th>推荐高度(mm)</th><th>迎风面积(m²)</th><th>散热面积(m²)</th><th>预估LAT(℃)</th>
+        </tr></thead><tbody>`;
+        for (const opt of dimRecommend.radiator.options) {
+            const latOk = parseFloat(opt.estLAT) >= targetLAT;
+            dimHtml += `<tr${latOk ? '' : ' style="opacity:0.5;"'}>
+                <td>${opt.thickness}</td>
+                <td><strong>${opt.width}</strong></td>
+                <td><strong>${opt.height}</strong></td>
+                <td>${opt.facingArea}</td>
+                <td>${opt.heatArea}</td>
+                <td style="color: ${latOk ? 'var(--success)' : 'var(--danger)'}; font-weight:600;">${opt.estLAT}${latOk ? ' ✓' : ' ✗'}</td>
+            </tr>`;
+        }
+        dimHtml += `</tbody></table>`;
+        dimHtml += `<p style="font-size:11px; color:var(--gray-500); margin:6px 0 16px;">✓ = 预估LAT≥${targetLAT}℃ 满足要求；灰色行 = 散热面积不足</p>`;
+        
+        // 中冷器推荐尺寸表
+        dimHtml += `<h4 style="margin-bottom: 10px;">🌬️ 中冷器推荐尺寸（宽×高×厚）</h4>`;
+        dimHtml += `<table class="config-table"><thead><tr>
+            <th>芯厚(mm)</th><th>推荐宽度(mm)</th><th>推荐高度(mm)</th><th>迎风面积(m²)</th><th>散热面积(m²)</th>
+        </tr></thead><tbody>`;
+        for (const opt of dimRecommend.intercooler.options) {
+            dimHtml += `<tr>
+                <td>${opt.thickness}</td>
+                <td><strong>${opt.width}</strong></td>
+                <td><strong>${opt.height}</strong></td>
+                <td>${opt.facingArea}</td>
+                <td>${opt.heatArea}</td>
+            </tr>`;
+        }
+        dimHtml += `</tbody></table>`;
+        dimHtml += `<p style="font-size:11px; color:var(--gray-500); margin:6px 0 0;">中冷器K值取空空中冷典型值，实际需根据供应商性能曲线校核</p>`;
+    } else {
+        dimHtml = '<p style="color:var(--gray-500);">无法计算推荐尺寸（最高允许温度低于目标LAT，请调整参数）</p>';
+    }
+    document.getElementById('dimensionRecommendation').innerHTML = dimHtml;
+    
+    // 设计建议
+    const suggestions = generateSuggestions(currentVehicle, hp, supplier, fuelType, config, latPredict, targetLAT);
+    document.getElementById('designSuggestions').innerHTML = suggestions;
+    
+    // 风险分析
+    const risks = generateRisks(currentVehicle, hp, supplier, fuelType, config, latPredict, targetLAT, altitude);
+    document.getElementById('riskAnalysis').innerHTML = risks;
+    
+    // 计算详情
+    const calcDetail = generateCalcDetail(heat, area, config, latPredict, targetLAT, hp, supplier, fuelType, maxTemp);
+    document.getElementById('calcDetail').innerHTML = calcDetail;
+    
+    // 滚动到结果
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function generateSuggestions(vehicleType, hp, supplier, fuelType, config, latPredict, targetLAT) {
+    const suggestions = [];
+    const latVal = parseFloat(latPredict.lat);
+    const margin = latVal - targetLAT;
+    
+    if (margin < 0) {
+        suggestions.push({
+            level: 'high',
+            title: 'LAT不满足要求，需升级散热配置',
+            desc: `当前配置预测LAT为${latVal}℃，低于目标标准${targetLAT}℃，差距${Math.abs(margin).toFixed(1)}℃。建议选用更大规格的散热器或中冷器模块。`
+        });
+    } else if (margin < 3) {
+        suggestions.push({
+            level: 'medium',
+            title: 'LAT裕量偏小，建议适当留有余量',
+            desc: `当前配置预测LAT裕量仅${margin.toFixed(1)}℃，考虑到制造偏差和使用环境恶化，建议适当增大散热面积或提高风扇风量。`
+        });
+    } else {
+        suggestions.push({
+            level: 'low',
+            title: '配置方案合理，满足散热要求',
+            desc: `预测LAT为${latVal}℃，高于目标标准${margin.toFixed(1)}℃，方案满足散热要求。建议按此方案进行后续CAE仿真验证。`
+        });
+    }
+    
+    // 通用建议
+    if (vehicleType === 'light') {
+        suggestions.push({ title: '风扇选型建议', desc: `推荐采用Φ${config.fanSize.diameter}mm温控硅油离合器风扇，注意风扇叶尖与导流罩间隙控制在2.5%以内。` });
+        suggestions.push({ title: '膨胀水箱选型', desc: '根据发动机排量选择膨胀水箱：2.5L及以下选规格一(2.7L)，3.0L选规格二(3.7L)。膨胀水箱应安装在系统最高点。' });
+        suggestions.push({ title: '护风罩设计要点', desc: '导流罩与风扇外径径向间隙不大于风扇直径的2.5%（约15mm），风扇叶片投影宽度伸入导流罩内2/3。' });
+    } else {
+        suggestions.push({ title: '风扇选型建议', desc: `推荐采用Φ${config.fanSize.diameter}mm环形电控硅油离合器风扇，速比${config.fanSize.ratio}。环形风扇比开口风扇性能提升3%~5%。` });
+        suggestions.push({ title: '冷却系统效率', desc: '重卡冷却系统综合效率约0.7（风扇系数0.9×导流罩系数0.92×机舱系数0.85），实际设计应关注进风通道密封性。' });
+        suggestions.push({ title: '压力盖选型', desc: '常规地区选用50~70kPa压力盖，高原地区推荐选用105kPa压力盖以提高冷却液沸点。' });
+    }
+    
+    suggestions.push({ title: '试验验证要求', desc: '一维计算仅作为设计参考，最终冷却性能应以整车热平衡试验为准。建议按GB/T 12542-2020开展道路热平衡试验验证。' });
+    
+    return `
+        <ul class="suggestion-list">
+            ${suggestions.map(s => `
+                <li class="suggestion-item">
+                    <strong>${s.title}：</strong>${s.desc}
+                </li>
+            `).join('')}
+        </ul>
+    `;
+}
+
+function generateRisks(vehicleType, hp, supplier, fuelType, config, latPredict, targetLAT, altitude) {
+    const risks = [];
+    const latVal = parseFloat(latPredict.lat);
+    
+    // LAT风险
+    if (latVal < targetLAT) {
+        risks.push({ level: 'high', title: '散热能力不足风险', desc: '当前配置预测LAT低于标准要求，发动机在高温环境下可能出现过热开锅现象。' });
+    } else if (latVal < targetLAT + 3) {
+        risks.push({ level: 'medium', title: '散热裕量偏小风险', desc: '散热裕量偏小时，散热器堵塞、风扇离合器故障等异常工况下容易导致过热。' });
+    }
+    
+    // 高原风险
+    if (altitude > 2000) {
+        risks.push({ level: 'medium', title: '高海拔散热风险', desc: `海拔${altitude}m地区空气密度降低，风扇风量减少，冷却液沸点降低，建议选用更高开启压力的压力盖。` });
+    }
+    
+    // 燃气机风险
+    if (fuelType === 'gas') {
+        risks.push({ level: 'medium', title: '燃气机散热负荷更高', desc: '天然气发动机排温更高，水套散热量比同马力柴油机约高25%，中冷器散热需求也更大，需特别关注中冷温升控制。' });
+    }
+    
+    // 供应商数据风险
+    if (supplier === 'yunnei') {
+        risks.push({ level: 'low', title: '云内散热量虚高已修正', desc: '已按修正系数0.7下调云内发动机散热量（散热量标称值虚高约40%），注意与发动机厂确认实际散热量。' });
+    }
+    
+    // 安装风险
+    risks.push({ level: 'low', title: '冷却模块安装需关注', desc: '散热器必须安装在弹性支承上，中冷器通过螺栓与散热器相连，支架装配在车架上翼面，注意避开发动机振动传递路径。' });
+    
+    // 除气风险
+    risks.push({ level: 'low', title: '冷却液除气系统设计', desc: '膨胀水箱需设置在冷却系统最高位置，除气管内径Φ8mm，管路走向应连续向上，避免U型走向和中部高点。' });
+    
+    return `
+        <ul class="risk-list">
+            ${risks.map(r => `
+                <li class="risk-item risk-${r.level}">
+                    <div class="risk-icon">${r.level === 'high' ? '!' : r.level === 'medium' ? '⚠' : '✓'}</div>
+                    <div class="risk-content">
+                        <div class="risk-title">${r.title}</div>
+                        <div class="risk-desc">${r.desc}</div>
+                    </div>
+                </li>
+            `).join('')}
+        </ul>
+    `;
+}
+
+function generateCalcDetail(heat, config, latPredict, targetLAT, hp, supplier, fuelType, maxTemp) {
+    const supplierName = supplierCorrection[supplier]?.name || '其他';
+    const fuelName = fuelType === 'diesel' ? '柴油' : '天然气';
+    const vehicleName = currentVehicle === 'light' ? '轻卡' : '重卡';
+    
+    let configAreaStr = '';
+    if (currentVehicle === 'light') {
+        configAreaStr = `${config.recommended.name}：<br>
+            &nbsp;&nbsp;迎风面积 = ${config.recommended.radiator.facingArea} m²<br>
+            &nbsp;&nbsp;散热面积 = ${config.recommended.radiator.heatArea} m²`;
+    } else {
+        configAreaStr = `散热器：${config.radiator.frameType}<br>
+            &nbsp;&nbsp;迎风面积 = ${config.radiator.facingArea} dm² = ${(config.radiator.facingArea/100).toFixed(3)} m²<br>
+            &nbsp;&nbsp;估算散热面积 ≈ ${config.radiator.estHeatArea} m²`;
+    }
+    
+    return `
+        <h4 style="margin-bottom: 10px;">一、输入参数</h4>
+        <div class="calc-formula">
+            车型: ${vehicleName} | 供应商: ${supplierName} | 燃料: ${fuelName}<br>
+            发动机马力: ${hp} HP = ${heat.power_kW} kW<br>
+            最高允许温度: ${maxTemp}℃ | 目标LAT: ${targetLAT}℃
+        </div>
+        
+        <h4 style="margin: 12px 0 10px;">二、散热量${heat.userRadHeat || heat.userIcHeat ? '（用户输入优先）' : '计算'}</h4>
+        <div class="calc-formula">
+            ${heat.userRadHeat || heat.userIcHeat ? `
+                <em style="color: var(--info);">✓ 用户直接输入了以下散热量，优先采用：</em><br>
+                ${heat.userRadHeat ? `散热器需求散热量：<strong>${heat.q_water} kW</strong>（用户输入）` : `散热器散热量 Q水 = P × ${heat.waterJacketRatio} × α = ${(parseFloat(heat.power_kW) * heat.waterJacketRatio * heat.correction).toFixed(1)} kW（自动计算）`}<br>
+                ${heat.userIcHeat  ? `中冷器需求散热量：<strong>${heat.q_ic} kW</strong>（用户输入）` : `中冷散热量 Q中冷 = P × ${heat.intercoolerRatio} × α = ${(parseFloat(heat.power_kW) * heat.intercoolerRatio * heat.correction).toFixed(1)} kW（自动计算）`}<br>
+                <br>
+                合计总散热量 Q总 = ${heat.q_water} + ${heat.q_ic} = <strong>${heat.q_total} kW</strong>
+            ` : `
+                1) 制动功率 P = ${hp} ÷ 1.3596 = ${heat.power_kW} kW<br>
+                2) 水套散热量 Q水 = P × ${heat.waterJacketRatio} = ${(parseFloat(heat.power_kW) * heat.waterJacketRatio).toFixed(1)} kW<br>
+                3) 中冷散热量 Q中冷 = P × ${heat.intercoolerRatio} = ${(parseFloat(heat.power_kW) * heat.intercoolerRatio).toFixed(1)} kW<br>
+                4) 供应商修正系数 α = ${heat.correction}（${supplierName}）<br>
+                5) 修正后总散热量 Q总 = (Q水 + Q中冷) × α = <strong>${heat.q_total} kW</strong>
+            `}
+        </div>
+        
+        <h4 style="margin: 12px 0 10px;">三、迎风面积需求（初筛）</h4>
+        <div class="calc-formula">
+            选型标准：单位功率迎风面积 ${currentVehicle === 'light' ? '27' : '30'} cm²/kW（推荐值，基于标准配置反推）<br>
+            所需迎风面积 = ${heat.power_kW} kW × ${currentVehicle === 'light' ? '27' : '30'} cm²/kW ÷ 10000<br>
+            = <strong>${config.facingRequired} m²</strong><br>
+            经验范围：${currentVehicle === 'light' ? '25~37.5' : '28~37.5'} cm²/kW → 
+            ${(parseFloat(heat.power_kW) * (currentVehicle === 'light' ? 25 : 28) / 10000).toFixed(3)} ~ 
+            ${(parseFloat(heat.power_kW) * 37.5 / 10000).toFixed(3)} m²
+        </div>
+        
+        <h4 style="margin: 12px 0 10px;">四、配置匹配</h4>
+        <div class="calc-formula">
+            ${configAreaStr}<br>
+            迎风面积裕量 = (实际 - 需求) / 需求 = ${config.margin}%
+        </div>
+        
+        <h4 style="margin: 12px 0 10px;">五、LAT预测（校准K值法）</h4>
+        <div class="calc-formula">
+            1) 综合有效传热系数 K_eff = ${latPredict.K_eff} kW/(m²·℃) = ${latPredict.K_eff_W} W/(m²·K)<br>
+            &nbsp;&nbsp;&nbsp;（${latPredict.note}）<br>
+            2) 冷却常数 ΔTk = Q总 / (K_eff × A) = ${heat.q_total} / (${latPredict.K_eff} × 
+            ${currentVehicle === 'light' ? config.recommended.radiator.heatArea : config.radiator.estHeatArea})
+            = ${latPredict.deltaTk} ℃<br>
+            3) <strong>LAT预测 = TL - ΔTk = ${maxTemp} - ${latPredict.deltaTk} = ${latPredict.lat} ℃</strong>
+        </div>
+        
+        <p style="margin-top: 12px; color: var(--gray-500); font-size: 12px;">
+            ⚠️ 注：以上计算基于标定工况经验K值法进行快速估算，K值受芯体结构、翅片密度、风速等多种因素影响。
+            选型结果作为初步方案参考，最终冷却性能应以整车热平衡试验为准。
+        </p>
+    `;
+}
+
+// ========== 配置诊断功能 ==========
+function diagnoseConfig() {
+    const supplier = document.getElementById('diagSupplier').value;
+    const fuelType = document.getElementById('diagFuelType').value;
+    const hp = parseFloat(document.getElementById('diagHorsepower').value);
+    const maxTemp = parseFloat(document.getElementById('diagMaxTemp').value);
+    
+    const radW = parseFloat(document.getElementById('radWidth').value);
+    const radH = parseFloat(document.getElementById('radHeight').value);
+    const radT = parseFloat(document.getElementById('radThickness').value);
+    
+    const icW = parseFloat(document.getElementById('icWidth').value);
+    const icH = parseFloat(document.getElementById('icHeight').value);
+    const icT = parseFloat(document.getElementById('icThickness').value);
+    
+    const fanDia = parseFloat(document.getElementById('fanDiameter').value);
+    const fanRatio = parseFloat(document.getElementById('fanRatio').value) || 1.15;
+    
+    const ambientTemp = parseFloat(document.getElementById('diagAmbientTemp').value);
+    const altitude = parseFloat(document.getElementById('diagAltitude').value);
+    const regionType = document.getElementById('diagRegionType').value;
+    
+    if (!hp || !radW || !radH || !radT || !icW || !icH || !icT || !fanDia) {
+        alert('请填写所有必填参数');
+        return;
+    }
+    
+    // 目标LAT
+    let targetLAT;
+    if (currentDiagVehicle === 'light') {
+        targetLAT = regionType === 'I' ? latStandards.light.I.power : latStandards.light.II.power;
+    } else {
+        targetLAT = regionType === 'I' ? latStandards.heavy.normal : latStandards.heavy.highTemp;
+    }
+    
+    // 1. 散热量计算
+    const heat = calculateHeatDissipation(hp, fuelType, supplier);
+    
+    // 2. 估算当前散热器散热面积
+    // 使用迎风面积 + 芯厚 估算法
+    const facingArea = (radW / 1000) * (radH / 1000);
+    const heatArea = estimateHeatArea(facingArea, radT, currentDiagVehicle);
+    
+    // 3. LAT预测
+    const latResult = calculateLAT(parseFloat(heat.q_total), heatArea, maxTemp, currentDiagVehicle, radT);
+    
+    // 4. 风扇匹配检查
+    const fanCheck = checkFanMatch(fanDia, fanRatio, radW, radH, hp, supplier, currentDiagVehicle);
+    
+    // 5. 中冷器检查（简化）
+    const icFacingArea = (icW / 1000) * (icH / 1000);
+    const icHeatArea = icFacingArea * 55 * (icT / 50);
+    const icLat = parseFloat(latResult.lat);
+    
+    // 渲染结果
+    renderDiagnosisResult(heat, heatArea, latResult, targetLAT, fanCheck, radW, radH, radT, icW, icH, icT, fanDia, hp, supplier, fuelType, maxTemp, ambientTemp, altitude, regionType);
+}
+
+function checkFanMatch(fanDia, ratio, radW, radH, hp, supplier, vehicleType) {
+    const issues = [];
+    const suggestions = [];
+    
+    // 风扇直径与散热器尺寸匹配
+    const minDim = Math.min(radW, radH);
+    const fanDiameterRatio = fanDia / minDim;
+    
+    if (fanDiameterRatio > 0.95) {
+        issues.push('风扇直径过大，与散热器芯体尺寸不匹配');
+        suggestions.push('建议减小风扇直径或增大散热器尺寸');
+    } else if (fanDiameterRatio < 0.7) {
+        issues.push('风扇直径偏小，扫风面积覆盖不足');
+        suggestions.push('建议增大风扇直径以提高散热效率');
+    }
+    
+    // 速比检查
+    if (ratio < 1.0) {
+        issues.push('风扇速比偏低');
+        suggestions.push('建议风扇速比不低于1.0');
+    } else if (ratio > 1.35) {
+        issues.push('风扇速比偏高，可能导致功耗和噪声过大');
+        suggestions.push('建议适当降低风扇速比，采用大直径低转速方案');
+    }
+    
+    // 叶尖线速度
+    const maxEngineRpm = vehicleType === 'light' ? 3200 : 2600;
+    const fanMaxRpm = maxEngineRpm * ratio;
+    const tipSpeed = (Math.PI * fanDia / 1000) * fanMaxRpm / 60;
+    
+    const tipLimit = supplier === 'cummins' ? 87 : (supplier === 'yuchai' ? 91 : 100);
+    if (tipSpeed > tipLimit) {
+        issues.push(`叶尖线速度(${tipSpeed.toFixed(1)}m/s)超过限值(${tipLimit}m/s)`);
+        suggestions.push('建议降低风扇速比或减小风扇直径');
+    }
+    
+    return {
+        fanDiameterRatio: fanDiameterRatio.toFixed(3),
+        tipSpeed: tipSpeed.toFixed(1),
+        tipLimit: tipLimit,
+        issues: issues,
+        suggestions: suggestions,
+        isOk: issues.length === 0
+    };
+}
+
+function renderDiagnosisResult(heat, heatArea, latResult, targetLAT, fanCheck, radW, radH, radT, icW, icH, icT, fanDia, hp, supplier, fuelType, maxTemp, ambientTemp, altitude, regionType) {
+    const resultDiv = document.getElementById('diagnosisResult');
+    resultDiv.style.display = 'block';
+    resultDiv.classList.add('fade-in');
+    
+    const latVal = parseFloat(latResult.lat);
+    const isPass = latVal >= targetLAT;
+    const margin = latVal - targetLAT;
+    
+    let html = '';
+    
+    // 总体结论
+    html += `
+        <div class="diagnosis-result ${isPass ? 'diagnosis-pass' : 'diagnosis-fail'}">
+            <div class="diagnosis-title">
+                <span>${isPass ? '✅ 配置合格' : '❌ 配置不满足要求'}</span>
+            </div>
+            <p style="font-size: 14px; line-height: 1.8;">
+                <strong>预测LAT：</strong><span style="font-size: 20px; font-weight: 700;">${latResult.lat}℃</span>
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <strong>目标标准：</strong>${targetLAT}℃（${regionType === 'I' ? 'I类/普通地区' : 'II类/高温地区'}）
+                &nbsp;&nbsp;|&nbsp;&nbsp;
+                <strong>裕量：</strong><span style="color: ${isPass ? 'var(--success)' : 'var(--danger)'}; font-weight: 600;">
+                    ${margin >= 0 ? '+' : ''}${margin.toFixed(1)}℃
+                </span>
+            </p>
+            <div class="compare-bar" style="margin-top: 12px;">
+                <div class="compare-bar-fill" style="width: ${Math.min(100, latVal / (targetLAT * 1.5) * 100)}%; 
+                    background: ${isPass ? 'linear-gradient(90deg, var(--success), #34d399)' : 'linear-gradient(90deg, var(--danger), #f87171)'};">
+                </div>
+            </div>
+            <div class="compare-bar-label">
+                <span>0℃</span>
+                <span style="position: absolute; left: ${targetLAT / (targetLAT * 1.5) * 100}%; transform: translateX(-50%); color: var(--primary); font-weight: 600;">
+                    ▼ 标准${targetLAT}℃
+                </span>
+                <span>${(targetLAT * 1.5).toFixed(0)}℃</span>
+            </div>
+        </div>
+    `;
+    
+    // 核心指标
+    html += `
+        <div class="result-summary">
+            <div class="summary-card ${isPass ? 'success' : 'danger'}">
+                <div class="summary-label">LAT预测值</div>
+                <div class="summary-value">${latResult.lat}<span class="unit">℃</span></div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-label">冷却常数 ΔTk</div>
+                <div class="summary-value">${latResult.deltaTk}<span class="unit">℃</span></div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-label">散热器散热面积(估)</div>
+                <div class="summary-value">${heatArea.toFixed(2)}<span class="unit">m²</span></div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-label">总散热量</div>
+                <div class="summary-value">${heat.q_total}<span class="unit">kW</span></div>
+            </div>
+        </div>
+    `;
+    
+    // 风扇检查
+    html += `
+        <h4 style="margin: 16px 0 12px;">🌀 风扇匹配检查</h4>
+        <div style="background: ${fanCheck.isOk ? 'var(--success-light)' : 'var(--warning-light)'}; 
+            padding: 16px; border-radius: var(--radius); margin-bottom: 12px;">
+            <p style="font-weight: 600; margin-bottom: 8px;">
+                ${fanCheck.isOk ? '✅ 风扇匹配基本合理' : '⚠️ 存在需要关注的问题'}
+            </p>
+            <p style="font-size: 14px;">
+                风扇直径/散热器最小边 = ${fanCheck.fanDiameterRatio}<br>
+                最大叶尖线速度 = ${fanCheck.tipSpeed} m/s（限值${fanCheck.tipLimit}m/s）
+            </p>
+            ${fanCheck.issues.length > 0 ? `
+                <ul style="margin-top: 8px; padding-left: 20px; font-size: 13px; color: var(--gray-700);">
+                    ${fanCheck.issues.map(i => `<li>${i}</li>`).join('')}
+                </ul>
+            ` : ''}
+        </div>
+    `;
+    
+    // 改进建议
+    if (!isPass || fanCheck.issues.length > 0) {
+        html += `<h4 style="margin: 16px 0 12px;">💡 改进建议</h4><ul class="suggestion-list">`;
+        
+        if (!isPass) {
+            html += `<li class="suggestion-item"><strong>增大散热器散热面积：</strong>当前散热面积${heatArea.toFixed(2)}m²，需增加约${((targetLAT / latVal - 1) * 100).toFixed(1)}%以满足LAT要求。建议更换更大芯体尺寸的散热器。</li>`;
+            html += `<li class="suggestion-item"><strong>提高风扇风量：</strong>增大风扇直径或提高风扇速比，增加通过散热器的空气流量。</li>`;
+            html += `<li class="suggestion-item"><strong>优化进风通道：</strong>增大前脸进风面积，提高进风系数，减少热风回流。</li>`;
+        }
+        
+        if (fanCheck.issues.length > 0) {
+            fanCheck.suggestions.forEach(s => {
+                html += `<li class="suggestion-item"><strong>风扇优化：</strong>${s}</li>`;
+            });
+        }
+        
+        html += `<li class="suggestion-item"><strong>建议进行CAE仿真和热平衡试验：</strong>精确评估冷却系统性能，验证改进效果。</li>`;
+        html += `</ul>`;
+    }
+    
+    // 计算详情
+    html += `
+        <details class="calc-detail" style="margin-top: 16px;">
+            <summary>📐 查看诊断计算过程</summary>
+            <div>
+                <h4 style="margin-bottom: 10px;">一、散热量计算</h4>
+                <div class="calc-formula">
+                    发动机功率 = ${hp} HP = ${heat.power_kW} kW<br>
+                    总散热量 Q总 = ${heat.q_total} kW（供应商修正系数 α=${heat.correction}）
+                </div>
+                
+                <h4 style="margin: 12px 0 10px;">二、散热器散热面积估算</h4>
+                <div class="calc-formula">
+                    迎风面积 = ${radW} × ${radH} ÷ 10⁶ = ${facingArea.toFixed(4)} m²<br>
+                    面积密度（基准芯厚${currentDiagVehicle === 'light' ? 36 : 42}mm）: ${currentDiagVehicle === 'light' ? 48 : 60} 倍<br>
+                    芯厚修正系数 = ${radT} ÷ ${currentDiagVehicle === 'light' ? 36 : 42} = ${(radT / (currentDiagVehicle === 'light' ? 36 : 42)).toFixed(2)}<br>
+                    散热面积 ≈ 迎风面积 × 基准密度 × 芯厚系数 = <strong>${heatArea.toFixed(2)} m²</strong>
+                </div>
+                
+                <h4 style="margin: 12px 0 10px;">三、LAT预测</h4>
+                <div class="calc-formula">
+                    K_eff = ${latResult.K_eff} kW/(m²·℃)（${currentDiagVehicle === 'light' ? '轻卡' : '重卡'}标定工况校准值）<br>
+                    ΔTk = Q / (K_eff × A) = ${heat.q_total} / (${latResult.K_eff} × ${heatArea.toFixed(2)}) = ${latResult.deltaTk} ℃<br>
+                    <strong>LAT = TL - ΔTk = ${maxTemp} - ${latResult.deltaTk} = ${latResult.lat} ℃</strong>
+                </div>
+            </div>
+        </details>
+    `;
+    
+    document.getElementById('diagContent').innerHTML = html;
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ========== 重置功能 ==========
+function resetForm() {
+    document.getElementById('horsepower').value = currentVehicle === 'light' ? 160 : 460;
+    document.getElementById('supplier').value = 'cummins';
+    document.getElementById('fuelType').value = 'diesel';
+    document.getElementById('maxTemp').value = 105;
+    document.getElementById('ambientTemp').value = 30;
+    document.getElementById('altitude').value = 500;
+    document.getElementById('regionType').value = 'II';
+    document.getElementById('selectionResult').style.display = 'none';
+}
+
+function resetDiagnosis() {
+    selectDiagVehicle(currentDiagVehicle);
+    document.getElementById('diagSupplier').value = 'cummins';
+    document.getElementById('diagFuelType').value = 'diesel';
+    document.getElementById('diagMaxTemp').value = 105;
+    document.getElementById('diagAmbientTemp').value = 30;
+    document.getElementById('diagAltitude').value = 500;
+    document.getElementById('diagRegionType').value = 'II';
+    document.getElementById('diagnosisResult').style.display = 'none';
+}
+
+// ========== 参考数据渲染 ==========
+function renderReferenceData() {
+    // 轻卡配置表
+    const lightTable = document.getElementById('lightTruckConfigTable');
+    lightTable.innerHTML = lightTruckModules.map(m => `
+        <tr>
+            <td class="config-name">${m.name}</td>
+            <td>${m.radiator.coreSize[0]} × ${m.radiator.coreSize[1]} × ${m.radiator.coreSize[2]} mm</td>
+            <td>${m.radiator.heatArea} m²</td>
+            <td>${m.radiator.facingArea} m²</td>
+            <td>${m.intercooler.coreSize[0]} × ${m.intercooler.coreSize[1]} × ${m.intercooler.coreSize[2]} mm</td>
+            <td>${m.intercooler.heatArea} m²</td>
+            <td>${m.radiator.layout} (Φ${m.radiator.pipeDiameter})</td>
+        </tr>
+    `).join('');
+    
+    // 重卡散热器表
+    const heavyRadTable = document.getElementById('heavyTruckRadTable');
+    heavyRadTable.innerHTML = heavyTruckRadiators.map(r => `
+        <tr>
+            <td>${r.frameType}</td>
+            <td>${r.coreSize[0]} × ${r.coreSize[1]} × ${r.coreSize[2]} mm</td>
+            <td>${r.facingArea} dm²</td>
+            <td>${r.layout} (Φ${r.pipeDiameter})</td>
+            <td>${r.engine}</td>
+        </tr>
+    `).join('');
+    
+    // 重卡中冷器表
+    const heavyIcTable = document.getElementById('heavyTruckIcTable');
+    heavyIcTable.innerHTML = heavyTruckIntercoolers.map(ic => `
+        <tr>
+            <td>${ic.frameType}</td>
+            <td>${ic.coreSize[0]} × ${ic.coreSize[1]} × ${ic.coreSize[2]} mm</td>
+            <td>${ic.facingArea} dm²</td>
+            <td>${ic.layout} (Φ${ic.pipeDiameter})</td>
+            <td>${ic.engine}</td>
+        </tr>
+    `).join('');
+}
+
+// ========== 页面初始化 ==========
+document.addEventListener('DOMContentLoaded', function() {
+    renderReferenceData();
+});
+
+// ========== AI 智能问答（内嵌智能应答引擎） ==========
+
+let isChatLoading = false;
+
+/**
+ * 切换聊天面板显隐
+ */
+function toggleChatPanel() {
+    const panel = document.getElementById('chatPanel');
+    panel.classList.toggle('open');
+}
+
+/**
+ * 切换设置面板显隐
+ */
+function toggleChatSettings() {
+    document.getElementById('chatSettingsPanel').classList.toggle('open');
+}
+
+/**
+ * 内嵌智能应答引擎
+ * 基于选型工具内置的专业知识库和数据，直接生成专业回复，无需外部API
+ */
+async function callCozeAPI(query) {
+    const q = query.trim();
+
+    // 提取马力数
+    const hpMatch = q.match(/(\d+(?:\.\d+)?)\s*(?:马力|hp|HP|匹)/);
+    const hp = hpMatch ? parseFloat(hpMatch[1]) : null;
+
+    // 判断车型
+    let vehicleType = null;
+    if (/轻卡|轻载|N[12]|4\.?2米|4\.?5米|5米|6米/i.test(q)) vehicleType = '轻卡';
+    else if (/重卡|重载|N[34]|9\.?6米|12米|13米|17\.?5米|半挂|牵引/i.test(q)) vehicleType = '重卡';
+
+    // 判断组件
+    let component = null;
+    if (/散热器|水箱|water/i.test(q)) component = '散热器';
+    else if (/中冷器|intercooler|中冷/i.test(q)) component = '中冷器';
+
+    // 判断问题类型
+    let questionType = 'general';
+    if (/选型|怎么选|推荐|配多大|选什么|如何选/i.test(q)) questionType = 'selection';
+    else if (/尺寸|多大|宽|高|厚|大小/i.test(q)) questionType = 'size';
+    else if (/散热量|发热量|功率.*散热|heat/i.test(q)) questionType = 'heat';
+    else if (/K值|传热系数|k[\s值]/i.test(q)) questionType = 'kvalue';
+    else if (/LAT|液气温差|温降/i.test(q)) questionType = 'lat';
+    else if (/故障|高温|报警|异常|过热|漏水|堵塞/i.test(q)) questionType = 'fault';
+    else if (/修正系数|α|alpha|云内|康明斯|玉柴.*系数/i.test(q)) questionType = 'correction';
+    else if (/迎风面积|面积.*要求|cm/i.test(q)) questionType = 'facing';
+    else if (/你好|hi|hello|您好|在吗/i.test(q)) questionType = 'greeting';
+
+    // --- 生成回复 ---
+    let reply = '';
+
+    if (questionType === 'greeting') {
+        reply = '您好！我是商用车冷却系统AI选型助手。\n\n' +
+            '我可以帮您：\n' +
+            '🔹 **选型推荐**：根据马力、发动机、车型推荐散热器/中冷器配置\n' +
+            ' **散热量计算**：自动计算发动机散热需求\n' +
+            '🔹 **尺寸推荐**：通过K值反算推荐散热器/中冷器的宽×高×厚\n' +
+            '🔹 **LAT预测**：预估液气温差，判断是否满足要求\n' +
+            '🔹 **故障诊断**：分析高温、过热等故障原因\n' +
+            '🔹 **知识问答**：修正系数、K值、迎风面积等专业参数\n\n' +
+            '请问有什么可以帮您？';
+    }
+    else if (questionType === 'correction') {
+        reply = '**发动机散热量修正系数 α**\n\n' +
+            '基于145条脱敏热平衡试验数据统计分析得出：\n\n' +
+            '| 发动机供应商 | 修正系数 α | 说明 |\n' +
+            '|---|---|---|\n' +
+            '| **云内** | **0.70** | 标称散热量虚高约40%，需下调 |\n' +
+            '| **康明斯** | **1.00** | 标称散热量准确，无需修正 |\n' +
+            '| **玉柴** | **1.05** | 实际散热量略高于标称值 |\n' +
+            '| 其他供应商 | 0.97 | 默认保守取值 |\n\n' +
+            '💡 实际散热量 = 标称散热量 × α\n\n' +
+            '例如：云内发动机标称散热量100kW，实际仅70kW，选型时可相应减小模块规格。';
+    }
+    else if (questionType === 'kvalue') {
+        reply = '**散热器/中冷器传热系数 K 值**\n\n' +
+            'K值是影响LAT预测的关键参数，单位 W/(m²·K)：\n\n' +
+            '**散热器 K 值推荐：**\n' +
+            '| 车型 | K 值 | 翅片密度 |\n' +
+            '|---|---|---|\n' +
+            '| 轻卡 | **95** W/(m²·K) | 48倍（36mm芯厚基准） |\n' +
+            '| 重卡 | **80** W/(m²·K) | 65倍（42mm芯厚基准） |\n\n' +
+            '**中冷器 K 值推荐（空空中冷）：**\n' +
+            '| 车型 | K 值 | 说明 |\n' +
+            '|---|---|---|\n' +
+            '| 轻卡 | **70** W/(m²·K) | 铝制板翅式 |\n' +
+            '| 重卡 | **75** W/(m²·K) | 铝制板翅式 |\n\n' +
+            '💡 K值反算公式：所需散热面积 A = Q × 1000 / (K × ΔT)\n' +
+            '其中 Q 为散热量(kW)，ΔT 为液气温差(℃)。\n\n' +
+            '📊 基于83条实测数据反算，散热器综合推荐 K=**108** W/(m²·K)（翅片密度900 m²/m³时）。';
+    }
+    else if (questionType === 'heat' && hp !== null) {
+        // 计算散热量
+        const isGas = /燃气|天然气|LNG|CNG/i.test(q);
+        const fuelType = isGas ? 'gas' : 'diesel';
+        const coeff = isGas ? 0.25 : 0.32;
+        const qEngine = hp * coeff;
+
+        // 修正系数
+        let alpha = 0.97;
+        let supplierName = '其他';
+        if (/云内/i.test(q)) { alpha = 0.70; supplierName = '云内'; }
+        else if (/康明斯/i.test(q)) { alpha = 1.00; supplierName = '康明斯'; }
+        else if (/玉柴/i.test(q)) { alpha = 1.05; supplierName = '玉柴'; }
+
+        const qActual = qEngine * alpha;
+        const qRadiator = qActual * 0.52;
+        const qIntercooler = isGas ? qActual * 0.15 : qActual * 0.18;
+
+        reply = '**' + hp + '马力' + (isGas ? '燃气' : '柴油') + '发动机散热量分析**\n\n' +
+            '📐 **计算过程：**\n' +
+            '• 发动机功率：' + hp + ' 马力 ≈ ' + (hp * 0.735).toFixed(0) + ' kW\n' +
+            '• 散热量系数：' + coeff + ' kW/马力（' + (isGas ? '燃气机' : '柴油机') + '）\n' +
+            '• 标称散热量：' + qEngine.toFixed(1) + ' kW\n\n' +
+            (supplierName !== '其他' ?
+                '• ' + supplierName + '修正系数 α=' + alpha + '\n' :
+                '• 默认修正系数 α=0.97\n') +
+            '• **实际散热量：' + qActual.toFixed(1) + ' kW**\n\n' +
+            '📊 **分项散热量：**\n' +
+            '• 水套散热量：' + qRadiator.toFixed(1) + ' kW（占52%）\n' +
+            '• 中冷散热量：' + qIntercooler.toFixed(1) + ' kW（占' + (isGas ? '15' : '18') + '%）\n' +
+            '• 其他散热：' + (qActual - qRadiator - qIntercooler).toFixed(1) + ' kW\n\n' +
+            '💡 可直接使用此数据在选型工具中进行散热器/中冷器匹配。';
+    }
+    else if (questionType === 'heat' && hp === null) {
+        reply = '**发动机散热量计算方法**\n\n' +
+            '📐 **基本公式：**\n' +
+            'Q_发动机 = 马力 × 散热量系数\n\n' +
+            '**散热量系数（基于145条试验数据统计）：**\n' +
+            '| 燃料类型 | 系数 | 说明 |\n' +
+            '|---|---|---|\n' +
+            '| 柴油 | **0.32** kW/马力 | 水套52% + 中冷18% + 其他 |\n' +
+            '| 燃气 | **0.25** kW/马力 | 水套65% + 中冷15% + 其他 |\n\n' +
+            '📊 **分项比例：**\n' +
+            '• 柴油机：水套52% + 中冷18% + 其他30%\n' +
+            '• 燃气机：水套65% + 中冷15% + 其他20%\n\n' +
+            '💡 请告诉我具体马力数和发动机品牌（如"160马力云内"），我可以帮您精确计算。\n\n' +
+            '**修正系数 α：** 云内0.70 / 康明斯1.00 / 玉柴1.05 / 其他0.97';
+    }
+    else if (questionType === 'selection' || (questionType === 'size' && hp !== null)) {
+        const isGas = /燃气|天然气|LNG|CNG/i.test(q);
+        const coeff = isGas ? 0.25 : 0.32;
+        const qEngine = hp ? hp * coeff : null;
+
+        let alpha = 0.97;
+        let supplierName = '其他';
+        if (/云内/i.test(q)) { alpha = 0.70; supplierName = '云内'; }
+        else if (/康明斯/i.test(q)) { alpha = 1.00; supplierName = '康明斯'; }
+        else if (/玉柴/i.test(q)) { alpha = 1.05; supplierName = '玉柴'; }
+
+        if (qEngine !== null) {
+            const qActual = qEngine * alpha;
+            const qComp = component === '中冷器' ? qActual * (isGas ? 0.15 : 0.18) : qActual * 0.52;
+
+            // K值反算
+            const kRadiator = vehicleType === '重卡' ? 80 : 95;
+            const kIntercooler = vehicleType === '重卡' ? 75 : 70;
+            const k = component === '中冷器' ? kIntercooler : kRadiator;
+            const deltaT = 30; // 典型温差
+            const areaReq = (qComp * 1000) / (k * deltaT);
+
+            // 宽高比
+            const ratio = (component === '中冷器') ?
+                (vehicleType === '重卡' ? 1.1 : 1.5) :
+                (vehicleType === '重卡' ? 1.3 : 1.1);
+            const width = Math.sqrt(areaReq * 1000000 * ratio);
+            const height = width / ratio;
+
+            reply = '**' + hp + '马力' + (vehicleType || '通用') + (component || '散热器') + '选型建议**\n\n' +
+                '📐 **散热量计算：**\n' +
+                '• 标称散热量：' + qEngine.toFixed(1) + ' kW\n' +
+                '• ' + supplierName + '修正(α=' + alpha + ')：实际 ' + qActual.toFixed(1) + ' kW\n' +
+                '• ' + (component || '散热器') + '散热量：' + qComp.toFixed(1) + ' kW\n\n' +
+                '📏 **K值反算推荐尺寸：**\n' +
+                '• K值：' + k + ' W/(m²·K)（' + (vehicleType || '轻卡') + ' ' + (component || '散热器') + '典型值）\n' +
+                '• 液气温差 ΔT：' + deltaT + ' ℃\n' +
+                '• 所需散热面积：' + areaReq.toFixed(2) + ' m²\n' +
+                '• 推荐尺寸（宽×高）：约 **' + Math.round(width) + ' × ' + Math.round(height) + ' mm**\n\n' +
+                '⚠️ 以上为初步估算，建议在上方面板输入完整参数，使用K值反算功能获取精确推荐（含多种芯厚方案对比）。';
+        } else {
+            reply = '**选型推荐**\n\n请告诉我以下信息，我为您精确推荐：\n\n' +
+                '1. **马力数**（如 160马力）\n' +
+                '2. **车型**（轻卡/重卡）\n' +
+                '3. **发动机品牌**（云内/康明斯/玉柴/其他）\n' +
+                '4. **燃料类型**（柴油/燃气）\n\n' +
+                '示例："160马力轻卡云内柴油机配多大散热器？"';
+        }
+    }
+    else if (questionType === 'facing') {
+        reply = '**迎风面积要求**\n\n' +
+            '迎风面积直接影响散热效率和LAT表现：\n\n' +
+            '| 车型 | 最低迎风面积要求 |\n' +
+            '|---|---|\n' +
+            '| 轻卡 | **≥ 27 cm²/kW** |\n' +
+            '| 重卡 | **≥ 30 cm²/kW** |\n\n' +
+            '📐 **计算方法：**\n' +
+            '迎风面积 = 芯体宽度 × 芯体高度\n\n' +
+            '例如：轻卡散热器需求散热量80kW\n' +
+            '→ 最小迎风面积 = 80 × 27 = 2160 cm²\n' +
+            '→ 可选尺寸：600mm × 360mm = 2160 cm² ✓\n\n' +
+            '💡 迎风面积越大，LAT越低，散热性能越好。但受限于前端空间，需综合权衡。';
+    }
+    else if (questionType === 'lat') {
+        reply = '**LAT（液气温差）预测说明**\n\n' +
+            'LAT是衡量冷却系统性能的核心指标，指散热器出口水温与环境温度的差值。\n\n' +
+            '📐 **预测方法：**\n' +
+            '• **校准K值法**：使用反算K值预测LAT\n' +
+            '  - 轻卡散热器 K≈95 W/(m²·K)\n' +
+            '  - 重卡散热器 K≈80 W/(m²·K)\n\n' +
+            '• **迎风面积法**：快速判断\n' +
+            '  - 轻卡：≥27 cm²/kW\n' +
+            '  - 重卡：≥30 cm²/kW\n\n' +
+            '📊 **LAT合格标准：**\n' +
+            '• 一般要求 LAT ≤ 环境温度 + 10~15℃\n' +
+            '• 云内发动机可下调一级（散热量低）\n' +
+            '• 燃气机需上调一级（水套散热量大）\n\n' +
+            '💡 在上方面板输入完整参数后，工具会自动计算LAT并给出判断。';
+    }
+    else if (questionType === 'fault') {
+        reply = '**常见冷却系统故障诊断**\n\n' +
+            '🔴 **高温报警/水温过高：**\n' +
+            '1. 散热器迎风面积不足 → 检查是否满足≥27cm²/kW(轻卡)/≥30cm²/kW(重卡)\n' +
+            '2. 散热量计算偏小 → 检查修正系数α是否正确\n' +
+            '3. 芯厚偏小 → 尝试增大一档芯厚\n' +
+            '4. 风扇风量不足 → 检查风扇匹配\n\n' +
+            '🟡 **LAT超标：**\n' +
+            '1. K值偏高 → 重新核算实际K值\n' +
+            '2. 迎风面积不够 → 增大芯体尺寸\n' +
+            '3. 修正系数未考虑 → 云内×0.70可下调一级\n\n' +
+            '🟢 **漏水/堵塞：**\n' +
+            '1. 检查芯体材质与工艺\n' +
+            '2. 确认管路连接密封性\n' +
+            '3. 检查冷却液品质\n\n' +
+            '💡 建议在上方面板输入实际参数，让工具帮您分析具体原因。';
+    }
+    else if (hp !== null && questionType === 'general') {
+        // 有马力数但没有明确问题类型，给出综合建议
+        const isGas = /燃气|天然气|LNG|CNG/i.test(q);
+        const coeff = isGas ? 0.25 : 0.32;
+        const qEngine = hp * coeff;
+
+        let alpha = 0.97;
+        let supplierName = '其他';
+        if (/云内/i.test(q)) { alpha = 0.70; supplierName = '云内'; }
+        else if (/康明斯/i.test(q)) { alpha = 1.00; supplierName = '康明斯'; }
+        else if (/玉柴/i.test(q)) { alpha = 1.05; supplierName = '玉柴'; }
+
+        const qActual = qEngine * alpha;
+
+        reply = '**' + hp + '马力' + (isGas ? '燃气' : '柴油') + '发动机综合分析**\n\n' +
+            '📐 **散热量：** ' + qActual.toFixed(1) + ' kW（α=' + alpha + '，' + supplierName + '）\n' +
+            '• 水套散热量：' + (qActual * 0.52).toFixed(1) + ' kW\n' +
+            '• 中冷散热量：' + (qActual * (isGas ? 0.15 : 0.18)).toFixed(1) + ' kW\n\n' +
+            '📏 **选型建议：**\n' +
+            '• 轻卡散热器迎风面积 ≥ ' + Math.round(qActual * 27) + ' cm²\n' +
+            '• 重卡散热器迎风面积 ≥ ' + Math.round(qActual * 30) + ' cm²\n\n' +
+            '💡 如需精确选型推荐，请补充车型（轻卡/重卡）和组件类型（散热器/中冷器），或使用上方面板的K值反算功能。';
+    }
+    else {
+        reply = '您好！我是商用车冷却系统AI选型助手，可以帮您解决以下问题：\n\n' +
+            '🔹 **选型推荐**："160马力轻卡配多大散热器？"\n' +
+            '🔹 **散热量计算**："200马力康明斯散热量多少？"\n' +
+            '🔹 **修正系数**："云内发动机修正系数是多少？"\n' +
+            '🔹 **K值参数**："散热器K值一般取多少？"\n' +
+            '🔹 **迎风面积**："轻卡迎风面积要求多少？"\n' +
+            '🔹 **故障诊断**："水温过高是什么原因？"\n\n' +
+            '💡 提示：在上方面板输入完整参数可获得更精确的选型计算和K值反算推荐。\n\n' +
+            '请描述您的具体问题，我来帮您分析！';
+    }
+
+    // 模拟流式输出效果（逐字显示）
+    return new Promise((resolve) => {
+        setTimeout(() => resolve(reply), 300 + Math.random() * 400);
+    });
+}
+
+/**
+ * 发送快捷问题
+ */
+function sendQuickMsg(text) {
+    document.getElementById('chatInput').value = text;
+    sendChatMsg();
+}
+
+/**
+ * 发送聊天消息
+ */
+async function sendChatMsg() {
+    if (isChatLoading) return;
+    
+    const input = document.getElementById('chatInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+    
+    input.value = '';
+    addChatMessage('user', msg);
+    
+    // 显示加载状态
+    isChatLoading = true;
+    document.getElementById('chatSendBtn').disabled = true;
+    showTypingIndicator();
+    
+    try {
+        const reply = await callCozeAPI(msg);
+        removeTypingIndicator();
+        addChatMessage('bot', reply);
+    } catch (err) {
+        removeTypingIndicator();
+        addChatMessage('bot', '⚠️ 连接失败：' + (err.message || '请检查网络或 API Token 是否有效'));
+    }
+    
+    isChatLoading = false;
+    document.getElementById('chatSendBtn').disabled = false;
+}
+
+/**
+ * 添加消息气泡
+ */
+function addChatMessage(role, content) {
+    const container = document.getElementById('chatMessages');
+    // 移除欢迎卡片
+    const welcome = container.querySelector('.chat-welcome');
+    if (welcome) welcome.remove();
+    
+    const div = document.createElement('div');
+    div.className = 'chat-msg ' + role;
+    
+    const avatar = role === 'bot' ? '🧊' : '👤';
+    const formattedContent = formatMarkdown(content);
+    
+    div.innerHTML = `
+        <div class="msg-avatar">${avatar}</div>
+        <div class="msg-bubble">${formattedContent}</div>
+    `;
+    
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+}
+
+/**
+ * 简易 Markdown 转 HTML
+ */
+function formatMarkdown(text) {
+    if (!text) return '';
+    let html = text
+        // 代码块
+        .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
+        // 行内代码
+        .replace(/`([^`]+)`/g, '<code>$1</code>')
+        // 粗体
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+        // 斜体
+        .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>')
+        // 换行
+        .replace(/\n/g, '<br>');
+    return html;
+}
+
+/**
+ * 显示/移除打字指示器
+ */
+function showTypingIndicator() {
+    const container = document.getElementById('chatMessages');
+    const div = document.createElement('div');
+    div.className = 'chat-msg bot';
+    div.id = 'typingIndicator';
+    div.innerHTML = `
+        <div class="msg-avatar">🧊</div>
+        <div class="msg-bubble">
+            <div class="typing-indicator"><span></span><span></span><span></span></div>
+        </div>
+    `;
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+}
+
+function removeTypingIndicator() {
+    const el = document.getElementById('typingIndicator');
+    if (el) el.remove();
+}
+</script>
+
+
+</body></html>
