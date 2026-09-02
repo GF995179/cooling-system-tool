@@ -230,8 +230,8 @@ body {
     position: fixed;
     bottom: 100px;
     right: 30px;
-    width: 500px;
-    height: 600px;
+    width: 560px;
+    height: 640px;
     background: white;
     border-radius: 20px;
     box-shadow: 0 12px 48px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04);
@@ -321,8 +321,8 @@ body {
     from { opacity: 0; transform: translateY(12px) scale(0.96); }
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
-.chat-msg.bot { align-self: flex-start; }
-.chat-msg.user { align-self: flex-end; flex-direction: row-reverse; }
+.chat-msg.bot { align-self: flex-start; max-width: 95%; }
+.chat-msg.user { align-self: flex-end; flex-direction: row-reverse; max-width: 85%; }
 
 .chat-msg .msg-avatar {
     width: 34px;
@@ -352,6 +352,26 @@ body {
     overflow-wrap: break-word;
     white-space: normal;
     word-wrap: break-word;
+    min-width: 0;
+    overflow-x: auto;
+    max-height: none;
+}
+.chat-msg .msg-bubble h2,
+.chat-msg .msg-bubble h3,
+.chat-msg .msg-bubble h4 {
+    margin: 10px 0 6px;
+    line-height: 1.4;
+}
+.chat-msg .msg-bubble ul,
+.chat-msg .msg-bubble ol {
+    margin: 6px 0;
+    line-height: 1.8;
+}
+.chat-msg .msg-bubble pre {
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
 }
 .chat-msg.bot .msg-bubble {
     background: white;
@@ -1251,6 +1271,7 @@ body {
     .config-table { font-size: 12px; }
     .config-table th, .config-table td { padding: 8px; }
     .chat-panel { width: 95vw; right: 2.5vw; height: 500px; }
+    .chat-msg { max-width: 95%; }
 }
 
 @media (max-width: 480px) {
@@ -3544,17 +3565,26 @@ function addChatMessage(role, content) {
  */
 function formatMarkdown(text) {
     if (!text) return '';
-    let html = text
-        // 代码块
-        .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
-        // 行内代码
-        .replace(/`([^`]+)`/g, '<code>$1</code>')
-        // 粗体
-        .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-        // 斜体
-        .replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>')
-        // 换行
-        .replace(/\n/g, '<br>');
+    let html = text;
+    // 代码块
+    html = html.replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
+    // 行内代码
+    html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+    // 标题 ### / ## / #
+    html = html.replace(/^### (.+)$/gm, '<h4 style="font-size:15px;font-weight:700;margin:8px 0 4px">$1</h4>');
+    html = html.replace(/^## (.+)$/gm, '<h3 style="font-size:16px;font-weight:700;margin:10px 0 4px">$1</h3>');
+    html = html.replace(/^# (.+)$/gm, '<h2 style="font-size:17px;font-weight:700;margin:12px 0 6px">$1</h2>');
+    // 无序列表 - item
+    html = html.replace(/^[-*] (.+)$/gm, '<li>$1</li>');
+    html = html.replace(/((?:<li>.*<\/li>\s*)+)/g, '<ul style="padding-left:20px;margin:6px 0">$1</ul>');
+    // 有序列表
+    html = html.replace(/^\d+\.\s(.+)$/gm, '<li>$1</li>');
+    // 粗体
+    html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    // 斜体
+    html = html.replace(/(?<!\*)\*(?!\*)(.+?)(?<!\*)\*(?!\*)/g, '<em>$1</em>');
+    // 换行
+    html = html.replace(/\n/g, '<br>');
     return html;
 }
 
