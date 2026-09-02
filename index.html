@@ -3634,9 +3634,23 @@ async function sendChatMsg() {
     document.getElementById('chatSendBtn').disabled = true;
     showTypingIndicator();
     
-    // 使用本地智能引擎（离线模式，无需网络）
-    await new Promise(r => setTimeout(r, 500)); // 模拟思考延迟
-    const reply = callLocalEngine(msg);
+    // 优先调用 Coze API 智能体，失败时降级到本地引擎
+    let reply = null;
+    let usedAPI = false;
+    
+    try {
+        reply = await callCozeAPI(msg);
+        usedAPI = true;
+    } catch (e) {
+        console.log('AI代理调用失败，切换到本地引擎:', e.message);
+    }
+    
+    // API 失败或返回空内容时，降级到本地引擎
+    if (!reply || reply.trim() === '') {
+        reply = callLocalEngine(msg);
+        usedAPI = false;
+    }
+    
     removeTypingIndicator();
     
     if (reply) {
