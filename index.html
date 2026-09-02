@@ -3393,7 +3393,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 let isChatLoading = false;
 let sessionId = 'session_' + Date.now();
-const DEFAULT_WORKER_URL = 'https://raspy-salad-d447.gf343764757.workers.dev/';
+const DEFAULT_WORKER_URL = 'https://api.cvscool.cn/';
 const WORKER_URL = localStorage.getItem('proxy_url') || DEFAULT_WORKER_URL;
 const PROJECT_ID = 76783713900575149106;
 
@@ -3525,7 +3525,7 @@ function callLocalEngine(query) {
     }
 
     // === K值 ===
-    if (q.includes('k值') || q.includes('传热系数')) {
+    if (q.includes('k值') || q.includes('传热系数') || (q.includes('散热器') && (q.includes('意思') || q.includes('什么') || q.includes('定义')))) {
         if (q.includes('轻卡') && q.includes('中冷')) return '轻卡中冷器推荐K值：k = 70 W/(m²·K)（空空中冷典型值）';
         if (q.includes('重卡') && q.includes('中冷')) return '重卡中冷器推荐K值：k = 75 W/(m²·K)（空空中冷典型值）';
         if (q.includes('轻卡')) return '轻卡散热器推荐K值：k = 95 W/(m²·K)（翅片密度约900 m²/m³时）';
@@ -3593,6 +3593,21 @@ function callLocalEngine(query) {
         return '本项目使用145条脱敏热平衡试验数据：\n\n• 温度数据：±0.5℃扰动\n• 散热量数据：±2%扰动\n• 尺寸数据：±1~2mm微调\n• 供应商/车型：替换为代号\n• 核心计算方法和结论不受影响';
     }
 
+    // === 散热器通用 ===
+    if (q.includes('散热器')) {
+        return '散热器是冷却系统的核心部件，负责将发动机产生的热量散发到空气中。\n\n关键参数：\n• K值（传热系数）：轻卡95、重卡80 W/(m²·K)\n• 迎风面积：轻卡≥27 cm²/kW、重卡≥30 cm²/kW\n• 尺寸标注：宽×高×厚\n\n请输入更具体的问题，如"散热器K值"、"散热器选型"等。';
+    }
+
+    // === 中冷器通用 ===
+    if (q.includes('中冷器')) {
+        return '中冷器用于降低增压后的进气温度，提高发动机充气效率。\n\n关键参数：\n• K值：轻卡70、重卡75 W/(m²·K)\n• 效率要求：≥70%\n• 类型：空空中冷(AAC)、水空中冷(WAC)\n\n请输入更具体的问题，如"中冷器选型"、"中冷器K值"等。';
+    }
+
+    // === 冷却系统通用 ===
+    if (q.includes('冷却系统')) {
+        return '商用车冷却系统主要包括：散热器、中冷器、风扇、水泵、管路、膨胀水箱等部件。\n\n设计要点：\n• 满足LAT≥46℃（国标要求）\n• 迎风面积满足标准\n• K值在合理范围内\n\n请问具体想了解哪方面？';
+    }
+
     // === 通用问候 ===
     if (q.includes('你好') || q.includes('hello') || q.includes('hi') || q === '在吗' || q === '在') {
         return '你好！我是商用车冷却系统AI选型助手 \n\n我可以帮你：\n• 散热器/中冷器选型推荐\n• LAT极限温度预测\n• 散热量计算\n• K值查询\n• 故障诊断\n• 标准规范查询\n\n直接输入你的问题即可，比如"160马力轻卡怎么选配散热器？"';
@@ -3619,19 +3634,15 @@ async function sendChatMsg() {
     document.getElementById('chatSendBtn').disabled = true;
     showTypingIndicator();
     
-    try {
-        const reply = await callCozeAPI(msg);
-        removeTypingIndicator();
+    // 使用本地智能引擎（离线模式，无需网络）
+    await new Promise(r => setTimeout(r, 500)); // 模拟思考延迟
+    const reply = callLocalEngine(msg);
+    removeTypingIndicator();
+    
+    if (reply) {
         addChatMessage('bot', reply);
-    } catch (err) {
-        // AI代理失败，切换到本地智能引擎
-        removeTypingIndicator();
-        const localReply = callLocalEngine(msg);
-        if (localReply) {
-            addChatMessage('bot', localReply + '\n\n---\n*当前为离线模式，AI智能体代理暂时不可用，已切换至本地知识库应答。*');
-        } else {
-            addChatMessage('bot', '⚠️ 连接失败：' + (err.message || '请检查网络或API Token是否有效') + '\n\n本地知识库也未能匹配到相关答案，请尝试换个问法。');
-        }
+    } else {
+        addChatMessage('bot', '抱歉，暂时无法回答这个问题。你可以试试：\n\n• "K值是什么意思？"\n• "160马力轻卡怎么选型？"\n• "散热量怎么计算？"\n• "膨胀水箱和溢流壶有什么区别？"\n• "冷却系统常见故障有哪些？"\n• "LAT是什么意思？"');
     }
     
     isChatLoading = false;
