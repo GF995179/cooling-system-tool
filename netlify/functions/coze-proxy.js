@@ -1,22 +1,21 @@
 exports.handler = async function(event, context) {
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  };
+
   if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-      },
-    };
+    return { statusCode: 204, headers: headers, body: '' };
   }
 
   if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
+    return { statusCode: 405, headers: headers, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
 
-  const targetUrl = 'https://ch8xyc5wpj.coze.site/stream_run';
-
   try {
+    const targetUrl = 'https://ch8xyc5wpj.coze.site/stream_run';
+
     const upstream = await fetch(targetUrl, {
       method: 'POST',
       headers: {
@@ -29,18 +28,14 @@ exports.handler = async function(event, context) {
     const text = await upstream.text();
 
     return {
-      statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Content-Type': 'text/event-stream',
-        'Cache-Control': 'no-cache',
-      },
+      statusCode: upstream.status,
+      headers: { ...headers, 'Content-Type': 'text/event-stream' },
       body: text,
     };
   } catch (error) {
     return {
       statusCode: 502,
-      headers: { 'Access-Control-Allow-Origin': '*' },
+      headers: headers,
       body: JSON.stringify({ error: 'Proxy error: ' + error.message }),
     };
   }
