@@ -3507,6 +3507,101 @@ function sendQuickMsg(text) {
 }
 
 /**
+ * 本地智能应答引擎（AI代理不可用时的备选方案）
+ * 基于知识库关键词匹配 + 计算逻辑，回答常见冷却系统问题
+ */
+function callLocalEngine(query) {
+    const q = query.toLowerCase();
+
+    // === 修正系数 α ===
+    if (q.includes('修正系数') || q.includes('云内') || q.includes('康明斯') || q.includes('玉柴')) {
+        let parts = [];
+        if (q.includes('云内')) parts.push('云内动力修正系数 α = 0.70（云内发动机热效率较高，实际散热需求较低）');
+        if (q.includes('康明斯')) parts.push('康明斯修正系数 α = 1.00（基准值）');
+        if (q.includes('玉柴')) parts.push('玉柴修正系数 α = 1.05（玉柴发动机散热需求略高于基准）');
+        if (parts.length === 0) parts.push('供应商修正系数α：云内0.70、康明斯1.00、玉柴1.05、其他0.97');
+        parts.push('\n修正后散热量 Q_actual = Q_engine × α');
+        return parts.join('\n\n');
+    }
+
+    // === K值 ===
+    if (q.includes('k值') || q.includes('传热系数')) {
+        if (q.includes('轻卡') && q.includes('中冷')) return '轻卡中冷器推荐K值：k = 70 W/(m²·K)（空空中冷典型值）';
+        if (q.includes('重卡') && q.includes('中冷')) return '重卡中冷器推荐K值：k = 75 W/(m²·K)（空空中冷典型值）';
+        if (q.includes('轻卡')) return '轻卡散热器推荐K值：k = 95 W/(m²·K)（翅片密度约900 m²/m³时）';
+        if (q.includes('重卡')) return '重卡散热器推荐K值：k = 80 W/(m²·K)（翅片密度约900 m²/m³时）';
+        return '散热器K值推荐：轻卡95 W/(m²·K)、重卡80 W/(m²·K)\n中冷器K值推荐：轻卡70 W/(m²·K)、重卡75 W/(m²·K)\n\nK值受翅片密度、管排数、流速等影响，以上为基于145条训练数据反算的典型值。';
+    }
+
+    // === LAT ===
+    if (q.includes('lat') || q.includes('极限环境') || q.includes('最高环境')) {
+        return 'LAT（极限环境温度）计算公式：\n\nLAT = T_ambient + Q_actual / (K_eff × A_frontal)\n\n其中：\n• T_ambient：目标环境温度（℃）\n• Q_actual：修正后散热量（W）= 马力×系数×α\n• K_eff：有效传热系数，轻卡≈95、重卡≈80 W/(m²·K)\n• A_frontal：迎风面积（m²）= 宽×高/10000\n\nLAT越高说明冷却能力越强，一般要求LAT≥46℃（国标）。';
+    }
+
+    // === 迎风面积 ===
+    if (q.includes('迎风面积')) {
+        return '迎风面积选型标准：\n\n• 轻卡：≥ 27 cm²/kW\n• 重卡：≥ 30 cm²/kW\n\n计算方法：A_frontal = 散热器宽度(mm) × 高度(mm) / 100\n\n例如：620×582mm散热器 → 迎风面积 = 620×582/100 = 3608 cm²\n若发动机散热量100kW，轻卡需≥2700 cm²，满足要求。';
+    }
+
+    // === 散热量计算 ===
+    if (q.includes('散热量') && (q.includes('计算') || q.includes('公式') || q.includes('怎么算'))) {
+        return '发动机散热量计算：\n\n1. 基础散热量：Q_engine = 马力 × 系数\n   • 柴油发动机：系数 = 0.32 kW/hp\n   • 燃气发动机：系数 = 0.25 kW/hp\n\n2. 供应商修正：Q_actual = Q_engine × α\n   • 云内 α=0.70，康明斯 α=1.00，玉柴 α=1.05\n\n3. 迎风面积校核：A_required = Q_actual × 标准值\n   • 轻卡 27 cm²/kW，重卡 30 cm²/kW\n\n例如：200马力柴油轻卡（云内）→ Q = 200×0.32×0.70 = 44.8 kW';
+    }
+
+    // === 马力 ===
+    if (q.includes('马力') && (q.includes('选配') || q.includes('推荐') || q.includes('多大'))) {
+        return '选型推荐（基于145条训练数据）：\n\n轻卡（N2类）：\n• 100~160HP：模块一/二（620×582 或 680×620）\n• 160~220HP：模块三（720×650）\n• 220HP+：模块四（780×700）\n\n重卡：\n• 200~300HP：750×650~800×700\n• 300~400HP：850×700~900×750\n• 400HP+：950×750以上\n\n建议结合散热量、迎风面积和LAT综合判断。';
+    }
+
+    // === 膨胀水箱/溢流壶 ===
+    if (q.includes('膨胀水箱') || q.includes('溢流壶') || q.includes('膨胀罐')) {
+        return '膨胀水箱 vs 溢流壶：\n\n【溢流壶】（传统方案）\n• 仅收集冷却液热膨胀溢出的多余液体\n• 无压力，不参与系统循环\n• 结构简单、成本低\n• 适用于小型发动机\n\n【膨胀水箱】（现代方案）\n• 参与冷却系统循环，维持系统压力稳定\n• 有液位指示，便于观察\n• 可自动补充冷却液，减少维护\n• 适用于中重型商用车\n\n重卡推荐使用膨胀水箱，轻卡可根据成本选择。';
+    }
+
+    // === 冷却液 ===
+    if (q.includes('冷却液') || q.includes('防冻液') || q.includes('冷却介质')) {
+        return '冷却液选择建议：\n\n• 类型：乙二醇基防冻液（最常见）\n• 冰点：根据使用地区最低气温选择（一般-25℃~-45℃）\n• 沸点：≥106℃（加压系统可达120℃+\n• 更换周期：一般2年或4万公里\n• 注意事项：不同品牌/型号不可混用，需彻底更换';
+    }
+
+    // === 故障诊断 ===
+    if (q.includes('故障') || q.includes('水温高') || q.includes('过热') || q.includes('报警')) {
+        return '冷却系统常见故障排查：\n\n1. 水温过高/报警：\n   • 检查散热器是否堵塞（柳絮、泥沙）\n   • 检查冷却液液位是否正常\n   • 检查风扇是否正常工作\n   • 检查水泵是否正常循环\n\n2. 散热效率下降：\n   • K值衰减（翅片堵塞、结垢）\n   • 迎风面积不足（改装后散热器偏小）\n   • 风扇转速不足\n\n3. 冷却液泄漏：\n   • 检查管路接头、散热器芯体\n   • 检查水泵密封';
+    }
+
+    // === 系统压力 ===
+    if (q.includes('压力') && (q.includes('系统') || q.includes('盖'))) {
+        return '冷却系统压力：\n\n• 标准工作压力：0.9~1.1 bar（散热器盖开启压力）\n• 加压系统可提高冷却液沸点约25℃\n• 压力过高：检查散热器盖阀门、管路堵塞\n• 压力过低：检查泄漏点、散热器盖密封';
+    }
+
+    // === 选型流程 ===
+    if (q.includes('选型') && (q.includes('流程') || q.includes('步骤') || q.includes('怎么'))) {
+        return '冷却系统选型流程：\n\n1. 确定发动机参数（马力、燃料类型、供应商）\n2. 计算基础散热量 Q = HP × 系数\n3. 应用供应商修正系数 α\n4. 迎风面积法初选：A ≥ Q × 标准值\n5. LAT预测验证：LAT = T_amb + Q/(K×A)\n6. 与标准模块匹配，选择最接近的配置\n7. 如有实测数据，用K值反算精校\n\n工具已内置以上全部计算逻辑，输入参数即可自动推荐。';
+    }
+
+    // === 中冷器 ===
+    if (q.includes('中冷器') || q.includes('中冷') || q.includes('增压')) {
+        return '中冷器选型要点：\n\n• 作用：降低增压后进气温度，提高充气效率\n• K值推荐：轻卡70 W/(m²·K)、重卡75 W/(m²·K)\n• 选型需考虑增压压力、进气流量、目标进气温度\n• 空空中冷（AAC）vs 水空中冷（WAC）：重卡多用空空中冷\n• 中冷器效率一般要求≥70%';
+    }
+
+    // === 标准 ===
+    if (q.includes('标准') || q.includes('规范') || q.includes('国标') || q.includes('gb')) {
+        return '适用标准体系：\n\n• Q/SQCV 101087-2025：轻卡（N2类）冷却系统\n• Q/SQCV 17111-2020：重卡冷却系统设计规范\n• GB/T 12542-2020：汽车热平衡试验方法\n• GB/T 24554：发动机冷却系统性能试验\n\n轻卡用企业标准Q/SQCV 101087-2025，重卡用GB/T 12542 + 训练数据标定。';
+    }
+
+    // === 脱敏 ===
+    if (q.includes('脱敏') || q.includes('数据')) {
+        return '本项目使用145条脱敏热平衡试验数据：\n\n• 温度数据：±0.5℃扰动\n• 散热量数据：±2%扰动\n• 尺寸数据：±1~2mm微调\n• 供应商/车型：替换为代号\n• 核心计算方法和结论不受影响';
+    }
+
+    // === 通用问候 ===
+    if (q.includes('你好') || q.includes('hello') || q.includes('hi') || q === '在吗' || q === '在') {
+        return '你好！我是商用车冷却系统AI选型助手 \n\n我可以帮你：\n• 散热器/中冷器选型推荐\n• LAT极限温度预测\n• 散热量计算\n• K值查询\n• 故障诊断\n• 标准规范查询\n\n直接输入你的问题即可，比如"160马力轻卡怎么选配散热器？"';
+    }
+
+    return null;
+}
+
+/**
  * 发送聊天消息
  */
 async function sendChatMsg() {
@@ -3529,8 +3624,14 @@ async function sendChatMsg() {
         removeTypingIndicator();
         addChatMessage('bot', reply);
     } catch (err) {
+        // AI代理失败，切换到本地智能引擎
         removeTypingIndicator();
-        addChatMessage('bot', '⚠️ 连接失败：' + (err.message || '请检查网络或 API Token 是否有效'));
+        const localReply = callLocalEngine(msg);
+        if (localReply) {
+            addChatMessage('bot', localReply + '\n\n---\n*当前为离线模式，AI智能体代理暂时不可用，已切换至本地知识库应答。*');
+        } else {
+            addChatMessage('bot', '⚠️ 连接失败：' + (err.message || '请检查网络或API Token是否有效') + '\n\n本地知识库也未能匹配到相关答案，请尝试换个问法。');
+        }
     }
     
     isChatLoading = false;
