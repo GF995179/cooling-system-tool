@@ -3393,7 +3393,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 let isChatLoading = false;
 let sessionId = 'session_' + Date.now();
-const WORKER_URL = 'https://raspy-salad-d447.gf343764757.workers.dev/';
+const DEFAULT_WORKER_URL = 'https://raspy-salad-d447.gf343764757.workers.dev/';
+const WORKER_URL = localStorage.getItem('proxy_url') || DEFAULT_WORKER_URL;
 const PROJECT_ID = 76783713900575149106;
 
 /**
