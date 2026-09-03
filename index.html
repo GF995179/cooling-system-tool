@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0318)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E5%86%B7%E5%8D%B4%E7%B3%BB%E7%BB%9F%E9%80%89%E5%9E%8B%E5%B7%A5%E5%85%B7.html?sign=1790924560-4438887ba8-0-20e6d81f59255805d86c79ae3a89f02a0aa0814c7721d9e0ed9beef9560df724 -->
+<!-- saved from url=(0318)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E5%86%B7%E5%8D%B4%E7%B3%BB%E7%BB%9F%E9%80%89%E5%9E%8B%E5%B7%A5%E5%85%B7.html?sign=1790924970-89df228748-0-4f52c3912fc9992e08235058b22ea03e9c717442d70ac0848507127d2c0552f1 -->
 <html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1589,7 +1589,7 @@ body {
             </div>
 
             <!-- 计算详情 -->
-            <details class="calc-detail">
+            <details class="calc-detail" open="">
                 <summary>📐 查看完整计算过程</summary>
                 <div id="calcDetail"></div>
             </details>
@@ -3503,7 +3503,7 @@ function renderDiagnosisResult(heat, heatArea, latResult, targetLAT, fanCheck, r
     
     // 计算详情
     html += `
-        <details class="calc-detail" style="margin-top: 16px;">
+        <details class="calc-detail" style="margin-top: 16px;" open>
             <summary>📐 查看诊断计算过程</summary>
             <div>
                 <h4 style="margin-bottom: 10px;">一、散热量计算</h4>
@@ -4404,11 +4404,13 @@ async function generateReport() {
 
         // === 按章节智能分页（html2canvas逐页实测高度） ===
 
-        // 提取各个独立章节（报告标题和页脚已在reportHTML内，不额外添加）
+        // 提取各个独立章节（跳过第一个标题section，由页面渲染时统一控制）
         var tempDiv = document.createElement('div');
         tempDiv.innerHTML = reportHTML;
         var allSections = [];
+        // 第一个child是标题，跳过（由hasTitle控制）；最后一个是页脚，保留
         for (var si2 = 0; si2 < tempDiv.children.length; si2++) {
+            if (si2 === 0) continue; // 跳过标题
             allSections.push(tempDiv.children[si2].outerHTML);
         }
 
@@ -4418,7 +4420,7 @@ async function generateReport() {
         var pdfPageH_mm = 297 - 20; // PDF内容区高度mm
         // html2canvas在scale=1时，canvas.width=800, 对应PDF宽度190mm
         // 限制: canvasH * 190 / 800 <= 277 → canvasH <= 1166
-        var maxCanvasH_perPage = Math.floor(pdfPageH_mm * pageWidthPx / pdfPageW_mm);
+        var maxCanvasH_perPage = Math.floor(pdfPageH_mm * pageWidthPx / pdfPageW_mm * 1.15); // 留15%余量
 
         // 构建测试页面HTML并测量canvas高度（scale=1）
         async function measurePageHeight(sections, hasTitle, pageNum, totalPages) {
