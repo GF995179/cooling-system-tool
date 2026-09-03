@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0318)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E5%86%B7%E5%8D%B4%E7%B3%BB%E7%BB%9F%E9%80%89%E5%9E%8B%E5%B7%A5%E5%85%B7.html?sign=1790925358-bfdf11b2ec-0-37a1946ade2872b2e2108e735426ac37c3cb779ff276daf5a3d14c5f092464b9 -->
-<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>商用车冷却系统选型工具</title>
 <style>
@@ -1390,9 +1390,452 @@ body {
     background: rgba(255,255,255,0.35);
 }
 
+/* ===== 多方案对比区域 ===== */
+.compare-section {
+    background: linear-gradient(135deg, #fefce8 0%, #fef9c3 30%, #ecfdf5 70%, #eff6ff 100%);
+    border: 2px solid #fbbf24;
+    border-radius: var(--radius-xl);
+    padding: 28px;
+    margin-top: 28px;
+    position: relative;
+    overflow: hidden;
+}
+
+.compare-section::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(251,191,36,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+}
+
+.compare-section-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--gray-800);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+}
+
+.compare-section-title .icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.compare-section-desc {
+    font-size: 13px;
+    color: var(--gray-600);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* 共享参数区 */
+.compare-shared-params {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    margin-bottom: 20px;
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+}
+
+.compare-shared-params h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gray-700);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.compare-shared-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+}
+
+.compare-shared-grid .form-group label {
+    font-size: 12px;
+}
+
+.compare-shared-grid .form-group input,
+.compare-shared-grid .form-group select {
+    padding: 9px 12px;
+    font-size: 13px;
+}
+
+/* 方案卡片 */
+.compare-schemes-container {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.compare-scheme-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    border: 1.5px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+    position: relative;
+    transition: all 0.25s ease;
+    animation: fadeIn 0.3s ease;
+}
+
+.compare-scheme-card:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+}
+
+.compare-scheme-card:nth-child(1) { border-left: 4px solid #3b82f6; }
+.compare-scheme-card:nth-child(2) { border-left: 4px solid #f59e0b; }
+.compare-scheme-card:nth-child(3) { border-left: 4px solid #10b981; }
+
+.compare-scheme-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.compare-scheme-header h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gray-700);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.compare-scheme-header h4 .scheme-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+}
+
+.compare-scheme-card:nth-child(1) .scheme-badge { background: #3b82f6; }
+.compare-scheme-card:nth-child(2) .scheme-badge { background: #f59e0b; }
+.compare-scheme-card:nth-child(3) .scheme-badge { background: #10b981; }
+
+.compare-scheme-remove {
+    background: none;
+    border: 1px solid var(--gray-200);
+    color: var(--gray-400);
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.compare-scheme-remove:hover {
+    background: var(--danger-light);
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.compare-scheme-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+}
+
+.compare-scheme-form .form-group label {
+    font-size: 12px;
+}
+
+.compare-scheme-form .form-group input,
+.compare-scheme-form .form-group select {
+    padding: 9px 12px;
+    font-size: 13px;
+}
+
+.compare-scheme-form .form-group .hint {
+    font-size: 10px;
+}
+
+/* 对比操作按钮 */
+.compare-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.compare-btn-add {
+    padding: 10px 20px;
+    border: 2px dashed var(--gray-300);
+    border-radius: var(--radius);
+    background: white;
+    color: var(--gray-500);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.compare-btn-add:hover:not(:disabled) {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-light);
+}
+
+.compare-btn-add:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.compare-btn-run {
+    padding: 12px 32px;
+    border: none;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(245,158,11,0.3);
+}
+
+.compare-btn-run:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(245,158,11,0.4);
+}
+
+.compare-btn-export {
+    padding: 10px 20px;
+    border: 1.5px solid var(--success);
+    border-radius: var(--radius);
+    background: white;
+    color: var(--success);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.compare-btn-export:hover {
+    background: var(--success-light);
+}
+
+/* 对比结果表格 */
+.compare-result-section {
+    display: none;
+    animation: fadeIn 0.3s ease;
+}
+
+.compare-result-section.show {
+    display: block;
+}
+
+.compare-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 16px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+}
+
+.compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    font-size: 13px;
+    min-width: 600px;
+}
+
+.compare-table thead th {
+    background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+    color: white;
+    padding: 14px 16px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.compare-table thead th:first-child {
+    text-align: left;
+    background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+    min-width: 160px;
+}
+
+.compare-table thead th.scheme-col-1 { background: linear-gradient(135deg, #2563eb, #3b82f6); }
+.compare-table thead th.scheme-col-2 { background: linear-gradient(135deg, #d97706, #f59e0b); }
+.compare-table thead th.scheme-col-3 { background: linear-gradient(135deg, #059669, #10b981); }
+
+.compare-table tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--gray-100);
+    text-align: center;
+    vertical-align: middle;
+}
+
+.compare-table tbody td:first-child {
+    text-align: left;
+    font-weight: 600;
+    color: var(--gray-700);
+    background: var(--gray-50);
+    white-space: nowrap;
+}
+
+.compare-table tbody tr:hover td {
+    background: var(--primary-light);
+}
+
+.compare-table tbody tr:hover td:first-child {
+    background: #dbeafe;
+}
+
+/* 高亮差异和风险 */
+.compare-table .cell-highlight {
+    background: #fef3c7;
+    font-weight: 700;
+    color: #92400e;
+}
+
+.compare-table .cell-danger {
+    background: #fef2f2;
+    font-weight: 700;
+    color: var(--danger);
+}
+
+.compare-table .cell-success {
+    background: #ecfdf5;
+    font-weight: 600;
+    color: var(--success);
+}
+
+.compare-table .cell-warning {
+    background: #fffbeb;
+    font-weight: 600;
+    color: var(--warning);
+}
+
+/* LAT等级标签 */
+.lat-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+}
+
+.lat-badge-success { background: #d1fae5; color: #065f46; }
+.lat-badge-warning { background: #fef3c7; color: #92400e; }
+.lat-badge-danger { background: #fee2e2; color: #991b1b; }
+
+/* 对比详情折叠 */
+.compare-details-container {
+    margin-top: 16px;
+}
+
+.compare-detail-item {
+    background: white;
+    border-radius: var(--radius);
+    border: 1px solid var(--gray-200);
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.compare-detail-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 18px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-700);
+    background: var(--gray-50);
+    transition: all 0.2s ease;
+}
+
+.compare-detail-toggle:hover {
+    background: var(--gray-100);
+}
+
+.compare-detail-toggle .arrow {
+    font-size: 11px;
+    color: var(--gray-400);
+    transition: transform 0.3s ease;
+}
+
+.compare-detail-toggle.open .arrow {
+    transform: rotate(180deg);
+}
+
+.compare-detail-content {
+    display: none;
+    padding: 16px 18px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--gray-600);
+    border-top: 1px solid var(--gray-100);
+}
+
+.compare-detail-content.open {
+    display: block;
+    animation: fadeIn 0.2s ease;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .compare-section { padding: 16px; margin-top: 16px; }
+    .compare-shared-grid { grid-template-columns: 1fr 1fr; }
+    .compare-scheme-form { grid-template-columns: 1fr 1fr; }
+    .compare-actions { flex-direction: column; }
+    .compare-btn-run { width: 100%; justify-content: center; }
+}
+
+@media (max-width: 480px) {
+    .compare-shared-grid { grid-template-columns: 1fr; }
+    .compare-scheme-form { grid-template-columns: 1fr; }
+    .compare-table { min-width: 500px; }
+}
+
 </style>
-<script src="./index_files/jspdf.umd.min.js.下载"></script>
-<script src="./index_files/html2canvas.min.js.下载"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -1405,13 +1848,13 @@ body {
 
     <!-- Tab切换 -->
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab(&#39;selection&#39;)">
+        <button class="tab-btn active" onclick="switchTab('selection')">
             <span class="icon">📐</span> 选型推荐
         </button>
-        <button class="tab-btn" onclick="switchTab(&#39;diagnosis&#39;)">
+        <button class="tab-btn" onclick="switchTab('diagnosis')">
             <span class="icon">🔍</span> 配置诊断
         </button>
-        <button class="tab-btn" onclick="switchTab(&#39;reference&#39;)">
+        <button class="tab-btn" onclick="switchTab('reference')">
             <span class="icon">📚</span> 参考数据
         </button>
     </div>
@@ -1424,12 +1867,12 @@ body {
                 <span class="icon">🚛</span> 选择车型类别
             </div>
             <div class="vehicle-type-selector">
-                <div class="vehicle-card active" onclick="selectVehicle(&#39;light&#39;)" id="vehicle-light">
+                <div class="vehicle-card active" onclick="selectVehicle('light')" id="vehicle-light">
                     <div class="vehicle-icon">🚚</div>
                     <div class="vehicle-name">轻卡</div>
                     <div class="vehicle-desc">N2类 | Q/SQCV 101087-2025<br>4套标准模块配置</div>
                 </div>
-                <div class="vehicle-card" onclick="selectVehicle(&#39;heavy&#39;)" id="vehicle-heavy">
+                <div class="vehicle-card" onclick="selectVehicle('heavy')" id="vehicle-heavy">
                     <div class="vehicle-icon">🚛</div>
                     <div class="vehicle-name">重卡</div>
                     <div class="vehicle-desc">N3类 | Q/SQCV 17111-2020 + GB/T 12542-2020<br>按车架分级配置</div>
@@ -1589,10 +2032,175 @@ body {
             </div>
 
             <!-- 计算详情 -->
-            <details class="calc-detail" open="">
+            <details class="calc-detail" open>
                 <summary>📐 查看完整计算过程</summary>
                 <div id="calcDetail"></div>
             </details>
+        </div>
+
+        <!-- ========== 多方案对比区域 ========== -->
+        <div class="compare-section" id="compareSection">
+            <div class="compare-section-title">
+                <span class="icon">⚖️</span> 多方案对比
+            </div>
+            <p class="compare-section-desc">
+                输入2~3个不同工况条件（如不同海拔、环境温度、地区类型），横向对比各工况下的推荐配置方案，快速识别风险点。
+            </p>
+
+            <!-- 共享参数 -->
+            <div class="compare-shared-params">
+                <h4>🔧 共享参数（同一发动机）</h4>
+                <div class="compare-shared-grid">
+                    <div class="form-group">
+                        <label>供应商 <span class="required">*</span></label>
+                        <select id="cmpSupplier">
+                            <option value="cummins">康明斯</option>
+                            <option value="yunnei">云内</option>
+                            <option value="yuchai">玉柴</option>
+                            <option value="other">其他/未知</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>燃料类型 <span class="required">*</span></label>
+                        <select id="cmpFuelType">
+                            <option value="diesel">柴油</option>
+                            <option value="gas">天然气（LNG/CNG）</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>车型类别 <span class="required">*</span></label>
+                        <select id="cmpVehicleType">
+                            <option value="light">轻卡</option>
+                            <option value="heavy">重卡</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 方案卡片容器 -->
+            <div class="compare-schemes-container" id="cmpSchemesContainer">
+                <!-- 方案1（默认） -->
+                <div class="compare-scheme-card" data-scheme="0">
+                    <div class="compare-scheme-header">
+                        <h4><span class="scheme-badge">1</span> 工况方案 1</h4>
+                    </div>
+                    <div class="compare-scheme-form">
+                        <div class="form-group">
+                            <label>方案名称</label>
+                            <input type="text" id="cmpName0" placeholder="如：平原标准工况" value="方案A - 平原">
+                        </div>
+                        <div class="form-group">
+                            <label>发动机马力 <span class="required">*</span></label>
+                            <div class="unit">
+                                <input type="number" id="cmpHp0" placeholder="如：160" min="50" max="800" value="160">
+                                <span>HP</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>最高允许温度 <span class="required">*</span></label>
+                            <div class="unit">
+                                <input type="number" id="cmpMaxTemp0" placeholder="如：105" min="90" max="120" value="105" step="0.5">
+                                <span>℃</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>环境温度 <span class="required">*</span></label>
+                            <div class="unit">
+                                <input type="number" id="cmpAmbientTemp0" placeholder="如：30" min="-20" max="60" value="30" step="0.5">
+                                <span>℃</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>海拔高度</label>
+                            <div class="unit">
+                                <input type="number" id="cmpAltitude0" placeholder="如：500" min="0" max="5000" value="500">
+                                <span>m</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>地区类型</label>
+                            <select id="cmpRegionType0">
+                                <option value="II">II类（高温地区 ≤48℃）</option>
+                                <option value="I">I类（普通地区 ≤46℃）</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 方案2（默认） -->
+                <div class="compare-scheme-card" data-scheme="1">
+                    <div class="compare-scheme-header">
+                        <h4><span class="scheme-badge">2</span> 工况方案 2</h4>
+                        <button class="compare-scheme-remove" onclick="removeCompareScheme(1)" title="删除方案">×</button>
+                    </div>
+                    <div class="compare-scheme-form">
+                        <div class="form-group">
+                            <label>方案名称</label>
+                            <input type="text" id="cmpName1" placeholder="如：高原工况" value="方案B - 高原">
+                        </div>
+                        <div class="form-group">
+                            <label>发动机马力 <span class="required">*</span></label>
+                            <div class="unit">
+                                <input type="number" id="cmpHp1" placeholder="如：160" min="50" max="800" value="160">
+                                <span>HP</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>最高允许温度 <span class="required">*</span></label>
+                            <div class="unit">
+                                <input type="number" id="cmpMaxTemp1" placeholder="如：105" min="90" max="120" value="100" step="0.5">
+                                <span>℃</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>环境温度 <span class="required">*</span></label>
+                            <div class="unit">
+                                <input type="number" id="cmpAmbientTemp1" placeholder="如：30" min="-20" max="60" value="25" step="0.5">
+                                <span>℃</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>海拔高度</label>
+                            <div class="unit">
+                                <input type="number" id="cmpAltitude1" placeholder="如：500" min="0" max="5000" value="3000">
+                                <span>m</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>地区类型</label>
+                            <select id="cmpRegionType1">
+                                <option value="II">II类（高温地区 ≤48℃）</option>
+                                <option value="I">I类（普通地区 ≤46℃）</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="compare-actions">
+                <button class="compare-btn-add" id="cmpAddBtn" onclick="addCompareScheme()">
+                    <span>＋</span> 添加对比方案（最多3个）
+                </button>
+                <button class="compare-btn-run" onclick="runComparison()">
+                    <span>🚀</span> 开始对比
+                </button>
+                <button class="compare-btn-export" id="cmpExportBtn" onclick="exportComparisonPDF()" style="display:none;">
+                    <span>📄</span> 导出PDF对比报告
+                </button>
+            </div>
+
+            <!-- 对比结果区域 -->
+            <div class="compare-result-section" id="cmpResultSection">
+                <div class="compare-table-wrapper" id="cmpTableWrapper">
+                    <table class="compare-table" id="cmpResultTable">
+                        <!-- 动态生成 -->
+                    </table>
+                </div>
+                <div class="compare-details-container" id="cmpDetailsContainer">
+                    <!-- 动态生成：每个方案的详细计算过程 -->
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1608,11 +2216,11 @@ body {
 
             <!-- 车型选择 -->
             <div class="vehicle-type-selector" style="max-width: 600px;">
-                <div class="vehicle-card active" onclick="selectDiagVehicle(&#39;light&#39;)" id="diag-vehicle-light">
+                <div class="vehicle-card active" onclick="selectDiagVehicle('light')" id="diag-vehicle-light">
                     <div class="vehicle-icon">🚚</div>
                     <div class="vehicle-name">轻卡</div>
                 </div>
-                <div class="vehicle-card" onclick="selectDiagVehicle(&#39;heavy&#39;)" id="diag-vehicle-heavy">
+                <div class="vehicle-card" onclick="selectDiagVehicle('heavy')" id="diag-vehicle-heavy">
                     <div class="vehicle-icon">🚛</div>
                     <div class="vehicle-name">重卡</div>
                 </div>
@@ -1794,47 +2402,7 @@ body {
                             <th>进出水口</th>
                         </tr>
                     </thead>
-                    <tbody id="lightTruckConfigTable">
-        <tr>
-            <td class="config-name">模块一</td>
-            <td>600 × 542.5 × 36 mm</td>
-            <td>15.9 m²</td>
-            <td>0.32 m²</td>
-            <td>513 × 332 × 50 mm</td>
-            <td>4.8 m²</td>
-            <td>上左下右 (Φ38)</td>
-        </tr>
-    
-        <tr>
-            <td class="config-name">模块二</td>
-            <td>620 × 582.5 × 36 mm</td>
-            <td>16.7 m²</td>
-            <td>0.36 m²</td>
-            <td>535 × 352 × 50 mm</td>
-            <td>5.39 m²</td>
-            <td>上右下左 (Φ45)</td>
-        </tr>
-    
-        <tr>
-            <td class="config-name">模块三</td>
-            <td>620 × 582.5 × 36 mm</td>
-            <td>16.7 m²</td>
-            <td>0.36 m²</td>
-            <td>562 × 332 × 50 mm</td>
-            <td>5.26 m²</td>
-            <td>上左下右 (Φ45)</td>
-        </tr>
-    
-        <tr>
-            <td class="config-name">模块四</td>
-            <td>700 × 582 × 36 mm</td>
-            <td>18.64 m²</td>
-            <td>0.41 m²</td>
-            <td>559 × 412 × 50 mm</td>
-            <td>6.6 m²</td>
-            <td>上右下左 (Φ45)</td>
-        </tr>
-    </tbody>
+                    <tbody id="lightTruckConfigTable"></tbody>
                 </table>
             </div>
         </div>
@@ -1858,87 +2426,7 @@ body {
                             <th>匹配发动机</th>
                         </tr>
                     </thead>
-                    <tbody id="heavyTruckRadTable">
-        <tr>
-            <td>970-850变截梁</td>
-            <td>850 × 988 × 42 mm</td>
-            <td>83.9 dm²</td>
-            <td>对角线 (Φ60)</td>
-            <td>13L级燃气/柴油</td>
-        </tr>
-    
-        <tr>
-            <td>970-850变截梁</td>
-            <td>800 × 988 × 42 mm</td>
-            <td>79.1 dm²</td>
-            <td>对角线 (Φ60)</td>
-            <td>11L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>850直通梁/861直通梁/940-860变截梁</td>
-            <td>950 × 638 × 56 mm</td>
-            <td>61.6 dm²</td>
-            <td>上右下左 (Φ60)</td>
-            <td>11L级柴油/9L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>850直通梁/861直通梁/940-860变截梁</td>
-            <td>880 × 638 × 56 mm</td>
-            <td>56.1 dm²</td>
-            <td>上右下左 (Φ60)</td>
-            <td>6.7L级柴油/8L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>850 × 608 × 52 mm</td>
-            <td>51.6 dm²</td>
-            <td>对角线 (Φ上44下58)</td>
-            <td>6.7L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>800 × 608 × 52 mm</td>
-            <td>48.6 dm²</td>
-            <td>对角线 (Φ上44下58)</td>
-            <td>6L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>770 × 600 × 42 mm</td>
-            <td>46.2 dm²</td>
-            <td>对角线 (Φ上44下58)</td>
-            <td>4.5L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>770 × 576 × 42 mm</td>
-            <td>44.3 dm²</td>
-            <td>上右下左 (Φ45)</td>
-            <td>4.5L/4L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>650 × 576 × 32 mm</td>
-            <td>37.4 dm²</td>
-            <td>上右下左 (Φ45)</td>
-            <td>4L/2.8L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>600 × 576 × 32 mm</td>
-            <td>34.5 dm²</td>
-            <td>上右下左 (Φ45)</td>
-            <td>2.0L级柴油</td>
-        </tr>
-    </tbody>
+                    <tbody id="heavyTruckRadTable"></tbody>
                 </table>
             </div>
         </div>
@@ -1958,71 +2446,7 @@ body {
                             <th>匹配发动机</th>
                         </tr>
                     </thead>
-                    <tbody id="heavyTruckIcTable">
-        <tr>
-            <td>970-850变截梁</td>
-            <td>900 × 792 × 64 mm</td>
-            <td>71.2 dm²</td>
-            <td>右进左出 (Φ100)</td>
-            <td>13L级燃气/柴油</td>
-        </tr>
-    
-        <tr>
-            <td>970-850变截梁</td>
-            <td>900 × 652 × 64 mm</td>
-            <td>58.6 dm²</td>
-            <td>右进左出 (Φ100)</td>
-            <td>11L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>850直通梁/861直通梁/940-860变截梁</td>
-            <td>570 × 832 × 50 mm</td>
-            <td>47.4 dm²</td>
-            <td>右进左出 (Φ100)</td>
-            <td>11L级/9L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>850直通梁/861直通梁/940-860变截梁</td>
-            <td>570 × 712 × 50 mm</td>
-            <td>40.5 dm²</td>
-            <td>右进左出 (Φ100)</td>
-            <td>6.7L级/6L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>550 × 492 × 64 mm</td>
-            <td>27.1 dm²</td>
-            <td>右进左出 (Φ82)</td>
-            <td>6L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>550 × 552 × 64 mm</td>
-            <td>30.3 dm²</td>
-            <td>右进左出 (Φ82)</td>
-            <td>6.7L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>372 × 520 × 50 mm</td>
-            <td>25.1 dm²</td>
-            <td>右进左出 (Φ70)</td>
-            <td>4L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>545 × 482 × 38 mm</td>
-            <td>26.2 dm²</td>
-            <td>右进左出 (Φ76)</td>
-            <td>4L级/2.8L级柴油</td>
-        </tr>
-    </tbody>
+                    <tbody id="heavyTruckIcTable"></tbody>
                 </table>
             </div>
         </div>
@@ -2203,7 +2627,7 @@ body {
         </div>
     </div>
     <div class="chat-input-area">
-        <input type="text" id="chatInput" placeholder="输入你的问题..." onkeydown="if(event.key===&#39;Enter&#39;)sendChatMsg()">
+        <input type="text" id="chatInput" placeholder="输入你的问题..." onkeydown="if(event.key==='Enter')sendChatMsg()">
         <button class="chat-send-btn" id="chatSendBtn" onclick="sendChatMsg()">➤</button>
     </div>
 </div>
@@ -4521,7 +4945,686 @@ async function generateReport() {
     }
 }
 
+// ========================================================================
+// ========== 多方案对比功能 ==========
+// ========================================================================
+
+// 方案计数器（用于生成唯一索引）
+let cmpSchemeCount = 2;
+// 存储对比结果
+let comparisonResults = [];
+
+/**
+ * 添加对比方案（最多3个）
+ */
+function addCompareScheme() {
+    if (cmpSchemeCount >= 3) {
+        alert('最多支持3个对比方案');
+        return;
+    }
+    
+    const idx = cmpSchemeCount;
+    const schemeNum = idx + 1;
+    
+    // 默认工况预设
+    const presets = [
+        { name: '方案C - 高温', maxTemp: 100, ambientTemp: 42, altitude: 500, regionType: 'II' },
+        { name: '方案C - 高寒', maxTemp: 95, ambientTemp: -15, altitude: 500, regionType: 'I' }
+    ];
+    const preset = presets[idx - 2] || { name: `方案${String.fromCharCode(65+idx)}`, maxTemp: 105, ambientTemp: 30, altitude: 500, regionType: 'II' };
+    
+    const html = `
+        <div class="compare-scheme-card" data-scheme="${idx}">
+            <div class="compare-scheme-header">
+                <h4><span class="scheme-badge">${schemeNum}</span> 工况方案 ${schemeNum}</h4>
+                <button class="compare-scheme-remove" onclick="removeCompareScheme(${idx})" title="删除方案">×</button>
+            </div>
+            <div class="compare-scheme-form">
+                <div class="form-group">
+                    <label>方案名称</label>
+                    <input type="text" id="cmpName${idx}" placeholder="如：高温工况" value="${preset.name}">
+                </div>
+                <div class="form-group">
+                    <label>发动机马力 <span class="required">*</span></label>
+                    <div class="unit">
+                        <input type="number" id="cmpHp${idx}" placeholder="如：160" min="50" max="800" value="160">
+                        <span>HP</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>最高允许温度 <span class="required">*</span></label>
+                    <div class="unit">
+                        <input type="number" id="cmpMaxTemp${idx}" placeholder="如：105" min="90" max="120" value="${preset.maxTemp}" step="0.5">
+                        <span>℃</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>环境温度 <span class="required">*</span></label>
+                    <div class="unit">
+                        <input type="number" id="cmpAmbientTemp${idx}" placeholder="如：30" min="-20" max="60" value="${preset.ambientTemp}" step="0.5">
+                        <span>℃</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>海拔高度</label>
+                    <div class="unit">
+                        <input type="number" id="cmpAltitude${idx}" placeholder="如：500" min="0" max="5000" value="${preset.altitude}">
+                        <span>m</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>地区类型</label>
+                    <select id="cmpRegionType${idx}">
+                        <option value="II" ${preset.regionType === 'II' ? 'selected' : ''}>II类（高温地区 ≤48℃）</option>
+                        <option value="I" ${preset.regionType === 'I' ? 'selected' : ''}>I类（普通地区 ≤46℃）</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.getElementById('cmpSchemesContainer').insertAdjacentHTML('beforeend', html);
+    cmpSchemeCount++;
+    
+    // 更新添加按钮状态
+    if (cmpSchemeCount >= 3) {
+        document.getElementById('cmpAddBtn').disabled = true;
+        document.getElementById('cmpAddBtn').title = '已达最大方案数';
+    }
+}
+
+/**
+ * 移除对比方案
+ */
+function removeCompareScheme(idx) {
+    const card = document.querySelector(`.compare-scheme-card[data-scheme="${idx}"]`);
+    if (card) {
+        card.remove();
+        cmpSchemeCount--;
+        document.getElementById('cmpAddBtn').disabled = false;
+        document.getElementById('cmpAddBtn').title = '';
+    }
+    
+    // 如果剩余方案少于2个，隐藏结果
+    const remaining = document.querySelectorAll('.compare-scheme-card').length;
+    if (remaining < 2) {
+        document.getElementById('cmpResultSection').classList.remove('show');
+        document.getElementById('cmpExportBtn').style.display = 'none';
+    }
+}
+
+/**
+ * 获取当前对比方案数量
+ */
+function getCompareSchemeCount() {
+    return document.querySelectorAll('.compare-scheme-card').length;
+}
+
+/**
+ * 执行多方案对比计算
+ */
+function runComparison() {
+    const schemeCards = document.querySelectorAll('.compare-scheme-card');
+    const count = schemeCards.length;
+    
+    if (count < 2) {
+        alert('至少需要2个方案才能进行对比');
+        return;
+    }
+    
+    // 读取共享参数
+    const supplier = document.getElementById('cmpSupplier').value;
+    const fuelType = document.getElementById('cmpFuelType').value;
+    const vehicleType = document.getElementById('cmpVehicleType').value;
+    
+    comparisonResults = [];
+    
+    // 逐个方案计算
+    for (const card of schemeCards) {
+        const idx = card.dataset.scheme;
+        const name = document.getElementById(`cmpName${idx}`).value || `方案${parseInt(idx)+1}`;
+        const hp = parseFloat(document.getElementById(`cmpHp${idx}`).value);
+        const maxTemp = parseFloat(document.getElementById(`cmpMaxTemp${idx}`).value);
+        const ambientTemp = parseFloat(document.getElementById(`cmpAmbientTemp${idx}`).value);
+        const altitude = parseFloat(document.getElementById(`cmpAltitude${idx}`).value) || 0;
+        const regionType = document.getElementById(`cmpRegionType${idx}`).value;
+        
+        if (!hp || hp <= 0) { alert(`方案 ${name}: 请输入有效的发动机马力`); return; }
+        if (!maxTemp || maxTemp <= 0) { alert(`方案 ${name}: 请输入有效的最高允许温度`); return; }
+        
+        // 计算目标LAT
+        let targetLAT;
+        if (vehicleType === 'light') {
+            targetLAT = regionType === 'I' ? latStandards.light.I.power : latStandards.light.II.power;
+        } else {
+            targetLAT = regionType === 'I' ? latStandards.heavy.normal : latStandards.heavy.highTemp;
+        }
+        
+        // 1. 散热量计算
+        const heatCalc = calculateHeatDissipation(hp, fuelType, supplier);
+        const radHeat = parseFloat(heatCalc.q_water);
+        const icHeat = parseFloat(heatCalc.q_ic);
+        const qTotal = radHeat + icHeat;
+        
+        const heat = {
+            power_kW: heatCalc.power_kW,
+            q_water: radHeat.toFixed(1),
+            q_ic: icHeat.toFixed(1),
+            q_total: qTotal.toFixed(1),
+            correction: heatCalc.correction,
+            correctionName: heatCalc.correctionName,
+            waterJacketRatio: heatCalc.waterJacketRatio,
+            intercoolerRatio: heatCalc.intercoolerRatio
+        };
+        
+        // 2. 配置选型（临时切换 currentVehicle 以复用计算函数）
+        const origVehicle = currentVehicle;
+        currentVehicle = vehicleType;
+        
+        let config;
+        if (vehicleType === 'light') {
+            config = selectLightTruckModule(
+                parseFloat(heat.power_kW), qTotal, maxTemp, hp, supplier, fuelType
+            );
+        } else {
+            config = selectHeavyTruckConfig(
+                parseFloat(heat.power_kW), qTotal, maxTemp, hp, supplier, fuelType
+            );
+        }
+        
+        currentVehicle = origVehicle;
+        
+        const latPredict = config.latPredict;
+        
+        // 3. 推荐尺寸参数
+        const dimRecommend = calculateRecommendedDimensions(radHeat, icHeat, vehicleType, maxTemp, targetLAT);
+        
+        // LAT等级判定
+        const latVal = parseFloat(latPredict.lat);
+        let latLevel, latText;
+        if (latVal < targetLAT) { latLevel = 'danger'; latText = '不满足'; }
+        else if (latVal < targetLAT + 5) { latLevel = 'warning'; latText = '勉强满足'; }
+        else { latLevel = 'success'; latText = '优良'; }
+        
+        // 收集结果
+        comparisonResults.push({
+            name: name,
+            hp: hp,
+            maxTemp: maxTemp,
+            ambientTemp: ambientTemp,
+            altitude: altitude,
+            regionType: regionType,
+            targetLAT: targetLAT,
+            heat: heat,
+            config: config,
+            latPredict: latPredict,
+            dimRecommend: dimRecommend,
+            latVal: latVal,
+            latLevel: latLevel,
+            latText: latText,
+            vehicleType: vehicleType,
+            supplier: supplier,
+            fuelType: fuelType
+        });
+    }
+    
+    // 渲染对比结果
+    renderComparisonTable();
+    renderComparisonDetails();
+    
+    // 显示结果区域和导出按钮
+    document.getElementById('cmpResultSection').classList.add('show');
+    document.getElementById('cmpExportBtn').style.display = 'flex';
+}
+
+/**
+ * 渲染对比表格
+ */
+function renderComparisonTable() {
+    const n = comparisonResults.length;
+    const results = comparisonResults;
+    const vehicleType = results[0].vehicleType;
+    
+    // 颜色列 class
+    const colClasses = ['scheme-col-1', 'scheme-col-2', 'scheme-col-3'];
+    
+    // 找差异值：找出各方案中 LAT 最小的（风险点）
+    const latValues = results.map(r => r.latVal);
+    const minLAT = Math.min(...latValues);
+    const maxLAT = Math.max(...latValues);
+    
+    // 散热器规格提取
+    function getRadSpec(r) {
+        if (vehicleType === 'light') {
+            const rec = r.config.recommended;
+            return `${rec.radiator.coreSize[0]}×${rec.radiator.coreSize[1]}×${rec.radiator.coreSize[2]}`;
+        } else {
+            const rad = r.config.radiator;
+            return `${rad.coreSize[0]}×${rad.coreSize[1]}×${rad.coreSize[2]}`;
+        }
+    }
+    
+    function getRadHeatArea(r) {
+        if (vehicleType === 'light') {
+            return r.config.recommended.radiator.heatArea + ' m²';
+        } else {
+            return (r.config.radiator.estHeatArea || '-') + ' m²';
+        }
+    }
+    
+    function getRadFacingArea(r) {
+        if (vehicleType === 'light') {
+            return r.config.recommended.radiator.facingArea.toFixed ? r.config.recommended.radiator.facingArea + ' m²' : r.config.recommended.radiator.facingArea + ' m²';
+        } else {
+            return (r.config.radiator.facingArea || '-') + ' dm²';
+        }
+    }
+    
+    function getIcSpec(r) {
+        if (vehicleType === 'light') {
+            const rec = r.config.recommended;
+            return `${rec.intercooler.coreSize[0]}×${rec.intercooler.coreSize[1]}×${rec.intercooler.coreSize[2]}`;
+        } else {
+            const ic = r.config.intercooler;
+            return `${ic.coreSize[0]}×${ic.coreSize[1]}×${ic.coreSize[2]}`;
+        }
+    }
+    
+    function getFanDia(r) {
+        return `Φ${r.config.fanSize.diameter}mm`;
+    }
+    
+    // 单元格差异高亮工具函数
+    function cellClass(value, isMinRisk) {
+        return isMinRisk ? 'cell-danger' : '';
+    }
+    
+    // 生成表头
+    let thead = `<tr><th>对比项</th>`;
+    for (let i = 0; i < n; i++) {
+        thead += `<th class="${colClasses[i]}">${results[i].name}</th>`;
+    }
+    thead += '</tr>';
+    
+    // 生成行
+    const rows = [];
+    
+    // 1. 预测LAT
+    let latRow = '<tr><td>🌡️ 预测LAT</td>';
+    for (let i = 0; i < n; i++) {
+        const r = results[i];
+        const isMinRisk = r.latVal === minLAT && minLAT < maxLAT;
+        const cls = isMinRisk ? 'cell-danger' : (r.latLevel === 'success' ? 'cell-success' : r.latLevel === 'warning' ? 'cell-warning' : '');
+        latRow += `<td class="${cls}"><strong>${r.latPredict.lat}℃</strong></td>`;
+    }
+    latRow += '</tr>';
+    rows.push(latRow);
+    
+    // 2. LAT等级判定
+    let latLevelRow = '<tr><td>📋 LAT等级</td>';
+    for (let i = 0; i < n; i++) {
+        const r = results[i];
+        const badgeCls = `lat-badge-${r.latLevel}`;
+        latLevelRow += `<td><span class="lat-badge ${badgeCls}">${r.latText}</span></td>`;
+    }
+    latLevelRow += '</tr>';
+    rows.push(latLevelRow);
+    
+    // 3. 散热器芯体尺寸
+    let radSpecRow = '<tr><td>📐 散热器芯体 (宽×高×厚 mm)</td>';
+    for (let i = 0; i < n; i++) {
+        radSpecRow += `<td>${getRadSpec(results[i])}</td>`;
+    }
+    radSpecRow += '</tr>';
+    rows.push(radSpecRow);
+    
+    // 4. 散热面积
+    let radAreaRow = '<tr><td>📏 散热面积</td>';
+    for (let i = 0; i < n; i++) {
+        radAreaRow += `<td>${getRadHeatArea(results[i])}</td>`;
+    }
+    radAreaRow += '</tr>';
+    rows.push(radAreaRow);
+    
+    // 5. 迎风面积
+    let facingRow = '<tr><td>📐 迎风面积</td>';
+    for (let i = 0; i < n; i++) {
+        facingRow += `<td>${getRadFacingArea(results[i])}</td>`;
+    }
+    facingRow += '</tr>';
+    rows.push(facingRow);
+    
+    // 6. 中冷器芯体尺寸
+    let icSpecRow = '<tr><td>🧊 中冷器芯体 (宽×高×厚 mm)</td>';
+    for (let i = 0; i < n; i++) {
+        icSpecRow += `<td>${getIcSpec(results[i])}</td>`;
+    }
+    icSpecRow += '</tr>';
+    rows.push(icSpecRow);
+    
+    // 7. 风扇直径
+    let fanRow = '<tr><td>🌀 风扇直径</td>';
+    for (let i = 0; i < n; i++) {
+        fanRow += `<td>${getFanDia(results[i])}（${results[i].config.fanSize.type}）</td>`;
+    }
+    fanRow += '</tr>';
+    rows.push(fanRow);
+    
+    // 8. 散热量
+    let heatRow = '<tr><td>🔥 总散热量</td>';
+    for (let i = 0; i < n; i++) {
+        heatRow += `<td>${results[i].heat.q_total} kW</td>`;
+    }
+    heatRow += '</tr>';
+    rows.push(heatRow);
+    
+    // 9. 冷却常数 ΔTk
+    let dtRow = '<tr><td>📊 冷却常数 ΔTk</td>';
+    for (let i = 0; i < n; i++) {
+        dtRow += `<td>${results[i].latPredict.deltaTk}℃</td>`;
+    }
+    dtRow += '</tr>';
+    rows.push(dtRow);
+    
+    // 10. 目标LAT标准
+    let targetRow = '<tr><td>🎯 目标LAT标准</td>';
+    for (let i = 0; i < n; i++) {
+        const r = results[i];
+        targetRow += `<td>${r.targetLAT}℃（${r.regionType === 'I' ? 'I类' : 'II类'}地区）</td>`;
+    }
+    targetRow += '</tr>';
+    rows.push(targetRow);
+    
+    // 11. 海拔 & 环境温度
+    let envRow = '<tr><td>🏔️ 海拔 / 环境温度</td>';
+    for (let i = 0; i < n; i++) {
+        envRow += `<td>${results[i].altitude}m / ${results[i].ambientTemp}℃</td>`;
+    }
+    envRow += '</tr>';
+    rows.push(envRow);
+    
+    // 12. 综合判定
+    let verdictRow = '<tr><td>✅ 综合判定</td>';
+    for (let i = 0; i < n; i++) {
+        const r = results[i];
+        let verdict;
+        if (r.latLevel === 'success') {
+            verdict = '<span style="color:var(--success); font-weight:700;">✓ 推荐</span>';
+        } else if (r.latLevel === 'warning') {
+            verdict = '<span style="color:var(--warning); font-weight:700;">△ 需关注</span>';
+        } else {
+            verdict = '<span style="color:var(--danger); font-weight:700;">✗ 不满足</span>';
+        }
+        verdictRow += `<td>${verdict}</td>`;
+    }
+    verdictRow += '</tr>';
+    rows.push(verdictRow);
+    
+    const tableHtml = `<thead>${thead}</thead><tbody>${rows.join('')}</tbody>`;
+    document.getElementById('cmpResultTable').innerHTML = tableHtml;
+}
+
+/**
+ * 渲染每个方案的详细计算过程（可折叠）
+ */
+function renderComparisonDetails() {
+    const container = document.getElementById('cmpDetailsContainer');
+    let html = '<h4 style="margin-bottom:12px; color:var(--gray-700); font-size:14px;">📋 各方案详细计算过程</h4>';
+    
+    const schemeColors = ['#3b82f6', '#f59e0b', '#10b981'];
+    
+    for (let i = 0; i < comparisonResults.length; i++) {
+        const r = comparisonResults[i];
+        const color = schemeColors[i];
+        
+        let detailContent = '';
+        
+        // 散热量计算
+        detailContent += `<p><strong>1. 散热量计算</strong></p>`;
+        detailContent += `<p>发动机功率：${r.heat.power_kW} kW | 修正系数：${r.heat.correction}（${r.heat.correctionName}）</p>`;
+        detailContent += `<p>水套散热量：${r.heat.q_water} kW | 中冷散热量：${r.heat.q_ic} kW | 总散热量：${r.heat.q_total} kW</p>`;
+        
+        // 选型推荐
+        detailContent += `<p style="margin-top:8px;"><strong>2. 配置选型</strong></p>`;
+        if (r.vehicleType === 'light') {
+            const rec = r.config.recommended;
+            detailContent += `<p>推荐模块：${rec.name}</p>`;
+            detailContent += `<p>散热器：${rec.radiator.coreSize[0]}×${rec.radiator.coreSize[1]}×${rec.radiator.coreSize[2]}mm，散热面积 ${rec.radiator.heatArea} m²</p>`;
+            detailContent += `<p>中冷器：${rec.intercooler.coreSize[0]}×${rec.intercooler.coreSize[1]}×${rec.intercooler.coreSize[2]}mm，散热面积 ${rec.intercooler.heatArea} m²</p>`;
+        } else {
+            const rad = r.config.radiator;
+            const ic = r.config.intercooler;
+            detailContent += `<p>散热器：${rad.frameType}，${rad.coreSize[0]}×${rad.coreSize[1]}×${rad.coreSize[2]}mm，迎风面积 ${rad.facingArea} dm²</p>`;
+            detailContent += `<p>中冷器：${ic.coreSize[0]}×${ic.coreSize[1]}×${ic.coreSize[2]}mm，迎风面积 ${ic.facingArea} dm²</p>`;
+        }
+        
+        // LAT预测
+        detailContent += `<p style="margin-top:8px;"><strong>3. LAT预测</strong></p>`;
+        detailContent += `<p>K_eff = ${r.latPredict.K_eff_W} W/(m²·K) | ΔTk = ${r.latPredict.deltaTk}℃</p>`;
+        detailContent += `<p>预测LAT = ${r.latPredict.lat}℃ | 目标LAT = ${r.targetLAT}℃ | 判定：<strong>${r.latText}</strong></p>`;
+        
+        // 风扇
+        detailContent += `<p style="margin-top:8px;"><strong>4. 风扇推荐</strong></p>`;
+        detailContent += `<p>直径：Φ${r.config.fanSize.diameter}mm（${r.config.fanSize.type}）| 速比范围：${r.config.fanSize.ratio}</p>`;
+        
+        // 裕量
+        detailContent += `<p style="margin-top:8px;"><strong>5. 迎风面积裕量</strong></p>`;
+        detailContent += `<p>裕量：+${r.config.margin}%</p>`;
+        
+        html += `
+            <div class="compare-detail-item">
+                <div class="compare-detail-toggle" onclick="toggleCompareDetail(this)">
+                    <span style="display:flex; align-items:center; gap:8px;">
+                        <span style="width:12px; height:12px; border-radius:50%; background:${color};"></span>
+                        ${r.name}（LAT: ${r.latPredict.lat}℃ - ${r.latText}）
+                    </span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="compare-detail-content">
+                    ${detailContent}
+                </div>
+            </div>
+        `;
+    }
+    
+    container.innerHTML = html;
+}
+
+/**
+ * 折叠/展开对比详情
+ */
+function toggleCompareDetail(toggle) {
+    toggle.classList.toggle('open');
+    const content = toggle.nextElementSibling;
+    content.classList.toggle('open');
+}
+
+/**
+ * 导出对比结果为 PDF
+ */
+async function exportComparisonPDF() {
+    if (comparisonResults.length === 0) {
+        alert('请先执行对比计算');
+        return;
+    }
+    
+    const btn = document.getElementById('cmpExportBtn');
+    btn.textContent = '⏳ 生成中...';
+    btn.disabled = true;
+    
+    try {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const pageW = 210;
+        const margin = 15;
+        let y = margin;
+        
+        const vehicleText = comparisonResults[0].vehicleType === 'light' ? '轻卡' : '重卡';
+        const supplierName = supplierCorrection[comparisonResults[0].supplier]?.name || '其他';
+        const fuelText = comparisonResults[0].fuelType === 'diesel' ? '柴油' : '天然气';
+        
+        // 标题
+        pdf.setFontSize(16);
+        pdf.setTextColor(30, 64, 175);
+        pdf.text('Cooling System Multi-Scheme Comparison Report', margin, y + 8);
+        y += 16;
+        
+        pdf.setFontSize(9);
+        pdf.setTextColor(100, 100, 100);
+        pdf.text(`Vehicle: ${vehicleText} | Supplier: ${supplierName} | Fuel: ${fuelText}`, margin, y);
+        y += 5;
+        
+        const now = new Date();
+        const dateStr = now.toLocaleDateString('zh-CN');
+        pdf.text(`Generated: ${dateStr}`, margin, y);
+        y += 10;
+        
+        // 分隔线
+        pdf.setDrawColor(200, 200, 200);
+        pdf.line(margin, y, pageW - margin, y);
+        y += 8;
+        
+        // 对比表格
+        const n = comparisonResults.length;
+        const colW = (pageW - 2 * margin) / (n + 1);
+        const labelW = colW * 1.2;
+        const dataColW = (pageW - 2 * margin - labelW) / n;
+        
+        // 表头
+        pdf.setFontSize(8);
+        pdf.setFillColor(55, 65, 81);
+        pdf.setTextColor(255, 255, 255);
+        pdf.rect(margin, y, labelW, 7, 'F');
+        pdf.text('Item', margin + 2, y + 5);
+        
+        const schemeColors = [[37, 99, 235], [217, 119, 6], [5, 150, 105]];
+        for (let i = 0; i < n; i++) {
+            const x = margin + labelW + i * dataColW;
+            pdf.setFillColor(...schemeColors[i]);
+            pdf.rect(x, y, dataColW, 7, 'F');
+            pdf.text(comparisonResults[i].name, x + 2, y + 5);
+        }
+        y += 7;
+        
+        // 表格数据行
+        const tableData = [
+            ['Predicted LAT', ...comparisonResults.map(r => r.latPredict.lat + ' C')],
+            ['LAT Level', ...comparisonResults.map(r => r.latText)],
+            ['Rad Core (mm)', ...comparisonResults.map(r => {
+                if (r.vehicleType === 'light') {
+                    const rec = r.config.recommended;
+                    return rec.radiator.coreSize.join('x');
+                } else {
+                    return r.config.radiator.coreSize.join('x');
+                }
+            })],
+            ['Heat Area', ...comparisonResults.map(r => {
+                if (r.vehicleType === 'light') return r.config.recommended.radiator.heatArea + ' m2';
+                else return (r.config.radiator.estHeatArea || '-') + ' m2';
+            })],
+            ['IC Core (mm)', ...comparisonResults.map(r => {
+                if (r.vehicleType === 'light') return r.config.recommended.intercooler.coreSize.join('x');
+                else return r.config.intercooler.coreSize.join('x');
+            })],
+            ['Fan Dia.', ...comparisonResults.map(r => r.config.fanSize.diameter + 'mm')],
+            ['Total Heat', ...comparisonResults.map(r => r.heat.q_total + ' kW')],
+            ['DeltaTk', ...comparisonResults.map(r => r.latPredict.deltaTk + ' C')],
+            ['Target LAT', ...comparisonResults.map(r => r.targetLAT + ' C')],
+            ['Altitude/AmbT', ...comparisonResults.map(r => r.altitude + 'm/' + r.ambientTemp + 'C')],
+            ['Verdict', ...comparisonResults.map(r => r.latText)],
+        ];
+        
+        pdf.setFontSize(7);
+        for (let row = 0; row < tableData.length; row++) {
+            if (y > 275) {
+                pdf.addPage();
+                y = margin;
+            }
+            const bgColor = row % 2 === 0 ? [248, 250, 252] : [255, 255, 255];
+            pdf.setFillColor(...bgColor);
+            pdf.rect(margin, y, labelW, 6, 'F');
+            for (let i = 0; i < n; i++) {
+                pdf.rect(margin + labelW + i * dataColW, y, dataColW, 6, 'F');
+            }
+            pdf.setDrawColor(220, 220, 220);
+            pdf.rect(margin, y, labelW, 6);
+            for (let i = 0; i < n; i++) {
+                pdf.rect(margin + labelW + i * dataColW, y, dataColW, 6);
+            }
+            
+            pdf.setTextColor(50, 50, 50);
+            pdf.text(tableData[row][0], margin + 2, y + 4);
+            for (let i = 0; i < n; i++) {
+                const val = tableData[row][i + 1];
+                // 风险项标红
+                if (row === 0 && comparisonResults[i].latLevel === 'danger') {
+                    pdf.setTextColor(220, 38, 38);
+                } else if (row === 0 && comparisonResults[i].latLevel === 'warning') {
+                    pdf.setTextColor(217, 119, 6);
+                } else {
+                    pdf.setTextColor(50, 50, 50);
+                }
+                pdf.text(String(val), margin + labelW + i * dataColW + 2, y + 4);
+            }
+            y += 6;
+        }
+        
+        y += 8;
+        
+        // 各方案简要说明
+        pdf.setFontSize(10);
+        pdf.setTextColor(30, 64, 175);
+        if (y > 255) { pdf.addPage(); y = margin; }
+        pdf.text('Scheme Details', margin, y);
+        y += 8;
+        
+        for (let i = 0; i < comparisonResults.length; i++) {
+            const r = comparisonResults[i];
+            if (y > 260) { pdf.addPage(); y = margin; }
+            
+            pdf.setFontSize(9);
+            pdf.setTextColor(...schemeColors[i]);
+            pdf.text(`[${r.name}]`, margin, y);
+            y += 5;
+            
+            pdf.setTextColor(60, 60, 60);
+            pdf.setFontSize(7.5);
+            
+            const lines = [
+                `HP: ${r.hp} | MaxTemp: ${r.maxTemp}C | Ambient: ${r.ambientTemp}C | Altitude: ${r.altitude}m | Region: ${r.regionType === 'I' ? 'Class I' : 'Class II'}`,
+                `Heat: ${r.heat.q_total}kW (Rad:${r.heat.q_water}kW + IC:${r.heat.q_ic}kW) | K_eff: ${r.latPredict.K_eff_W}W/(m2K)`,
+                `LAT: ${r.latPredict.lat}C (Target: ${r.targetLAT}C) | DeltaTk: ${r.latPredict.deltaTk}C | Verdict: ${r.latText}`,
+                `Fan: ${r.config.fanSize.diameter}mm (${r.config.fanSize.type}) | Margin: +${r.config.margin}%`
+            ];
+            
+            for (const line of lines) {
+                if (y > 280) { pdf.addPage(); y = margin; }
+                pdf.text(line, margin + 4, y);
+                y += 4.5;
+            }
+            y += 4;
+        }
+        
+        // 页脚
+        if (y > 270) { pdf.addPage(); y = margin; }
+        pdf.setFontSize(7);
+        pdf.setTextColor(150, 150, 150);
+        pdf.text('Note: This report is generated by the Cooling System Selection Tool. Results are for reference only.', margin, y + 4);
+        pdf.text('Final selection should be verified by vehicle thermal balance test.', margin, y + 8);
+        
+        // 下载
+        const fileName = `冷却系统多方案对比报告_${vehicleText}_${comparisonResults.length}方案_${dateStr.replace(/\//g, '')}.pdf`;
+        pdf.save(fileName);
+        
+    } catch (err) {
+        console.error('导出对比PDF失败:', err);
+        alert('导出失败：' + err.message);
+    } finally {
+        btn.innerHTML = '<span>📄</span> 导出PDF对比报告';
+        btn.disabled = false;
+    }
+}
+
 </script>
-
-
-</body></html>
+</body>
+</html>
