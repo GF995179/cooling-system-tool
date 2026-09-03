@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0318)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E5%86%B7%E5%8D%B4%E7%B3%BB%E7%BB%9F%E9%80%89%E5%9E%8B%E5%B7%A5%E5%85%B7.html?sign=1790931579-c82a0f8485-0-addc5504bb92c59e7535acc244fad15cef1a007c1f27ade731bdf9deb78d21b1 -->
+<!-- saved from url=(0318)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E5%86%B7%E5%8D%B4%E7%B3%BB%E7%BB%9F%E9%80%89%E5%9E%8B%E5%B7%A5%E5%85%B7.html?sign=1790933168-0b4d5276a5-0-f220eec10ab322dd3a63dc1db76011b1733617a1eabc90f05db259c24848ad20 -->
 <html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -2614,25 +2614,11 @@ body {
                         </thead>
                         <tbody id="batchInputBody">
                             <!-- 动态生成 -->
-                        <tr data-batch-row="1">
-        <td class="row-num">1</td>
-        <td><input type="text" class="batch-engine-name" placeholder="如：D2.5-160" value=""></td>
-        <td><input type="number" class="batch-engine-hp" placeholder="如：160" min="50" max="800" value=""></td>
-        <td><select class="batch-engine-supplier"><option value="cummins" selected="">康明斯</option><option value="yunnei">云内</option><option value="yuchai">玉柴</option><option value="other">其他</option></select></td>
-        <td><select class="batch-engine-fuel"><option value="diesel" selected="">柴油</option><option value="gas">天然气</option></select></td>
-        <td><input type="number" class="batch-engine-maxtemp" placeholder="如：105" min="80" max="130" step="0.5" value="105"></td>
-        <td><button class="row-remove" onclick="removeBatchRow(this)" title="删除此行">×</button></td>
-    </tr><tr data-batch-row="2">
-        <td class="row-num">2</td>
-        <td><input type="text" class="batch-engine-name" placeholder="如：D2.5-160" value=""></td>
-        <td><input type="number" class="batch-engine-hp" placeholder="如：160" min="50" max="800" value=""></td>
-        <td><select class="batch-engine-supplier"><option value="cummins" selected="">康明斯</option><option value="yunnei">云内</option><option value="yuchai">玉柴</option><option value="other">其他</option></select></td>
-        <td><select class="batch-engine-fuel"><option value="diesel" selected="">柴油</option><option value="gas">天然气</option></select></td>
-        <td><input type="number" class="batch-engine-maxtemp" placeholder="如：105" min="80" max="130" step="0.5" value="105"></td>
-        <td><button class="row-remove" onclick="removeBatchRow(this)" title="删除此行">×</button></td>
-    </tr></tbody>
+                        </tbody>
                     </table>
-                    <button class="batch-add-row-btn" id="batchAddRowBtn" onclick="addBatchRow()"><span>＋</span> 添加一行（最多10行）</button>
+                    <button class="batch-add-row-btn" id="batchAddRowBtn" onclick="addBatchRow()">
+                        <span>＋</span> 添加一行（最多10行）
+                    </button>
                 </div>
             </div>
 
@@ -2913,47 +2899,7 @@ WP4.1-220,220,yuchai,diesel,108"></textarea>
                             <th>进出水口</th>
                         </tr>
                     </thead>
-                    <tbody id="lightTruckConfigTable">
-        <tr>
-            <td class="config-name">模块一</td>
-            <td>600 × 542.5 × 36 mm</td>
-            <td>15.9 m²</td>
-            <td>0.32 m²</td>
-            <td>513 × 332 × 50 mm</td>
-            <td>4.8 m²</td>
-            <td>上左下右 (Φ38)</td>
-        </tr>
-    
-        <tr>
-            <td class="config-name">模块二</td>
-            <td>620 × 582.5 × 36 mm</td>
-            <td>16.7 m²</td>
-            <td>0.36 m²</td>
-            <td>535 × 352 × 50 mm</td>
-            <td>5.39 m²</td>
-            <td>上右下左 (Φ45)</td>
-        </tr>
-    
-        <tr>
-            <td class="config-name">模块三</td>
-            <td>620 × 582.5 × 36 mm</td>
-            <td>16.7 m²</td>
-            <td>0.36 m²</td>
-            <td>562 × 332 × 50 mm</td>
-            <td>5.26 m²</td>
-            <td>上左下右 (Φ45)</td>
-        </tr>
-    
-        <tr>
-            <td class="config-name">模块四</td>
-            <td>700 × 582 × 36 mm</td>
-            <td>18.64 m²</td>
-            <td>0.41 m²</td>
-            <td>559 × 412 × 50 mm</td>
-            <td>6.6 m²</td>
-            <td>上右下左 (Φ45)</td>
-        </tr>
-    </tbody>
+                    <tbody id="lightTruckConfigTable"></tbody>
                 </table>
             </div>
         </div>
@@ -2977,87 +2923,7 @@ WP4.1-220,220,yuchai,diesel,108"></textarea>
                             <th>匹配发动机</th>
                         </tr>
                     </thead>
-                    <tbody id="heavyTruckRadTable">
-        <tr>
-            <td>970-850变截梁</td>
-            <td>850 × 988 × 42 mm</td>
-            <td>83.9 dm²</td>
-            <td>对角线 (Φ60)</td>
-            <td>13L级燃气/柴油</td>
-        </tr>
-    
-        <tr>
-            <td>970-850变截梁</td>
-            <td>800 × 988 × 42 mm</td>
-            <td>79.1 dm²</td>
-            <td>对角线 (Φ60)</td>
-            <td>11L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>850直通梁/861直通梁/940-860变截梁</td>
-            <td>950 × 638 × 56 mm</td>
-            <td>61.6 dm²</td>
-            <td>上右下左 (Φ60)</td>
-            <td>11L级柴油/9L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>850直通梁/861直通梁/940-860变截梁</td>
-            <td>880 × 638 × 56 mm</td>
-            <td>56.1 dm²</td>
-            <td>上右下左 (Φ60)</td>
-            <td>6.7L级柴油/8L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>850 × 608 × 52 mm</td>
-            <td>51.6 dm²</td>
-            <td>对角线 (Φ上44下58)</td>
-            <td>6.7L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>800 × 608 × 52 mm</td>
-            <td>48.6 dm²</td>
-            <td>对角线 (Φ上44下58)</td>
-            <td>6L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>770 × 600 × 42 mm</td>
-            <td>46.2 dm²</td>
-            <td>对角线 (Φ上44下58)</td>
-            <td>4.5L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>770 × 576 × 42 mm</td>
-            <td>44.3 dm²</td>
-            <td>上右下左 (Φ45)</td>
-            <td>4.5L/4L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>650 × 576 × 32 mm</td>
-            <td>37.4 dm²</td>
-            <td>上右下左 (Φ45)</td>
-            <td>4L/2.8L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>600 × 576 × 32 mm</td>
-            <td>34.5 dm²</td>
-            <td>上右下左 (Φ45)</td>
-            <td>2.0L级柴油</td>
-        </tr>
-    </tbody>
+                    <tbody id="heavyTruckRadTable"></tbody>
                 </table>
             </div>
         </div>
@@ -3077,71 +2943,7 @@ WP4.1-220,220,yuchai,diesel,108"></textarea>
                             <th>匹配发动机</th>
                         </tr>
                     </thead>
-                    <tbody id="heavyTruckIcTable">
-        <tr>
-            <td>970-850变截梁</td>
-            <td>900 × 792 × 64 mm</td>
-            <td>71.2 dm²</td>
-            <td>右进左出 (Φ100)</td>
-            <td>13L级燃气/柴油</td>
-        </tr>
-    
-        <tr>
-            <td>970-850变截梁</td>
-            <td>900 × 652 × 64 mm</td>
-            <td>58.6 dm²</td>
-            <td>右进左出 (Φ100)</td>
-            <td>11L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>850直通梁/861直通梁/940-860变截梁</td>
-            <td>570 × 832 × 50 mm</td>
-            <td>47.4 dm²</td>
-            <td>右进左出 (Φ100)</td>
-            <td>11L级/9L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>850直通梁/861直通梁/940-860变截梁</td>
-            <td>570 × 712 × 50 mm</td>
-            <td>40.5 dm²</td>
-            <td>右进左出 (Φ100)</td>
-            <td>6.7L级/6L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>550 × 492 × 64 mm</td>
-            <td>27.1 dm²</td>
-            <td>右进左出 (Φ82)</td>
-            <td>6L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>550 × 552 × 64 mm</td>
-            <td>30.3 dm²</td>
-            <td>右进左出 (Φ82)</td>
-            <td>6.7L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>372 × 520 × 50 mm</td>
-            <td>25.1 dm²</td>
-            <td>右进左出 (Φ70)</td>
-            <td>4L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>545 × 482 × 38 mm</td>
-            <td>26.2 dm²</td>
-            <td>右进左出 (Φ76)</td>
-            <td>4L级/2.8L级柴油</td>
-        </tr>
-    </tbody>
+                    <tbody id="heavyTruckIcTable"></tbody>
                 </table>
             </div>
         </div>
@@ -4744,6 +4546,11 @@ function toggleChatPanel() {
     panel.classList.toggle('open');
     if (!wasOpen) {
         loadChatHistory();
+        // Safety: if messages area is completely empty, show welcome card
+        const container = document.getElementById('chatMessages');
+        if (container && !container.querySelector('.chat-welcome') && !container.querySelector('.chat-msg')) {
+            showWelcomeCard();
+        }
     }
 }
 
@@ -5159,8 +4966,13 @@ function saveChatToHistory(role, content) {
 
 function loadChatHistory() {
     try {
+        const container = document.getElementById('chatMessages');
         const history = JSON.parse(localStorage.getItem('chat_history') || '[]');
-        if (history.length === 0) return;
+        if (history.length === 0) {
+            // Safety: ensure welcome card is visible
+            if (!container.querySelector('.chat-welcome')) showWelcomeCard();
+            return;
+        }
         const container = document.getElementById('chatMessages');
         // 如果已有消息（非欢迎卡片），则不重复加载
         const existingMsgs = container.querySelectorAll('.chat-msg');
@@ -6863,6 +6675,15 @@ function exportBatchExcel() {
 
 
 </script>
+
+// Version guard: clear stale cached state from previous versions
+(function(){
+    var v = localStorage.getItem('tool_version');
+    if(v !== 'v20260903'){
+        localStorage.removeItem('chat_history');
+        localStorage.setItem('tool_version','v20260903');
+    }
+})();
 
 
 </body></html>
