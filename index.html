@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0318)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E5%86%B7%E5%8D%B4%E7%B3%BB%E7%BB%9F%E9%80%89%E5%9E%8B%E5%B7%A5%E5%85%B7.html?sign=1790922517-994ac2b9da-0-b337741b3584af38e341d703db6f56185488d0517dcacd60020907be819c1719 -->
-<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>商用车冷却系统选型工具</title>
 <style>
@@ -1391,8 +1391,8 @@ body {
 }
 
 </style>
-<script src="./index_files/jspdf.umd.min.js.下载"></script>
-<script src="./index_files/html2canvas.min.js.下载"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -1405,13 +1405,13 @@ body {
 
     <!-- Tab切换 -->
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab(&#39;selection&#39;)">
+        <button class="tab-btn active" onclick="switchTab('selection')">
             <span class="icon">📐</span> 选型推荐
         </button>
-        <button class="tab-btn" onclick="switchTab(&#39;diagnosis&#39;)">
+        <button class="tab-btn" onclick="switchTab('diagnosis')">
             <span class="icon">🔍</span> 配置诊断
         </button>
-        <button class="tab-btn" onclick="switchTab(&#39;reference&#39;)">
+        <button class="tab-btn" onclick="switchTab('reference')">
             <span class="icon">📚</span> 参考数据
         </button>
     </div>
@@ -1424,12 +1424,12 @@ body {
                 <span class="icon">🚛</span> 选择车型类别
             </div>
             <div class="vehicle-type-selector">
-                <div class="vehicle-card active" onclick="selectVehicle(&#39;light&#39;)" id="vehicle-light">
+                <div class="vehicle-card active" onclick="selectVehicle('light')" id="vehicle-light">
                     <div class="vehicle-icon">🚚</div>
                     <div class="vehicle-name">轻卡</div>
                     <div class="vehicle-desc">N2类 | Q/SQCV 101087-2025<br>4套标准模块配置</div>
                 </div>
-                <div class="vehicle-card" onclick="selectVehicle(&#39;heavy&#39;)" id="vehicle-heavy">
+                <div class="vehicle-card" onclick="selectVehicle('heavy')" id="vehicle-heavy">
                     <div class="vehicle-icon">🚛</div>
                     <div class="vehicle-name">重卡</div>
                     <div class="vehicle-desc">N3类 | Q/SQCV 17111-2020 + GB/T 12542-2020<br>按车架分级配置</div>
@@ -1608,11 +1608,11 @@ body {
 
             <!-- 车型选择 -->
             <div class="vehicle-type-selector" style="max-width: 600px;">
-                <div class="vehicle-card active" onclick="selectDiagVehicle(&#39;light&#39;)" id="diag-vehicle-light">
+                <div class="vehicle-card active" onclick="selectDiagVehicle('light')" id="diag-vehicle-light">
                     <div class="vehicle-icon">🚚</div>
                     <div class="vehicle-name">轻卡</div>
                 </div>
-                <div class="vehicle-card" onclick="selectDiagVehicle(&#39;heavy&#39;)" id="diag-vehicle-heavy">
+                <div class="vehicle-card" onclick="selectDiagVehicle('heavy')" id="diag-vehicle-heavy">
                     <div class="vehicle-icon">🚛</div>
                     <div class="vehicle-name">重卡</div>
                 </div>
@@ -1794,47 +1794,7 @@ body {
                             <th>进出水口</th>
                         </tr>
                     </thead>
-                    <tbody id="lightTruckConfigTable">
-        <tr>
-            <td class="config-name">模块一</td>
-            <td>600 × 542.5 × 36 mm</td>
-            <td>15.9 m²</td>
-            <td>0.32 m²</td>
-            <td>513 × 332 × 50 mm</td>
-            <td>4.8 m²</td>
-            <td>上左下右 (Φ38)</td>
-        </tr>
-    
-        <tr>
-            <td class="config-name">模块二</td>
-            <td>620 × 582.5 × 36 mm</td>
-            <td>16.7 m²</td>
-            <td>0.36 m²</td>
-            <td>535 × 352 × 50 mm</td>
-            <td>5.39 m²</td>
-            <td>上右下左 (Φ45)</td>
-        </tr>
-    
-        <tr>
-            <td class="config-name">模块三</td>
-            <td>620 × 582.5 × 36 mm</td>
-            <td>16.7 m²</td>
-            <td>0.36 m²</td>
-            <td>562 × 332 × 50 mm</td>
-            <td>5.26 m²</td>
-            <td>上左下右 (Φ45)</td>
-        </tr>
-    
-        <tr>
-            <td class="config-name">模块四</td>
-            <td>700 × 582 × 36 mm</td>
-            <td>18.64 m²</td>
-            <td>0.41 m²</td>
-            <td>559 × 412 × 50 mm</td>
-            <td>6.6 m²</td>
-            <td>上右下左 (Φ45)</td>
-        </tr>
-    </tbody>
+                    <tbody id="lightTruckConfigTable"></tbody>
                 </table>
             </div>
         </div>
@@ -1858,87 +1818,7 @@ body {
                             <th>匹配发动机</th>
                         </tr>
                     </thead>
-                    <tbody id="heavyTruckRadTable">
-        <tr>
-            <td>970-850变截梁</td>
-            <td>850 × 988 × 42 mm</td>
-            <td>83.9 dm²</td>
-            <td>对角线 (Φ60)</td>
-            <td>13L级燃气/柴油</td>
-        </tr>
-    
-        <tr>
-            <td>970-850变截梁</td>
-            <td>800 × 988 × 42 mm</td>
-            <td>79.1 dm²</td>
-            <td>对角线 (Φ60)</td>
-            <td>11L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>850直通梁/861直通梁/940-860变截梁</td>
-            <td>950 × 638 × 56 mm</td>
-            <td>61.6 dm²</td>
-            <td>上右下左 (Φ60)</td>
-            <td>11L级柴油/9L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>850直通梁/861直通梁/940-860变截梁</td>
-            <td>880 × 638 × 56 mm</td>
-            <td>56.1 dm²</td>
-            <td>上右下左 (Φ60)</td>
-            <td>6.7L级柴油/8L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>850 × 608 × 52 mm</td>
-            <td>51.6 dm²</td>
-            <td>对角线 (Φ上44下58)</td>
-            <td>6.7L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>800 × 608 × 52 mm</td>
-            <td>48.6 dm²</td>
-            <td>对角线 (Φ上44下58)</td>
-            <td>6L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>770 × 600 × 42 mm</td>
-            <td>46.2 dm²</td>
-            <td>对角线 (Φ上44下58)</td>
-            <td>4.5L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>770 × 576 × 42 mm</td>
-            <td>44.3 dm²</td>
-            <td>上右下左 (Φ45)</td>
-            <td>4.5L/4L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>650 × 576 × 32 mm</td>
-            <td>37.4 dm²</td>
-            <td>上右下左 (Φ45)</td>
-            <td>4L/2.8L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>600 × 576 × 32 mm</td>
-            <td>34.5 dm²</td>
-            <td>上右下左 (Φ45)</td>
-            <td>2.0L级柴油</td>
-        </tr>
-    </tbody>
+                    <tbody id="heavyTruckRadTable"></tbody>
                 </table>
             </div>
         </div>
@@ -1958,71 +1838,7 @@ body {
                             <th>匹配发动机</th>
                         </tr>
                     </thead>
-                    <tbody id="heavyTruckIcTable">
-        <tr>
-            <td>970-850变截梁</td>
-            <td>900 × 792 × 64 mm</td>
-            <td>71.2 dm²</td>
-            <td>右进左出 (Φ100)</td>
-            <td>13L级燃气/柴油</td>
-        </tr>
-    
-        <tr>
-            <td>970-850变截梁</td>
-            <td>900 × 652 × 64 mm</td>
-            <td>58.6 dm²</td>
-            <td>右进左出 (Φ100)</td>
-            <td>11L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>850直通梁/861直通梁/940-860变截梁</td>
-            <td>570 × 832 × 50 mm</td>
-            <td>47.4 dm²</td>
-            <td>右进左出 (Φ100)</td>
-            <td>11L级/9L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>850直通梁/861直通梁/940-860变截梁</td>
-            <td>570 × 712 × 50 mm</td>
-            <td>40.5 dm²</td>
-            <td>右进左出 (Φ100)</td>
-            <td>6.7L级/6L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>550 × 492 × 64 mm</td>
-            <td>27.1 dm²</td>
-            <td>右进左出 (Φ82)</td>
-            <td>6L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>860直通梁/860-850变截梁</td>
-            <td>550 × 552 × 64 mm</td>
-            <td>30.3 dm²</td>
-            <td>右进左出 (Φ82)</td>
-            <td>6.7L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>372 × 520 × 50 mm</td>
-            <td>25.1 dm²</td>
-            <td>右进左出 (Φ70)</td>
-            <td>4L级柴油</td>
-        </tr>
-    
-        <tr>
-            <td>800直通梁</td>
-            <td>545 × 482 × 38 mm</td>
-            <td>26.2 dm²</td>
-            <td>右进左出 (Φ76)</td>
-            <td>4L级/2.8L级柴油</td>
-        </tr>
-    </tbody>
+                    <tbody id="heavyTruckIcTable"></tbody>
                 </table>
             </div>
         </div>
@@ -2203,7 +2019,7 @@ body {
         </div>
     </div>
     <div class="chat-input-area">
-        <input type="text" id="chatInput" placeholder="输入你的问题..." onkeydown="if(event.key===&#39;Enter&#39;)sendChatMsg()">
+        <input type="text" id="chatInput" placeholder="输入你的问题..." onkeydown="if(event.key==='Enter')sendChatMsg()">
         <button class="chat-send-btn" id="chatSendBtn" onclick="sendChatMsg()">➤</button>
     </div>
 </div>
@@ -4402,44 +4218,121 @@ async function generateReport() {
             '由「商用车冷却系统选型工具」自动生成 | 基于一维计算模型，最终方案以整车热平衡试验为准' +
             '</div>';
 
-        // 创建报告容器
-        const reportContainer = document.createElement('div');
-        reportContainer.style.cssText = 'position:fixed; left:-9999px; top:0; width:800px; background:white; padding:40px; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; color:#1f2937;';
-        reportContainer.innerHTML = reportHTML;
-        document.body.appendChild(reportContainer);
+        // === 按章节智能分页，避免表格被切割导致内容重复 ===
 
-        // 使用 html2canvas 渲染为图片
-        const canvas = await html2canvas(reportContainer, {
-            scale: 2,
-            useCORS: true,
-            backgroundColor: '#ffffff',
-            width: 800,
-            windowWidth: 800,
-        });
+        // 报告页脚HTML
+        var reportFooter = '<div style="margin-top:30px; padding-top:16px; border-top:2px solid #e5e7eb; text-align:center; font-size:12px; color:#9ca3af;">' +
+            '由「商用车冷却系统选型工具」自动生成 | 基于一维计算模型，最终方案以整车热平衡试验为准' +
+            '</div>';
 
-        document.body.removeChild(reportContainer);
+        // 提取各个独立章节（每个section是一个顶层div）
+        var tempDiv = document.createElement('div');
+        tempDiv.innerHTML = reportHTML;
+        var allSections = [];
+        for (var si2 = 0; si2 < tempDiv.children.length; si2++) {
+            allSections.push(tempDiv.children[si2].outerHTML);
+        }
+        // 把页脚也作为一个section
+        var footerTemp = document.createElement('div');
+        footerTemp.innerHTML = reportFooter;
+        allSections.push(footerTemp.innerHTML);
 
-        // 生成 PDF
+        // 页面参数：A4 = 800px宽 → 对应210mm，内容区高度 = (297-20)mm * (800/190) px/mm
+        var pageWidthPx = 800;
+        var mmPerPx = (210 - 20) / pageWidthPx; // 每像素对应多少mm
+        var pageContentHPx = Math.floor((297 - 20) / mmPerPx); // 每页内容区像素高度
+        var pagePaddingPx = 40; // 上下padding
+        var usableHeightPx = pageContentHPx - pagePaddingPx * 2; // 去掉padding后的可用高度
+        // 标题区域预留（报告大标题）
+        var headerReservePx = 80;
+
+        // 测量容器：逐个section放入，测量高度
+        var measureContainer = document.createElement('div');
+        measureContainer.style.cssText = 'position:fixed; left:-9999px; top:0; width:' + pageWidthPx + 'px; background:white; padding:0; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; color:#1f2937;';
+        document.body.appendChild(measureContainer);
+
+        // 测量每个section的实际高度
+        var sectionHeights = [];
+        for (var mi = 0; mi < allSections.length; mi++) {
+            measureContainer.innerHTML = '<div style="padding:0 40px;">' + allSections[mi] + '</div>';
+            sectionHeights.push(measureContainer.firstChild.offsetHeight);
+        }
+        measureContainer.innerHTML = '';
+
+        // 分配section到各页
+        var pages = []; // 每个元素是该页包含的section HTML数组
+        var currentHeight = 0;
+        var currentPage = [];
+
+        for (var ai = 0; ai < allSections.length; ai++) {
+            var secH = sectionHeights[ai];
+            var available = (pages.length === 0) ? (usableHeightPx - headerReservePx) : usableHeightPx;
+
+            if (currentPage.length === 0) {
+                // 空页，至少放一个section（即使超出也要放）
+                currentPage.push(allSections[ai]);
+                currentHeight = secH;
+            } else if (currentHeight + secH <= available) {
+                // 当前页放得下
+                currentPage.push(allSections[ai]);
+                currentHeight += secH;
+            } else {
+                // 当前页放不下，先保存当前页，开新页
+                pages.push(currentPage);
+                currentPage = [allSections[ai]];
+                currentHeight = secH;
+            }
+        }
+        if (currentPage.length > 0) {
+            pages.push(currentPage);
+        }
+
+        // 逐页渲染并生成PDF
         const { jsPDF } = window.jspdf;
-        const imgData = canvas.toDataURL('image/png');
         const pdf = new jsPDF('p', 'mm', 'A4');
-        
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = pdf.internal.pageSize.getHeight();
-        const imgWidth = pdfWidth - 20;
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
-        
-        let heightLeft = imgHeight;
-        let position = 10;
-        
-        pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-        heightLeft -= (pdfHeight - 20);
-        
-        while (heightLeft > 0) {
-            position = heightLeft - imgHeight + 10;
-            pdf.addPage();
-            pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
-            heightLeft -= (pdfHeight - 20);
+        const pdfW = pdf.internal.pageSize.getWidth() - 20;
+
+        for (var pi = 0; pi < pages.length; pi++) {
+            // 创建该页的容器
+            var pageContainer = document.createElement('div');
+            var isFirstPage = (pi === 0);
+            pageContainer.style.cssText = 'position:fixed; left:-9999px; top:0; width:' + pageWidthPx + 'px; background:white; padding:' + pagePaddingPx + 'px 40px; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; color:#1f2937;';
+
+            var pageContent = '';
+            if (isFirstPage) {
+                // 第一页加报告大标题
+                pageContent += '<div style="text-align:center; margin-bottom:36px; padding-bottom:20px; border-bottom:3px solid #1e40af;">' +
+                    '<h1 style="font-size:26px; color:#1e40af; margin-bottom:8px; font-weight:800;">商用车冷却系统选型报告</h1>' +
+                    '<p style="color:#666; font-size:13px;">生成日期：' + dateStr + ' | 基于一维计算模型，最终方案以整车热平衡试验为准</p>' +
+                    '</div>';
+            }
+            // 页码标记
+            pageContent += '<div style="text-align:right; font-size:11px; color:#9ca3af; margin-bottom:10px;">第 ' + (pi + 1) + ' / ' + pages.length + ' 页</div>';
+            // 该页的所有section
+            for (var sj = 0; sj < pages[pi].length; sj++) {
+                pageContent += pages[pi][sj];
+            }
+            pageContainer.innerHTML = pageContent;
+            document.body.appendChild(pageContainer);
+
+            // 渲染该页为canvas
+            var canvas = await html2canvas(pageContainer, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: '#ffffff',
+                windowWidth: pageWidthPx,
+            });
+            document.body.removeChild(pageContainer);
+
+            // 加入PDF
+            var imgData = canvas.toDataURL('image/png');
+            var imgH = (canvas.height * pdfW) / canvas.width;
+            if (pi === 0) {
+                pdf.addImage(imgData, 'PNG', 10, 10, pdfW, imgH);
+            } else {
+                pdf.addPage();
+                pdf.addImage(imgData, 'PNG', 10, 10, pdfW, imgH);
+            }
         }
 
         // 下载 PDF
@@ -4456,6 +4349,5 @@ async function generateReport() {
 }
 
 </script>
-
-
-</body></html>
+</body>
+</html>
