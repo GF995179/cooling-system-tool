@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0318)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E5%86%B7%E5%8D%B4%E7%B3%BB%E7%BB%9F%E9%80%89%E5%9E%8B%E5%B7%A5%E5%85%B7.html?sign=1790922517-994ac2b9da-0-b337741b3584af38e341d703db6f56185488d0517dcacd60020907be819c1719 -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>商用车冷却系统选型工具</title>
 <style>
@@ -1358,9 +1358,41 @@ body {
     font-size: 12px;
     color: var(--gray-600);
 }
+
+/* ===== 流式打字光标 ===== */
+.streaming-cursor {
+    animation: blink 0.8s infinite;
+    color: #2563eb;
+    font-weight: bold;
+}
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+
+/* ===== 清空历史按钮 ===== */
+.chat-panel-clear {
+    margin-left: 4px;
+    background: rgba(255,255,255,0.2);
+    border: none;
+    color: white;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+.chat-panel-clear:hover {
+    background: rgba(255,255,255,0.35);
+}
+
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="./index_files/jspdf.umd.min.js.下载"></script>
+<script src="./index_files/html2canvas.min.js.下载"></script>
 </head>
 <body>
 <div class="container">
@@ -1373,13 +1405,13 @@ body {
 
     <!-- Tab切换 -->
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('selection')">
+        <button class="tab-btn active" onclick="switchTab(&#39;selection&#39;)">
             <span class="icon">📐</span> 选型推荐
         </button>
-        <button class="tab-btn" onclick="switchTab('diagnosis')">
+        <button class="tab-btn" onclick="switchTab(&#39;diagnosis&#39;)">
             <span class="icon">🔍</span> 配置诊断
         </button>
-        <button class="tab-btn" onclick="switchTab('reference')">
+        <button class="tab-btn" onclick="switchTab(&#39;reference&#39;)">
             <span class="icon">📚</span> 参考数据
         </button>
     </div>
@@ -1392,12 +1424,12 @@ body {
                 <span class="icon">🚛</span> 选择车型类别
             </div>
             <div class="vehicle-type-selector">
-                <div class="vehicle-card active" onclick="selectVehicle('light')" id="vehicle-light">
+                <div class="vehicle-card active" onclick="selectVehicle(&#39;light&#39;)" id="vehicle-light">
                     <div class="vehicle-icon">🚚</div>
                     <div class="vehicle-name">轻卡</div>
                     <div class="vehicle-desc">N2类 | Q/SQCV 101087-2025<br>4套标准模块配置</div>
                 </div>
-                <div class="vehicle-card" onclick="selectVehicle('heavy')" id="vehicle-heavy">
+                <div class="vehicle-card" onclick="selectVehicle(&#39;heavy&#39;)" id="vehicle-heavy">
                     <div class="vehicle-icon">🚛</div>
                     <div class="vehicle-name">重卡</div>
                     <div class="vehicle-desc">N3类 | Q/SQCV 17111-2020 + GB/T 12542-2020<br>按车架分级配置</div>
@@ -1576,11 +1608,11 @@ body {
 
             <!-- 车型选择 -->
             <div class="vehicle-type-selector" style="max-width: 600px;">
-                <div class="vehicle-card active" onclick="selectDiagVehicle('light')" id="diag-vehicle-light">
+                <div class="vehicle-card active" onclick="selectDiagVehicle(&#39;light&#39;)" id="diag-vehicle-light">
                     <div class="vehicle-icon">🚚</div>
                     <div class="vehicle-name">轻卡</div>
                 </div>
-                <div class="vehicle-card" onclick="selectDiagVehicle('heavy')" id="diag-vehicle-heavy">
+                <div class="vehicle-card" onclick="selectDiagVehicle(&#39;heavy&#39;)" id="diag-vehicle-heavy">
                     <div class="vehicle-icon">🚛</div>
                     <div class="vehicle-name">重卡</div>
                 </div>
@@ -1762,7 +1794,47 @@ body {
                             <th>进出水口</th>
                         </tr>
                     </thead>
-                    <tbody id="lightTruckConfigTable"></tbody>
+                    <tbody id="lightTruckConfigTable">
+        <tr>
+            <td class="config-name">模块一</td>
+            <td>600 × 542.5 × 36 mm</td>
+            <td>15.9 m²</td>
+            <td>0.32 m²</td>
+            <td>513 × 332 × 50 mm</td>
+            <td>4.8 m²</td>
+            <td>上左下右 (Φ38)</td>
+        </tr>
+    
+        <tr>
+            <td class="config-name">模块二</td>
+            <td>620 × 582.5 × 36 mm</td>
+            <td>16.7 m²</td>
+            <td>0.36 m²</td>
+            <td>535 × 352 × 50 mm</td>
+            <td>5.39 m²</td>
+            <td>上右下左 (Φ45)</td>
+        </tr>
+    
+        <tr>
+            <td class="config-name">模块三</td>
+            <td>620 × 582.5 × 36 mm</td>
+            <td>16.7 m²</td>
+            <td>0.36 m²</td>
+            <td>562 × 332 × 50 mm</td>
+            <td>5.26 m²</td>
+            <td>上左下右 (Φ45)</td>
+        </tr>
+    
+        <tr>
+            <td class="config-name">模块四</td>
+            <td>700 × 582 × 36 mm</td>
+            <td>18.64 m²</td>
+            <td>0.41 m²</td>
+            <td>559 × 412 × 50 mm</td>
+            <td>6.6 m²</td>
+            <td>上右下左 (Φ45)</td>
+        </tr>
+    </tbody>
                 </table>
             </div>
         </div>
@@ -1786,7 +1858,87 @@ body {
                             <th>匹配发动机</th>
                         </tr>
                     </thead>
-                    <tbody id="heavyTruckRadTable"></tbody>
+                    <tbody id="heavyTruckRadTable">
+        <tr>
+            <td>970-850变截梁</td>
+            <td>850 × 988 × 42 mm</td>
+            <td>83.9 dm²</td>
+            <td>对角线 (Φ60)</td>
+            <td>13L级燃气/柴油</td>
+        </tr>
+    
+        <tr>
+            <td>970-850变截梁</td>
+            <td>800 × 988 × 42 mm</td>
+            <td>79.1 dm²</td>
+            <td>对角线 (Φ60)</td>
+            <td>11L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>850直通梁/861直通梁/940-860变截梁</td>
+            <td>950 × 638 × 56 mm</td>
+            <td>61.6 dm²</td>
+            <td>上右下左 (Φ60)</td>
+            <td>11L级柴油/9L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>850直通梁/861直通梁/940-860变截梁</td>
+            <td>880 × 638 × 56 mm</td>
+            <td>56.1 dm²</td>
+            <td>上右下左 (Φ60)</td>
+            <td>6.7L级柴油/8L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>850 × 608 × 52 mm</td>
+            <td>51.6 dm²</td>
+            <td>对角线 (Φ上44下58)</td>
+            <td>6.7L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>800 × 608 × 52 mm</td>
+            <td>48.6 dm²</td>
+            <td>对角线 (Φ上44下58)</td>
+            <td>6L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>770 × 600 × 42 mm</td>
+            <td>46.2 dm²</td>
+            <td>对角线 (Φ上44下58)</td>
+            <td>4.5L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>770 × 576 × 42 mm</td>
+            <td>44.3 dm²</td>
+            <td>上右下左 (Φ45)</td>
+            <td>4.5L/4L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>650 × 576 × 32 mm</td>
+            <td>37.4 dm²</td>
+            <td>上右下左 (Φ45)</td>
+            <td>4L/2.8L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>600 × 576 × 32 mm</td>
+            <td>34.5 dm²</td>
+            <td>上右下左 (Φ45)</td>
+            <td>2.0L级柴油</td>
+        </tr>
+    </tbody>
                 </table>
             </div>
         </div>
@@ -1806,7 +1958,71 @@ body {
                             <th>匹配发动机</th>
                         </tr>
                     </thead>
-                    <tbody id="heavyTruckIcTable"></tbody>
+                    <tbody id="heavyTruckIcTable">
+        <tr>
+            <td>970-850变截梁</td>
+            <td>900 × 792 × 64 mm</td>
+            <td>71.2 dm²</td>
+            <td>右进左出 (Φ100)</td>
+            <td>13L级燃气/柴油</td>
+        </tr>
+    
+        <tr>
+            <td>970-850变截梁</td>
+            <td>900 × 652 × 64 mm</td>
+            <td>58.6 dm²</td>
+            <td>右进左出 (Φ100)</td>
+            <td>11L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>850直通梁/861直通梁/940-860变截梁</td>
+            <td>570 × 832 × 50 mm</td>
+            <td>47.4 dm²</td>
+            <td>右进左出 (Φ100)</td>
+            <td>11L级/9L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>850直通梁/861直通梁/940-860变截梁</td>
+            <td>570 × 712 × 50 mm</td>
+            <td>40.5 dm²</td>
+            <td>右进左出 (Φ100)</td>
+            <td>6.7L级/6L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>550 × 492 × 64 mm</td>
+            <td>27.1 dm²</td>
+            <td>右进左出 (Φ82)</td>
+            <td>6L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>550 × 552 × 64 mm</td>
+            <td>30.3 dm²</td>
+            <td>右进左出 (Φ82)</td>
+            <td>6.7L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>372 × 520 × 50 mm</td>
+            <td>25.1 dm²</td>
+            <td>右进左出 (Φ70)</td>
+            <td>4L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>545 × 482 × 38 mm</td>
+            <td>26.2 dm²</td>
+            <td>右进左出 (Φ76)</td>
+            <td>4L级/2.8L级柴油</td>
+        </tr>
+    </tbody>
                 </table>
             </div>
         </div>
@@ -1955,6 +2171,7 @@ body {
             <p id="chatAgentDesc">商用车冷却系统智能问答</p>
         </div>
         <button class="chat-settings-btn" onclick="toggleChatSettings()" title="智能体设置">⚙</button>
+        <button class="chat-panel-clear" onclick="clearChatHistory()" title="清空对话记录">🗑️</button>
         <button class="chat-panel-close" onclick="toggleChatPanel()">✕</button>
     </div>
     <!-- 关于面板 -->
@@ -1986,7 +2203,7 @@ body {
         </div>
     </div>
     <div class="chat-input-area">
-        <input type="text" id="chatInput" placeholder="输入你的问题..." onkeydown="if(event.key==='Enter')sendChatMsg()">
+        <input type="text" id="chatInput" placeholder="输入你的问题..." onkeydown="if(event.key===&#39;Enter&#39;)sendChatMsg()">
         <button class="chat-send-btn" id="chatSendBtn" onclick="sendChatMsg()">➤</button>
     </div>
 </div>
@@ -3402,7 +3619,11 @@ const PROJECT_ID = 76783713900575149106;
  */
 function toggleChatPanel() {
     const panel = document.getElementById('chatPanel');
+    const wasOpen = panel.classList.contains('open');
     panel.classList.toggle('open');
+    if (!wasOpen) {
+        loadChatHistory();
+    }
 }
 
 /**
@@ -3416,7 +3637,7 @@ function toggleChatSettings() {
  * 调用 Cloudflare Worker 代理，转发请求到扣子智能体
  * 解析 SSE 流式响应，返回完整 AI 回复文本
  */
-async function callCozeAPI(query) {
+async function callCozeAPI(query, onChunk) {
     const payload = {
         content: {
             query: {
@@ -3459,9 +3680,15 @@ async function callCozeAPI(query) {
                 try {
                     const json = JSON.parse(data);
                     const text = extractTextFromEvent(json);
-                    if (text) fullText += text;
+                    if (text) {
+                        fullText += text;
+                        if (onChunk) onChunk(fullText);
+                    }
                 } catch (e) {
-                    if (data.length > 0) fullText += data;
+                    if (data.length > 0) {
+                        fullText += data;
+                        if (onChunk) onChunk(fullText);
+                    }
                 }
             }
         }
@@ -3634,29 +3861,44 @@ async function sendChatMsg() {
     document.getElementById('chatSendBtn').disabled = true;
     showTypingIndicator();
     
-    // 优先调用 Coze API 智能体，失败时降级到本地引擎
-    let reply = null;
+    // 先创建空的bot气泡用于流式显示
+    const streamingBubble = createStreamingBubble();
+    
+    let fullText = '';
     let usedAPI = false;
     
     try {
-        reply = await callCozeAPI(msg);
+        fullText = await callCozeAPI(msg, (text) => {
+            // 每收到新文本就更新气泡内容
+            updateStreamingBubble(streamingBubble, text);
+        });
         usedAPI = true;
     } catch (e) {
         console.log('AI代理调用失败，切换到本地引擎:', e.message);
+        removeStreamingBubble();
     }
     
     // API 失败或返回空内容时，降级到本地引擎
-    if (!reply || reply.trim() === '') {
-        reply = callLocalEngine(msg);
+    if (usedAPI && (!fullText || fullText.trim() === '')) {
+        removeStreamingBubble();
         usedAPI = false;
     }
     
-    removeTypingIndicator();
-    
-    if (reply) {
-        addChatMessage('bot', reply);
+    if (!usedAPI) {
+        // 降级到本地引擎
+        const localReply = callLocalEngine(msg);
+        if (localReply) {
+            removeTypingIndicator();
+            addChatMessage('bot', localReply);
+        } else {
+            removeTypingIndicator();
+            addChatMessage('bot', '抱歉，暂时无法回答这个问题。你可以试试：\n\n• "K值是什么意思？"\n• "160马力轻卡怎么选型？"\n• "散热量怎么计算？"\n• "膨胀水箱和溢流壶有什么区别？"\n• "冷却系统常见故障有哪些？"\n• "LAT是什么意思？"');
+        }
     } else {
-        addChatMessage('bot', '抱歉，暂时无法回答这个问题。你可以试试：\n\n• "K值是什么意思？"\n• "160马力轻卡怎么选型？"\n• "散热量怎么计算？"\n• "膨胀水箱和溢流壶有什么区别？"\n• "冷却系统常见故障有哪些？"\n• "LAT是什么意思？"');
+        // API成功时，最终格式化气泡内容
+        removeTypingIndicator();
+        finalizeStreamingBubble(streamingBubble, fullText);
+        saveChatToHistory('bot', fullText);
     }
     
     isChatLoading = false;
@@ -3666,7 +3908,8 @@ async function sendChatMsg() {
 /**
  * 添加消息气泡
  */
-function addChatMessage(role, content) {
+function addChatMessage(role, content, save) {
+    if (save === undefined) save = true;
     const container = document.getElementById('chatMessages');
     // 移除欢迎卡片
     const welcome = container.querySelector('.chat-welcome');
@@ -3685,6 +3928,8 @@ function addChatMessage(role, content) {
     
     container.appendChild(div);
     container.scrollTop = container.scrollHeight;
+    
+    if (save) saveChatToHistory(role, content);
 }
 
 /**
@@ -3739,6 +3984,104 @@ function removeTypingIndicator() {
 }
 
 /**
+ * 流式气泡相关函数
+ */
+function createStreamingBubble() {
+    const container = document.getElementById('chatMessages');
+    const welcome = container.querySelector('.chat-welcome');
+    if (welcome) welcome.remove();
+    removeTypingIndicator();
+    
+    const div = document.createElement('div');
+    div.className = 'chat-msg bot';
+    div.id = 'streamingMsg';
+    div.innerHTML = `
+        <div class="msg-avatar">🧊</div>
+        <div class="msg-bubble"><span class="streaming-cursor">▌</span></div>
+    `;
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+    return div;
+}
+
+function updateStreamingBubble(bubble, text) {
+    const msgBubble = bubble.querySelector('.msg-bubble');
+    msgBubble.innerHTML = formatMarkdown(text) + '<span class="streaming-cursor">▌</span>';
+    const container = document.getElementById('chatMessages');
+    container.scrollTop = container.scrollHeight;
+}
+
+function finalizeStreamingBubble(bubble, text) {
+    const msgBubble = bubble.querySelector('.msg-bubble');
+    msgBubble.innerHTML = formatMarkdown(text);
+    bubble.removeAttribute('id');
+}
+
+function removeStreamingBubble() {
+    const el = document.getElementById('streamingMsg');
+    if (el) el.remove();
+}
+
+/**
+ * 对话历史管理
+ */
+function saveChatToHistory(role, content) {
+    try {
+        let history = JSON.parse(localStorage.getItem('chat_history') || '[]');
+        history.push({ role: role, content: content, time: Date.now() });
+        if (history.length > 100) history = history.slice(-100);
+        localStorage.setItem('chat_history', JSON.stringify(history));
+    } catch (e) {
+        console.warn('保存对话历史失败:', e);
+    }
+}
+
+function loadChatHistory() {
+    try {
+        const history = JSON.parse(localStorage.getItem('chat_history') || '[]');
+        if (history.length === 0) return;
+        const container = document.getElementById('chatMessages');
+        // 如果已有消息（非欢迎卡片），则不重复加载
+        const existingMsgs = container.querySelectorAll('.chat-msg');
+        if (existingMsgs.length > 0) return;
+        // 移除欢迎卡片
+        const welcome = container.querySelector('.chat-welcome');
+        if (welcome) welcome.remove();
+        history.forEach(function(msg) {
+            addChatMessage(msg.role, msg.content, false);
+        });
+    } catch (e) {
+        console.warn('加载对话历史失败:', e);
+    }
+}
+
+function clearChatHistory() {
+    if (!confirm('确认清空所有对话记录？')) return;
+    localStorage.removeItem('chat_history');
+    const container = document.getElementById('chatMessages');
+    container.innerHTML = '';
+    showWelcomeCard();
+}
+
+function showWelcomeCard() {
+    const container = document.getElementById('chatMessages');
+    container.innerHTML = `
+        <div class="chat-welcome">
+            <div class="welcome-icon">🧊</div>
+            <h4>你好！我是冷却系统AI选型助手</h4>
+            <p>可以问我选型、诊断、散热量计算、K值等任何冷却系统专业问题</p>
+            <div class="chat-quick-btns">
+                <button class="chat-quick-btn" onclick="sendQuickMsg(this.textContent)">160马力轻卡怎么选配散热器？</button>
+                <button class="chat-quick-btn" onclick="sendQuickMsg(this.textContent)">云内发动机散热量修正系数是多少？</button>
+                <button class="chat-quick-btn" onclick="sendQuickMsg(this.textContent)">重卡LAT预测怎么计算？</button>
+                <button class="chat-quick-btn" onclick="sendQuickMsg(this.textContent)">散热器K值是什么意思？</button>
+            </div>
+        </div>
+    `;
+}
+
+
+/**
  * 一键生成选型报告（PDF）
  */
 async function generateReport() {
@@ -3761,86 +4104,308 @@ async function generateReport() {
         const ambientTemp = document.getElementById('ambientTemp').value;
         const altitude = document.getElementById('altitude').value;
         const regionType = document.getElementById('regionType');
-        const radHeat = document.getElementById('radHeatInput').value || '自动计算';
-        const icHeat = document.getElementById('icHeatInput').value || '自动计算';
+        const userRadHeat = document.getElementById('radHeatInput').value;
+        const userIcHeat = document.getElementById('icHeatInput').value;
 
         const supplierText = supplier.options[supplier.selectedIndex].text;
         const fuelText = fuelType.options[fuelType.selectedIndex].text;
         const regionText = regionType.options[regionType.selectedIndex].text;
         const vehicleText = currentVehicle === 'light' ? '轻卡（N2类）' : '重卡（N3类）';
 
-        // 创建报告HTML容器（离屏渲染）
+        // 从DOM中提取纯文本数据
+        const radHeatDisplay = userRadHeat ? (userRadHeat + ' kW（用户输入）') : '自动计算';
+        const icHeatDisplay = userIcHeat ? (userIcHeat + ' kW（用户输入）') : '自动计算';
+
+        // 提取核心指标
+        const summaryTexts = [];
+        document.querySelectorAll('#summaryCards .summary-card').forEach(function(card) {
+            var label = card.querySelector('.summary-label') ? card.querySelector('.summary-label').textContent.trim() : '';
+            var value = card.querySelector('.summary-value') ? card.querySelector('.summary-value').textContent.trim() : '';
+            var badge = card.querySelector('.summary-badge') ? card.querySelector('.summary-badge').textContent.trim() : '';
+            summaryTexts.push({ label: label, value: value, badge: badge });
+        });
+
+        // 提取推荐配置表格内容（纯文本）
+        var configPlainText = '';
+        var recConfigEl = document.getElementById('recommendedConfig');
+        if (recConfigEl) {
+            // 从config表格中提取纯文本数据
+            var tables = recConfigEl.querySelectorAll('table');
+            tables.forEach(function(table) {
+                var rows = table.querySelectorAll('tr');
+                rows.forEach(function(row) {
+                    var cells = row.querySelectorAll('td');
+                    if (cells.length >= 2) {
+                        configPlainText += cells[0].textContent.trim() + '：' + cells[1].textContent.trim() + '\n';
+                    }
+                });
+            });
+            // 提取风扇信息
+            var fanSection = recConfigEl.querySelector('h4 + p, h4 ~ p');
+            if (fanSection) {
+                configPlainText += '\n' + fanSection.textContent.trim();
+            }
+        }
+
+        // 提取尺寸推荐纯文本
+        var dimPlainText = '';
+        var dimEl = document.getElementById('dimensionRecommendation');
+        if (dimEl) {
+            var dimTables = dimEl.querySelectorAll('table');
+            var dimDesc = dimEl.querySelector('div > p, p');
+            if (dimDesc) dimPlainText += dimDesc.textContent.trim() + '\n\n';
+            dimTables.forEach(function(table) {
+                var headers = table.querySelectorAll('th');
+                var headerTexts = [];
+                headers.forEach(function(h) { headerTexts.push(h.textContent.trim()); });
+                if (headerTexts.length > 0) dimPlainText += headerTexts.join(' | ') + '\n';
+                var rows = table.querySelectorAll('tbody tr');
+                rows.forEach(function(row) {
+                    var cells = row.querySelectorAll('td');
+                    var cellTexts = [];
+                    cells.forEach(function(c) { cellTexts.push(c.textContent.trim()); });
+                    if (cellTexts.length > 0) dimPlainText += cellTexts.join(' | ') + '\n';
+                });
+                dimPlainText += '\n';
+            });
+        }
+
+        // 提取设计建议纯文本
+        var suggestionsPlainText = '';
+        var sugEl = document.getElementById('designSuggestions');
+        if (sugEl) {
+            var sugItems = sugEl.querySelectorAll('.suggestion-item');
+            sugItems.forEach(function(item) {
+                suggestionsPlainText += '• ' + item.textContent.trim() + '\n';
+            });
+        }
+
+        // 提取风险分析纯文本
+        var risksPlainText = '';
+        var riskEl = document.getElementById('riskAnalysis');
+        if (riskEl) {
+            var riskItems = riskEl.querySelectorAll('.risk-item');
+            riskItems.forEach(function(item) {
+                var title = item.querySelector('.risk-title') ? item.querySelector('.risk-title').textContent.trim() : '';
+                var desc = item.querySelector('.risk-desc') ? item.querySelector('.risk-desc').textContent.trim() : '';
+                var level = '低';
+                if (item.classList.contains('risk-high')) level = '高';
+                else if (item.classList.contains('risk-medium')) level = '中';
+                risksPlainText += '【' + level + '】' + title + '：' + desc + '\n';
+            });
+        }
+
+        // 提取计算详情纯文本
+        var calcPlainText = '';
+        var calcEl = document.getElementById('calcDetail');
+        if (calcEl) {
+            var calcFormulas = calcEl.querySelectorAll('.calc-formula');
+            var calcHeaders = calcEl.querySelectorAll('h4');
+            for (var i = 0; i < calcHeaders.length; i++) {
+                calcPlainText += calcHeaders[i].textContent.trim() + '\n';
+                if (calcFormulas[i]) {
+                    calcPlainText += calcFormulas[i].textContent.trim() + '\n';
+                }
+                calcPlainText += '\n';
+            }
+        }
+
+        // 构建报告HTML
+        var now = new Date();
+        var dateStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+
+        // 辅助函数：构建表格行
+        function buildReportTableRow(label, value, isGray) {
+            return '<tr' + (isGray ? ' style="background:#f7f8fa;"' : '') + '>' +
+                '<td style="padding:9px 12px; border:1px solid #e5e7eb; font-weight:600; width:35%; color:#374151;">' + label + '</td>' +
+                '<td style="padding:9px 12px; border:1px solid #e5e7eb; color:#1f2937;">' + value + '</td>' +
+                '</tr>';
+        }
+
+        // 构建核心指标表格行
+        var summaryRowsHtml = '';
+        for (var si = 0; si < summaryTexts.length; si++) {
+            var s = summaryTexts[si];
+            var isGray2 = (si % 2 === 1);
+            summaryRowsHtml += '<tr' + (isGray2 ? ' style="background:#f7f8fa;"' : '') + '>' +
+                '<td style="padding:9px 12px; border:1px solid #e5e7eb; font-weight:600; width:35%; color:#374151;">' + s.label + '</td>' +
+                '<td style="padding:9px 12px; border:1px solid #e5e7eb; color:#1f2937; font-weight:700; font-size:15px;">' + s.value + '</td>' +
+                '<td style="padding:9px 12px; border:1px solid #e5e7eb; color:#6b7280;">' + (s.badge || '-') + '</td>' +
+                '</tr>';
+        }
+
+        // 构建推荐配置表格
+        var configRowsHtml = '';
+        var configLines = configPlainText.split('\n').filter(function(l) { return l.trim() && l.indexOf('：') > -1; });
+        for (var ci = 0; ci < configLines.length; ci++) {
+            var parts = configLines[ci].split('：');
+            if (parts.length >= 2) {
+                var isGray3 = (ci % 2 === 1);
+                configRowsHtml += '<tr' + (isGray3 ? ' style="background:#f7f8fa;"' : '') + '>' +
+                    '<td style="padding:9px 12px; border:1px solid #e5e7eb; font-weight:600; width:35%; color:#374151;">' + parts[0].trim() + '</td>' +
+                    '<td style="padding:9px 12px; border:1px solid #e5e7eb; color:#1f2937;">' + parts.slice(1).join('：').trim() + '</td>' +
+                    '</tr>';
+            }
+        }
+
+        // 构建建议列表
+        var sugHtml = '';
+        var sugLines = suggestionsPlainText.split('\n').filter(function(l) { return l.trim(); });
+        sugLines.forEach(function(line) {
+            sugHtml += '<tr><td style="padding:8px 12px; border:1px solid #e5e7eb; color:#1f2937; font-size:13px; line-height:1.6;">' + line.replace(/• /g, '') + '</td></tr>';
+        });
+
+        // 构建风险表格
+        var riskHtml = '';
+        var riskLines = risksPlainText.split('\n').filter(function(l) { return l.trim(); });
+        riskLines.forEach(function(line, ri) {
+            var levelMatch = line.match(/【(.+?)】/);
+            var level = levelMatch ? levelMatch[1] : '低';
+            var content2 = line.replace(/【.+?】/, '');
+            var colonIdx = content2.indexOf('：');
+            var title = colonIdx > -1 ? content2.substring(0, colonIdx) : content2;
+            var desc2 = colonIdx > -1 ? content2.substring(colonIdx + 1) : '';
+            var riskColor = level === '高' ? '#dc2626' : (level === '中' ? '#d97706' : '#059669');
+            var isGray4 = (ri % 2 === 1);
+            riskHtml += '<tr' + (isGray4 ? ' style="background:#f7f8fa;"' : '') + '>' +
+                '<td style="padding:9px 12px; border:1px solid #e5e7eb; font-weight:600; width:12%; color:' + riskColor + ';">' + level + '</td>' +
+                '<td style="padding:9px 12px; border:1px solid #e5e7eb; font-weight:600; width:28%; color:#374151;">' + title + '</td>' +
+                '<td style="padding:9px 12px; border:1px solid #e5e7eb; color:#1f2937; font-size:13px;">' + desc2 + '</td>' +
+                '</tr>';
+        });
+
+        // 构建尺寸推荐表格
+        var dimHtml2 = '';
+        if (dimPlainText.trim()) {
+            var dimSections = dimPlainText.split('\n\n').filter(function(s) { return s.trim(); });
+            dimSections.forEach(function(section) {
+                var lines2 = section.split('\n').filter(function(l) { return l.trim(); });
+                if (lines2.length < 2) {
+                    dimHtml2 += '<p style="padding:6px 12px; font-size:13px; color:#4b5563; line-height:1.6;">' + lines2.join(' ') + '</p>';
+                    return;
+                }
+                // Check if first line looks like headers
+                var firstLine = lines2[0];
+                if (firstLine.indexOf('|') > -1) {
+                    var headers2 = firstLine.split('|').map(function(h) { return h.trim(); });
+                    var tableHtml = '<table style="width:100%; border-collapse:collapse; font-size:13px; margin:6px 0;">';
+                    tableHtml += '<tr style="background:#f0f4ff;">';
+                    headers2.forEach(function(h) {
+                        tableHtml += '<th style="padding:8px 10px; border:1px solid #e5e7eb; font-weight:600; color:#374151; text-align:left;">' + h + '</th>';
+                    });
+                    tableHtml += '</tr>';
+                    for (var di = 1; di < lines2.length; di++) {
+                        var cells2 = lines2[di].split('|').map(function(c) { return c.trim(); });
+                        var isGray5 = ((di - 1) % 2 === 1);
+                        tableHtml += '<tr' + (isGray5 ? ' style="background:#f7f8fa;"' : '') + '>';
+                        cells2.forEach(function(c) {
+                            tableHtml += '<td style="padding:7px 10px; border:1px solid #e5e7eb; color:#1f2937;">' + c + '</td>';
+                        });
+                        tableHtml += '</tr>';
+                    }
+                    tableHtml += '</table>';
+                    dimHtml2 += tableHtml;
+                } else {
+                    dimHtml2 += '<p style="padding:6px 12px; font-size:13px; color:#4b5563; line-height:1.6;">' + lines2.join(' ') + '</p>';
+                }
+            });
+        }
+
+        // 构建计算详情
+        var calcHtml2 = '';
+        if (calcPlainText.trim()) {
+            var calcSections = calcPlainText.split('\n\n').filter(function(s) { return s.trim(); });
+            calcSections.forEach(function(section) {
+                var lines3 = section.split('\n').filter(function(l) { return l.trim(); });
+                if (lines3.length > 0) {
+                    var title2 = lines3[0];
+                    var body2 = lines3.slice(1).join('<br>');
+                    calcHtml2 += '<div style="margin-bottom:14px;">' +
+                        '<h4 style="font-size:14px; color:#374151; font-weight:700; margin-bottom:6px;">' + title2 + '</h4>' +
+                        '<div style="padding:10px 14px; background:#f8f9fa; border-left:3px solid #2563eb; border-radius:4px; font-family:Courier New,monospace; font-size:12px; color:#1f2937; line-height:1.8;">' + body2 + '</div>' +
+                        '</div>';
+                }
+            });
+        }
+
+        // 组装完整报告HTML
+        var reportHTML = '<div style="text-align:center; margin-bottom:36px; padding-bottom:20px; border-bottom:3px solid #1e40af;">' +
+            '<h1 style="font-size:26px; color:#1e40af; margin-bottom:8px; font-weight:800;">商用车冷却系统选型报告</h1>' +
+            '<p style="color:#666; font-size:13px;">生成日期：' + dateStr + ' | 基于一维计算模型，最终方案以整车热平衡试验为准</p>' +
+            '</div>' +
+
+            '<div style="margin-bottom:28px;">' +
+            '<h2 style="font-size:16px; color:#1e40af; border-left:4px solid #1e40af; padding-left:10px; margin-bottom:14px; font-weight:700;">一、输入参数</h2>' +
+            '<table style="width:100%; border-collapse:collapse; font-size:13px;">' +
+            buildReportTableRow('车型类别', vehicleText) +
+            buildReportTableRow('供应商', supplierText, true) +
+            buildReportTableRow('燃料类型', fuelText) +
+            buildReportTableRow('发动机马力', hp + ' HP', true) +
+            buildReportTableRow('散热器需求散热量', radHeatDisplay) +
+            buildReportTableRow('中冷器需求散热量', icHeatDisplay, true) +
+            buildReportTableRow('最高允许温度', maxTemp + ' ℃') +
+            buildReportTableRow('环境温度', ambientTemp + ' ℃', true) +
+            buildReportTableRow('海拔高度', altitude + ' m') +
+            buildReportTableRow('目标地区类型', regionText, true) +
+            '</table>' +
+            '</div>' +
+
+            '<div style="margin-bottom:28px;">' +
+            '<h2 style="font-size:16px; color:#1e40af; border-left:4px solid #1e40af; padding-left:10px; margin-bottom:14px; font-weight:700;">二、核心计算指标</h2>' +
+            '<table style="width:100%; border-collapse:collapse; font-size:13px;">' +
+            '<tr style="background:#f0f4ff;">' +
+            '<th style="padding:9px 12px; border:1px solid #e5e7eb; font-weight:600; color:#374151; width:35%;">指标</th>' +
+            '<th style="padding:9px 12px; border:1px solid #e5e7eb; font-weight:600; color:#374151;">数值</th>' +
+            '<th style="padding:9px 12px; border:1px solid #e5e7eb; font-weight:600; color:#374151;">判定</th>' +
+            '</tr>' +
+            summaryRowsHtml +
+            '</table>' +
+            '</div>' +
+
+            '<div style="margin-bottom:28px;">' +
+            '<h2 style="font-size:16px; color:#1e40af; border-left:4px solid #1e40af; padding-left:10px; margin-bottom:14px; font-weight:700;">三、推荐配置方案</h2>' +
+            '<table style="width:100%; border-collapse:collapse; font-size:13px;">' +
+            configRowsHtml +
+            '</table>' +
+            '</div>' +
+
+            '<div style="margin-bottom:28px;">' +
+            '<h2 style="font-size:16px; color:#1e40af; border-left:4px solid #1e40af; padding-left:10px; margin-bottom:14px; font-weight:700;">四、推荐尺寸参数（K值反算）</h2>' +
+            dimHtml2 +
+            '</div>' +
+
+            '<div style="margin-bottom:28px;">' +
+            '<h2 style="font-size:16px; color:#1e40af; border-left:4px solid #1e40af; padding-left:10px; margin-bottom:14px; font-weight:700;">五、设计建议</h2>' +
+            '<table style="width:100%; border-collapse:collapse; font-size:13px;">' +
+            sugHtml +
+            '</table>' +
+            '</div>' +
+
+            '<div style="margin-bottom:28px;">' +
+            '<h2 style="font-size:16px; color:#1e40af; border-left:4px solid #1e40af; padding-left:10px; margin-bottom:14px; font-weight:700;">六、风险点提示</h2>' +
+            '<table style="width:100%; border-collapse:collapse; font-size:13px;">' +
+            '<tr style="background:#f0f4ff;">' +
+            '<th style="padding:9px 12px; border:1px solid #e5e7eb; font-weight:600; color:#374151; width:12%;">等级</th>' +
+            '<th style="padding:9px 12px; border:1px solid #e5e7eb; font-weight:600; color:#374151; width:28%;">风险项</th>' +
+            '<th style="padding:9px 12px; border:1px solid #e5e7eb; font-weight:600; color:#374151;">说明</th>' +
+            '</tr>' +
+            riskHtml +
+            '</table>' +
+            '</div>' +
+
+            '<div style="margin-bottom:28px;">' +
+            '<h2 style="font-size:16px; color:#1e40af; border-left:4px solid #1e40af; padding-left:10px; margin-bottom:14px; font-weight:700;">七、计算详情</h2>' +
+            calcHtml2 +
+            '</div>' +
+
+            '<div style="margin-top:30px; padding-top:16px; border-top:2px solid #e5e7eb; text-align:center; font-size:12px; color:#9ca3af;">' +
+            '由「商用车冷却系统选型工具」自动生成 | 基于一维计算模型，最终方案以整车热平衡试验为准' +
+            '</div>';
+
+        // 创建报告容器
         const reportContainer = document.createElement('div');
-        reportContainer.style.cssText = 'position:fixed; left:-9999px; top:0; width:800px; background:white; padding:40px; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; color:#333;';
-        
-        const now = new Date();
-        const dateStr = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
-
-        // 提取结果数据
-        const summaryCards = document.getElementById('summaryCards');
-        const recommendedConfig = document.getElementById('recommendedConfig');
-        const dimensionRecommendation = document.getElementById('dimensionRecommendation');
-        const designSuggestions = document.getElementById('designSuggestions');
-        const riskAnalysis = document.getElementById('riskAnalysis');
-        const calcDetail = document.getElementById('calcDetail');
-
-        reportContainer.innerHTML = `
-            <div style="text-align:center; margin-bottom:30px; border-bottom:3px solid #1a56db; padding-bottom:20px;">
-                <h1 style="font-size:24px; color:#1a56db; margin-bottom:8px;">商用车冷却系统选型报告</h1>
-                <p style="color:#666; font-size:14px;">生成日期：${dateStr}</p>
-            </div>
-            
-            <div style="margin-bottom:24px;">
-                <h2 style="font-size:18px; color:#1a56db; border-left:4px solid #1a56db; padding-left:10px; margin-bottom:12px;">一、输入参数</h2>
-                <table style="width:100%; border-collapse:collapse; font-size:14px;">
-                    <tr style="background:#f8f9fa;"><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600; width:35%;">车型类别</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${vehicleText}</td></tr>
-                    <tr><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600;">供应商</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${supplierText}</td></tr>
-                    <tr style="background:#f8f9fa;"><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600;">燃料类型</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${fuelText}</td></tr>
-                    <tr><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600;">发动机马力</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${hp} HP</td></tr>
-                    <tr style="background:#f8f9fa;"><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600;">散热器需求散热量</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${radHeat}${radHeat !== '自动计算' ? ' kW（用户输入）' : ' kW'}</td></tr>
-                    <tr><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600;">中冷器需求散热量</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${icHeat}${icHeat !== '自动计算' ? ' kW（用户输入）' : ' kW'}</td></tr>
-                    <tr style="background:#f8f9fa;"><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600;">最高允许温度</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${maxTemp} ℃</td></tr>
-                    <tr><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600;">环境温度</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${ambientTemp} ℃</td></tr>
-                    <tr style="background:#f8f9fa;"><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600;">海拔高度</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${altitude} m</td></tr>
-                    <tr><td style="padding:8px 12px; border:1px solid #e5e7eb; font-weight:600;">目标地区类型</td><td style="padding:8px 12px; border:1px solid #e5e7eb;">${regionText}</td></tr>
-                </table>
-            </div>
-
-            <div style="margin-bottom:24px;">
-                <h2 style="font-size:18px; color:#1a56db; border-left:4px solid #1a56db; padding-left:10px; margin-bottom:12px;">二、核心指标</h2>
-                <div id="reportSummaryCards" style="padding:8px;">${summaryCards.innerHTML}</div>
-            </div>
-
-            <div style="margin-bottom:24px;">
-                <h2 style="font-size:18px; color:#1a56db; border-left:4px solid #1a56db; padding-left:10px; margin-bottom:12px;">三、推荐配置方案</h2>
-                <div style="padding:8px;">${recommendedConfig.innerHTML}</div>
-            </div>
-
-            <div style="margin-bottom:24px;">
-                <h2 style="font-size:18px; color:#1a56db; border-left:4px solid #1a56db; padding-left:10px; margin-bottom:12px;">四、推荐尺寸参数（K值反算）</h2>
-                <div style="padding:8px;">${dimensionRecommendation.innerHTML}</div>
-            </div>
-
-            <div style="margin-bottom:24px;">
-                <h2 style="font-size:18px; color:#1a56db; border-left:4px solid #1a56db; padding-left:10px; margin-bottom:12px;">五、设计建议</h2>
-                <div style="padding:8px;">${designSuggestions.innerHTML}</div>
-            </div>
-
-            <div style="margin-bottom:24px;">
-                <h2 style="font-size:18px; color:#1a56db; border-left:4px solid #1a56db; padding-left:10px; margin-bottom:12px;">六、风险点提示</h2>
-                <div style="padding:8px;">${riskAnalysis.innerHTML}</div>
-            </div>
-
-            <div style="margin-bottom:24px;">
-                <h2 style="font-size:18px; color:#1a56db; border-left:4px solid #1a56db; padding-left:10px; margin-bottom:12px;">七、计算详情</h2>
-                <div style="padding:8px; font-size:13px;">${calcDetail.innerHTML}</div>
-            </div>
-
-            <div style="margin-top:30px; padding-top:16px; border-top:1px solid #e5e7eb; text-align:center; font-size:12px; color:#999;">
-                由「商用车冷却系统选型工具」自动生成 | 基于一维计算模型，最终方案以整车热平衡试验为准
-            </div>
-        `;
-
+        reportContainer.style.cssText = 'position:fixed; left:-9999px; top:0; width:800px; background:white; padding:40px; font-family: "Microsoft YaHei", "PingFang SC", sans-serif; color:#1f2937;';
+        reportContainer.innerHTML = reportHTML;
         document.body.appendChild(reportContainer);
 
         // 使用 html2canvas 渲染为图片
@@ -3861,10 +4426,9 @@ async function generateReport() {
         
         const pdfWidth = pdf.internal.pageSize.getWidth();
         const pdfHeight = pdf.internal.pageSize.getHeight();
-        const imgWidth = pdfWidth - 20; // 留边距
+        const imgWidth = pdfWidth - 20;
         const imgHeight = (canvas.height * imgWidth) / canvas.width;
         
-        // 如果内容超过一页，分页处理
         let heightLeft = imgHeight;
         let position = 10;
         
@@ -3879,7 +4443,7 @@ async function generateReport() {
         }
 
         // 下载 PDF
-        const fileName = `冷却系统选型报告_${vehicleText}_${hp}HP_${dateStr}.pdf`;
+        const fileName = '冷却系统选型报告_' + vehicleText + '_' + hp + 'HP_' + dateStr + '.pdf';
         pdf.save(fileName);
 
     } catch (err) {
@@ -3890,6 +4454,8 @@ async function generateReport() {
         btn.disabled = false;
     }
 }
+
 </script>
-</body>
-</html>
+
+
+</body></html>
