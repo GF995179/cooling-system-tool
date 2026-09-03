@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0318)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E5%86%B7%E5%8D%B4%E7%B3%BB%E7%BB%9F%E9%80%89%E5%9E%8B%E5%B7%A5%E5%85%B7.html?sign=1790928369-a12933017e-0-878bd2580f377e9fb4ca0557719fb25f8908f8ab89cedbc49ece0c14087bf75d -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>商用车冷却系统选型工具</title>
 <style>
@@ -1833,9 +1833,382 @@ body {
     .compare-table { min-width: 500px; }
 }
 
+
+/* ===== 批量选型区域 ===== */
+.batch-section {
+    background: linear-gradient(135deg, #f0f5ff 0%, #ecfdf5 30%, #eff6ff 70%, #faf5ff 100%);
+    border: 2px solid #8b5cf6;
+    border-radius: var(--radius-xl);
+    padding: 28px;
+    margin-top: 28px;
+    position: relative;
+    overflow: hidden;
+}
+.batch-section::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    right: -30px;
+    width: 120px;
+    height: 120px;
+    background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%);
+    border-radius: 50%;
+}
+.batch-section-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--gray-800);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+}
+.batch-section-title .icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    color: white;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+.batch-section-desc {
+    font-size: 13px;
+    color: var(--gray-600);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+/* 批量输入方式切换 */
+.batch-input-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 16px;
+    background: rgba(255,255,255,0.6);
+    padding: 4px;
+    border-radius: var(--radius);
+    width: fit-content;
+    border: 1px solid var(--gray-200);
+}
+.batch-input-tab {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--gray-500);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.batch-input-tab:hover { background: rgba(139,92,246,0.08); color: #7c3aed; }
+.batch-input-tab.active { background: #8b5cf6; color: white; box-shadow: 0 2px 6px rgba(139,92,246,0.3); }
+/* 共享参数区 */
+.batch-shared-params {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+}
+.batch-shared-params h4 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gray-700);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.batch-shared-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+}
+.batch-shared-grid .form-group label { font-size: 12px; }
+.batch-shared-grid .form-group input,
+.batch-shared-grid .form-group select { padding: 9px 12px; font-size: 13px; }
+/* 手动输入表格 */
+.batch-manual-table {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+    overflow-x: auto;
+}
+.batch-manual-table table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 700px;
+}
+.batch-manual-table th {
+    background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+    color: var(--gray-700);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 10px 12px;
+    text-align: left;
+    border-bottom: 2px solid #ddd6fe;
+    white-space: nowrap;
+}
+.batch-manual-table td {
+    padding: 6px 8px;
+    border-bottom: 1px solid var(--gray-100);
+    vertical-align: middle;
+}
+.batch-manual-table input,
+.batch-manual-table select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: 8px;
+    font-size: 13px;
+    outline: none;
+    transition: border-color 0.2s;
+    background: var(--gray-50);
+}
+.batch-manual-table input:focus,
+.batch-manual-table select:focus {
+    border-color: #8b5cf6;
+    background: white;
+    box-shadow: 0 0 0 2px rgba(139,92,246,0.1);
+}
+.batch-manual-table .row-num {
+    width: 30px;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #8b5cf6;
+}
+.batch-manual-table .row-remove {
+    background: none;
+    border: 1px solid var(--gray-200);
+    color: var(--gray-400);
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+.batch-manual-table .row-remove:hover {
+    background: var(--danger-light);
+    border-color: var(--danger);
+    color: var(--danger);
+}
+.batch-add-row-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 8px 16px;
+    border: 2px dashed var(--gray-300);
+    border-radius: 8px;
+    background: white;
+    color: var(--gray-500);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 8px;
+}
+.batch-add-row-btn:hover:not(:disabled) {
+    border-color: #8b5cf6;
+    color: #7c3aed;
+    background: #faf5ff;
+}
+.batch-add-row-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+/* 粘贴输入区 */
+.batch-paste-area {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    margin-bottom: 16px;
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+    display: none;
+}
+.batch-paste-area textarea {
+    width: 100%;
+    min-height: 180px;
+    padding: 14px;
+    border: 1.5px solid var(--gray-200);
+    border-radius: var(--radius);
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.2s;
+    background: var(--gray-50);
+}
+.batch-paste-area textarea:focus {
+    border-color: #8b5cf6;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(139,92,246,0.1);
+}
+.batch-paste-hint {
+    font-size: 11px;
+    color: var(--gray-500);
+    margin-top: 8px;
+    line-height: 1.6;
+}
+.batch-paste-hint code {
+    background: var(--gray-100);
+    padding: 1px 5px;
+    border-radius: 3px;
+    font-size: 11px;
+}
+/* 批量操作按钮 */
+.batch-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.batch-btn-run {
+    padding: 12px 28px;
+    border: none;
+    border-radius: var(--radius);
+    background: linear-gradient(135deg, #8b5cf6, #6d28d9);
+    color: white;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(139,92,246,0.3);
+}
+.batch-btn-run:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(139,92,246,0.4); }
+.batch-btn-run:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+.batch-btn-export {
+    padding: 12px 24px;
+    border: 1.5px solid #8b5cf6;
+    border-radius: var(--radius);
+    background: white;
+    color: #7c3aed;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: none;
+    align-items: center;
+    gap: 8px;
+}
+.batch-btn-export:hover { background: #faf5ff; border-color: #6d28d9; }
+.batch-btn-clear {
+    padding: 12px 20px;
+    border: 1.5px solid var(--gray-300);
+    border-radius: var(--radius);
+    background: white;
+    color: var(--gray-500);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.batch-btn-clear:hover { border-color: var(--gray-400); color: var(--gray-700); }
+/* 批量结果表格 */
+.batch-result-section {
+    display: none;
+    margin-top: 20px;
+    animation: fadeIn 0.4s ease;
+}
+.batch-result-section.show { display: block; }
+.batch-result-table-wrapper {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: 4px;
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-md);
+    overflow-x: auto;
+}
+.batch-result-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 900px;
+    font-size: 13px;
+}
+.batch-result-table thead th {
+    background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+    color: var(--gray-700);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 12px 14px;
+    text-align: left;
+    border-bottom: 2px solid #ddd6fe;
+    white-space: nowrap;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.2s;
+    position: relative;
+}
+.batch-result-table thead th:hover { background: #ede9fe; }
+.batch-result-table thead th .sort-arrow {
+    font-size: 10px;
+    margin-left: 4px;
+    opacity: 0.4;
+}
+.batch-result-table thead th.sorted-asc .sort-arrow,
+.batch-result-table thead th.sorted-desc .sort-arrow { opacity: 1; color: #7c3aed; }
+.batch-result-table tbody td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--gray-100);
+    white-space: nowrap;
+}
+.batch-result-table tbody tr:hover { background: #faf5ff; }
+.batch-result-table tbody tr:nth-child(even) { background: rgba(139,92,246,0.02); }
+.batch-result-table tbody tr:nth-child(even):hover { background: #faf5ff; }
+.batch-result-table .lat-badge {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+}
+.batch-result-table .lat-badge.success { background: var(--success-light); color: var(--success); }
+.batch-result-table .lat-badge.warning { background: var(--warning-light); color: var(--warning); }
+.batch-result-table .lat-badge.danger { background: var(--danger-light); color: var(--danger); }
+.batch-result-summary {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+}
+.batch-result-stat {
+    background: white;
+    border-radius: var(--radius);
+    padding: 14px 20px;
+    border: 1px solid var(--gray-200);
+    box-shadow: var(--shadow-sm);
+    min-width: 140px;
+}
+.batch-result-stat .stat-label { font-size: 11px; color: var(--gray-500); margin-bottom: 4px; }
+.batch-result-stat .stat-value { font-size: 20px; font-weight: 800; color: var(--gray-800); }
+.batch-result-stat .stat-value .unit { font-size: 12px; font-weight: 600; color: var(--gray-500); margin-left: 2px; }
+
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="./index_files/jspdf.umd.min.js.下载"></script>
+<script src="./index_files/html2canvas.min.js.下载"></script>
+<script src="./index_files/xlsx.full.min.js.下载"></script>
 </head>
 <body>
 <div class="container">
@@ -1848,13 +2221,13 @@ body {
 
     <!-- Tab切换 -->
     <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('selection')">
+        <button class="tab-btn active" onclick="switchTab(&#39;selection&#39;)">
             <span class="icon">📐</span> 选型推荐
         </button>
-        <button class="tab-btn" onclick="switchTab('diagnosis')">
+        <button class="tab-btn" onclick="switchTab(&#39;diagnosis&#39;)">
             <span class="icon">🔍</span> 配置诊断
         </button>
-        <button class="tab-btn" onclick="switchTab('reference')">
+        <button class="tab-btn" onclick="switchTab(&#39;reference&#39;)">
             <span class="icon">📚</span> 参考数据
         </button>
     </div>
@@ -1867,12 +2240,12 @@ body {
                 <span class="icon">🚛</span> 选择车型类别
             </div>
             <div class="vehicle-type-selector">
-                <div class="vehicle-card active" onclick="selectVehicle('light')" id="vehicle-light">
+                <div class="vehicle-card active" onclick="selectVehicle(&#39;light&#39;)" id="vehicle-light">
                     <div class="vehicle-icon">🚚</div>
                     <div class="vehicle-name">轻卡</div>
                     <div class="vehicle-desc">N2类 | Q/SQCV 101087-2025<br>4套标准模块配置</div>
                 </div>
-                <div class="vehicle-card" onclick="selectVehicle('heavy')" id="vehicle-heavy">
+                <div class="vehicle-card" onclick="selectVehicle(&#39;heavy&#39;)" id="vehicle-heavy">
                     <div class="vehicle-icon">🚛</div>
                     <div class="vehicle-name">重卡</div>
                     <div class="vehicle-desc">N3类 | Q/SQCV 17111-2020 + GB/T 12542-2020<br>按车架分级配置</div>
@@ -2032,7 +2405,7 @@ body {
             </div>
 
             <!-- 计算详情 -->
-            <details class="calc-detail" open>
+            <details class="calc-detail" open="">
                 <summary>📐 查看完整计算过程</summary>
                 <div id="calcDetail"></div>
             </details>
@@ -2204,7 +2577,145 @@ body {
         </div>
     </div>
 
+
+    <!-- ========== 批量选型区域 ========== -->
+        <div class="batch-section" id="batchSection">
+            <div class="batch-section-title">
+                <span class="icon">📋</span> 批量选型计算
+            </div>
+            <p class="batch-section-desc">
+                一次性输入多个发动机型号（不同马力），批量生成推荐方案，适合做车型谱系规划。支持手动输入或从Excel/CSV粘贴数据，最多10个型号。
+            </p>
+
+            <!-- 输入方式切换 -->
+            <div class="batch-input-tabs">
+                <button class="batch-input-tab active" onclick="switchBatchInput(&#39;manual&#39;)" id="batchTabManual">
+                    ✏️ 手动逐行输入
+                </button>
+                <button class="batch-input-tab" onclick="switchBatchInput(&#39;paste&#39;)" id="batchTabPaste">
+                    📋 粘贴表格数据
+                </button>
+            </div>
+
+            <!-- 手动输入区 -->
+            <div id="batchManualInput">
+                <div class="batch-manual-table">
+                    <table id="batchInputTable">
+                        <thead>
+                            <tr>
+                                <th style="width:36px;">#</th>
+                                <th>发动机代号</th>
+                                <th>马力 (HP)</th>
+                                <th>供应商</th>
+                                <th>燃料类型</th>
+                                <th>最高温度 (℃)</th>
+                                <th style="width:36px;"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="batchInputBody">
+                            <!-- 动态生成 -->
+                        <tr data-batch-row="1">
+        <td class="row-num">1</td>
+        <td><input type="text" class="batch-engine-name" placeholder="如：D2.5-160" value=""></td>
+        <td><input type="number" class="batch-engine-hp" placeholder="如：160" min="50" max="800" value=""></td>
+        <td><select class="batch-engine-supplier"><option value="cummins" selected="">康明斯</option><option value="yunnei">云内</option><option value="yuchai">玉柴</option><option value="other">其他</option></select></td>
+        <td><select class="batch-engine-fuel"><option value="diesel" selected="">柴油</option><option value="gas">天然气</option></select></td>
+        <td><input type="number" class="batch-engine-maxtemp" placeholder="如：105" min="80" max="130" step="0.5" value="105"></td>
+        <td><button class="row-remove" onclick="removeBatchRow(this)" title="删除此行">×</button></td>
+    </tr><tr data-batch-row="2">
+        <td class="row-num">2</td>
+        <td><input type="text" class="batch-engine-name" placeholder="如：D2.5-160" value=""></td>
+        <td><input type="number" class="batch-engine-hp" placeholder="如：160" min="50" max="800" value=""></td>
+        <td><select class="batch-engine-supplier"><option value="cummins" selected="">康明斯</option><option value="yunnei">云内</option><option value="yuchai">玉柴</option><option value="other">其他</option></select></td>
+        <td><select class="batch-engine-fuel"><option value="diesel" selected="">柴油</option><option value="gas">天然气</option></select></td>
+        <td><input type="number" class="batch-engine-maxtemp" placeholder="如：105" min="80" max="130" step="0.5" value="105"></td>
+        <td><button class="row-remove" onclick="removeBatchRow(this)" title="删除此行">×</button></td>
+    </tr></tbody>
+                    </table>
+                    <button class="batch-add-row-btn" id="batchAddRowBtn" onclick="addBatchRow()"><span>＋</span> 添加一行（最多10行）</button>
+                </div>
+            </div>
+
+            <!-- 粘贴输入区 -->
+            <div class="batch-paste-area" id="batchPasteInput">
+                <textarea id="batchPasteData" placeholder="从Excel或CSV复制数据粘贴到这里...
+
+支持的格式（每行一个发动机，列之间用Tab或逗号分隔）：
+发动机代号,马力,供应商,燃料类型,最高温度
+D2.5-160,160,cummins,diesel,105
+D2.5-180,180,cummins,diesel,105
+WP4.1-220,220,yuchai,diesel,108"></textarea>
+                <div class="batch-paste-hint">
+                    <strong>列顺序：</strong>发动机代号、马力(HP)、供应商、燃料类型、最高允许温度(℃)<br>
+                    <strong>供应商可选值：</strong><code>cummins</code> 康明斯、<code>yunnei</code> 云内、<code>yuchai</code> 玉柴、<code>other</code> 其他<br>
+                    <strong>燃料类型：</strong><code>diesel</code> 柴油、<code>gas</code> 天然气<br>
+                    <strong>分隔符：</strong>支持 Tab（Excel复制）或 <code>,</code>（CSV格式），首行标题行自动跳过
+                </div>
+            </div>
+
+            <!-- 共享参数 -->
+            <div class="batch-shared-params">
+                <h4>🔧 共享参数</h4>
+                <div class="batch-shared-grid">
+                    <div class="form-group">
+                        <label>车型类别 <span class="required">*</span></label>
+                        <select id="batchVehicleType">
+                            <option value="light">轻卡</option>
+                            <option value="heavy">重卡</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>环境温度</label>
+                        <div class="unit">
+                            <input type="number" id="batchAmbientTemp" placeholder="默认30" value="30" step="0.5">
+                            <span>℃</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>海拔高度</label>
+                        <div class="unit">
+                            <input type="number" id="batchAltitude" placeholder="默认500" value="500">
+                            <span>m</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>地区类型</label>
+                        <select id="batchRegionType">
+                            <option value="II">II类（高温地区 ≤48℃）</option>
+                            <option value="I">I类（普通地区 ≤46℃）</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 操作按钮 -->
+            <div class="batch-actions">
+                <button class="batch-btn-run" id="batchRunBtn" onclick="runBatchCalculation()">
+                    <span>🚀</span> 开始批量计算
+                </button>
+                <button class="batch-btn-export" id="batchExportBtn" onclick="exportBatchExcel()">
+                    <span>📊</span> 导出Excel
+                </button>
+                <button class="batch-btn-clear" onclick="clearBatchResults()">
+                    <span>🗑️</span> 清空结果
+                </button>
+            </div>
+
+            <!-- 批量结果区域 -->
+            <div class="batch-result-section" id="batchResultSection">
+                <div class="batch-result-summary" id="batchResultSummary">
+                    <!-- 动态生成统计卡片 -->
+                </div>
+                <div class="batch-result-table-wrapper">
+                    <table class="batch-result-table" id="batchResultTable">
+                        <!-- 动态生成 -->
+                    </table>
+                </div>
+            </div>
+        </div>
+
     <!-- ========== 配置诊断 ========== -->
+
     <div id="tab-diagnosis" class="result-section">
         <div class="card">
             <div class="card-title">
@@ -2216,11 +2727,11 @@ body {
 
             <!-- 车型选择 -->
             <div class="vehicle-type-selector" style="max-width: 600px;">
-                <div class="vehicle-card active" onclick="selectDiagVehicle('light')" id="diag-vehicle-light">
+                <div class="vehicle-card active" onclick="selectDiagVehicle(&#39;light&#39;)" id="diag-vehicle-light">
                     <div class="vehicle-icon">🚚</div>
                     <div class="vehicle-name">轻卡</div>
                 </div>
-                <div class="vehicle-card" onclick="selectDiagVehicle('heavy')" id="diag-vehicle-heavy">
+                <div class="vehicle-card" onclick="selectDiagVehicle(&#39;heavy&#39;)" id="diag-vehicle-heavy">
                     <div class="vehicle-icon">🚛</div>
                     <div class="vehicle-name">重卡</div>
                 </div>
@@ -2402,7 +2913,47 @@ body {
                             <th>进出水口</th>
                         </tr>
                     </thead>
-                    <tbody id="lightTruckConfigTable"></tbody>
+                    <tbody id="lightTruckConfigTable">
+        <tr>
+            <td class="config-name">模块一</td>
+            <td>600 × 542.5 × 36 mm</td>
+            <td>15.9 m²</td>
+            <td>0.32 m²</td>
+            <td>513 × 332 × 50 mm</td>
+            <td>4.8 m²</td>
+            <td>上左下右 (Φ38)</td>
+        </tr>
+    
+        <tr>
+            <td class="config-name">模块二</td>
+            <td>620 × 582.5 × 36 mm</td>
+            <td>16.7 m²</td>
+            <td>0.36 m²</td>
+            <td>535 × 352 × 50 mm</td>
+            <td>5.39 m²</td>
+            <td>上右下左 (Φ45)</td>
+        </tr>
+    
+        <tr>
+            <td class="config-name">模块三</td>
+            <td>620 × 582.5 × 36 mm</td>
+            <td>16.7 m²</td>
+            <td>0.36 m²</td>
+            <td>562 × 332 × 50 mm</td>
+            <td>5.26 m²</td>
+            <td>上左下右 (Φ45)</td>
+        </tr>
+    
+        <tr>
+            <td class="config-name">模块四</td>
+            <td>700 × 582 × 36 mm</td>
+            <td>18.64 m²</td>
+            <td>0.41 m²</td>
+            <td>559 × 412 × 50 mm</td>
+            <td>6.6 m²</td>
+            <td>上右下左 (Φ45)</td>
+        </tr>
+    </tbody>
                 </table>
             </div>
         </div>
@@ -2426,7 +2977,87 @@ body {
                             <th>匹配发动机</th>
                         </tr>
                     </thead>
-                    <tbody id="heavyTruckRadTable"></tbody>
+                    <tbody id="heavyTruckRadTable">
+        <tr>
+            <td>970-850变截梁</td>
+            <td>850 × 988 × 42 mm</td>
+            <td>83.9 dm²</td>
+            <td>对角线 (Φ60)</td>
+            <td>13L级燃气/柴油</td>
+        </tr>
+    
+        <tr>
+            <td>970-850变截梁</td>
+            <td>800 × 988 × 42 mm</td>
+            <td>79.1 dm²</td>
+            <td>对角线 (Φ60)</td>
+            <td>11L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>850直通梁/861直通梁/940-860变截梁</td>
+            <td>950 × 638 × 56 mm</td>
+            <td>61.6 dm²</td>
+            <td>上右下左 (Φ60)</td>
+            <td>11L级柴油/9L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>850直通梁/861直通梁/940-860变截梁</td>
+            <td>880 × 638 × 56 mm</td>
+            <td>56.1 dm²</td>
+            <td>上右下左 (Φ60)</td>
+            <td>6.7L级柴油/8L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>850 × 608 × 52 mm</td>
+            <td>51.6 dm²</td>
+            <td>对角线 (Φ上44下58)</td>
+            <td>6.7L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>800 × 608 × 52 mm</td>
+            <td>48.6 dm²</td>
+            <td>对角线 (Φ上44下58)</td>
+            <td>6L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>770 × 600 × 42 mm</td>
+            <td>46.2 dm²</td>
+            <td>对角线 (Φ上44下58)</td>
+            <td>4.5L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>770 × 576 × 42 mm</td>
+            <td>44.3 dm²</td>
+            <td>上右下左 (Φ45)</td>
+            <td>4.5L/4L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>650 × 576 × 32 mm</td>
+            <td>37.4 dm²</td>
+            <td>上右下左 (Φ45)</td>
+            <td>4L/2.8L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>600 × 576 × 32 mm</td>
+            <td>34.5 dm²</td>
+            <td>上右下左 (Φ45)</td>
+            <td>2.0L级柴油</td>
+        </tr>
+    </tbody>
                 </table>
             </div>
         </div>
@@ -2446,7 +3077,71 @@ body {
                             <th>匹配发动机</th>
                         </tr>
                     </thead>
-                    <tbody id="heavyTruckIcTable"></tbody>
+                    <tbody id="heavyTruckIcTable">
+        <tr>
+            <td>970-850变截梁</td>
+            <td>900 × 792 × 64 mm</td>
+            <td>71.2 dm²</td>
+            <td>右进左出 (Φ100)</td>
+            <td>13L级燃气/柴油</td>
+        </tr>
+    
+        <tr>
+            <td>970-850变截梁</td>
+            <td>900 × 652 × 64 mm</td>
+            <td>58.6 dm²</td>
+            <td>右进左出 (Φ100)</td>
+            <td>11L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>850直通梁/861直通梁/940-860变截梁</td>
+            <td>570 × 832 × 50 mm</td>
+            <td>47.4 dm²</td>
+            <td>右进左出 (Φ100)</td>
+            <td>11L级/9L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>850直通梁/861直通梁/940-860变截梁</td>
+            <td>570 × 712 × 50 mm</td>
+            <td>40.5 dm²</td>
+            <td>右进左出 (Φ100)</td>
+            <td>6.7L级/6L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>550 × 492 × 64 mm</td>
+            <td>27.1 dm²</td>
+            <td>右进左出 (Φ82)</td>
+            <td>6L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>550 × 552 × 64 mm</td>
+            <td>30.3 dm²</td>
+            <td>右进左出 (Φ82)</td>
+            <td>6.7L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>372 × 520 × 50 mm</td>
+            <td>25.1 dm²</td>
+            <td>右进左出 (Φ70)</td>
+            <td>4L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>545 × 482 × 38 mm</td>
+            <td>26.2 dm²</td>
+            <td>右进左出 (Φ76)</td>
+            <td>4L级/2.8L级柴油</td>
+        </tr>
+    </tbody>
                 </table>
             </div>
         </div>
@@ -2627,7 +3322,7 @@ body {
         </div>
     </div>
     <div class="chat-input-area">
-        <input type="text" id="chatInput" placeholder="输入你的问题..." onkeydown="if(event.key==='Enter')sendChatMsg()">
+        <input type="text" id="chatInput" placeholder="输入你的问题..." onkeydown="if(event.key===&#39;Enter&#39;)sendChatMsg()">
         <button class="chat-send-btn" id="chatSendBtn" onclick="sendChatMsg()">➤</button>
     </div>
 </div>
@@ -4028,6 +4723,7 @@ function renderReferenceData() {
 // ========== 页面初始化 ==========
 document.addEventListener('DOMContentLoaded', function() {
     renderReferenceData();
+    initBatchInput();
 });
 
 // ========== AI 智能问答（Cloudflare Worker 代理 → 扣子智能体） ==========
@@ -5625,6 +6321,547 @@ async function exportComparisonPDF() {
     }
 }
 
+
+
+// ========================================================================
+// ========== 批量选型计算功能 =============================================
+// ========================================================================
+
+let batchResults = [];          // 批量计算结果
+let batchSortColumn = null;     // 当前排序列
+let batchSortAsc = true;        // 排序方向
+let batchRowCount = 0;          // 当前行数
+
+/**
+ * 初始化批量输入：默认添加2行
+ */
+function initBatchInput() {
+    const tbody = document.getElementById('batchInputBody');
+    if (tbody.children.length > 0) return; // 已初始化
+    addBatchRow();
+    addBatchRow();
+}
+
+/**
+ * 切换批量输入方式：手动 / 粘贴
+ */
+function switchBatchInput(mode) {
+    document.getElementById('batchTabManual').classList.toggle('active', mode === 'manual');
+    document.getElementById('batchTabPaste').classList.toggle('active', mode === 'paste');
+    document.getElementById('batchManualInput').style.display = mode === 'manual' ? 'block' : 'none';
+    document.getElementById('batchPasteInput').style.display = mode === 'paste' ? 'block' : 'none';
+}
+
+/**
+ * 获取供应商/燃料类型的下拉HTML
+ */
+function getBatchSupplierOptions(selected) {
+    const opts = [
+        { v: 'cummins', t: '康明斯' },
+        { v: 'yunnei', t: '云内' },
+        { v: 'yuchai', t: '玉柴' },
+        { v: 'other', t: '其他' }
+    ];
+    return opts.map(o => `<option value="${o.v}" ${o.v === selected ? 'selected' : ''}>${o.t}</option>`).join('');
+}
+
+function getBatchFuelOptions(selected) {
+    const opts = [
+        { v: 'diesel', t: '柴油' },
+        { v: 'gas', t: '天然气' }
+    ];
+    return opts.map(o => `<option value="${o.v}" ${o.v === selected ? 'selected' : ''}>${o.t}</option>`).join('');
+}
+
+/**
+ * 添加一行批量输入
+ */
+function addBatchRow(defaults) {
+    const tbody = document.getElementById('batchInputBody');
+    const currentCount = tbody.children.length;
+    if (currentCount >= 10) {
+        alert('最多支持10个发动机型号');
+        return;
+    }
+    batchRowCount = currentCount + 1;
+    const idx = batchRowCount;
+    const d = defaults || {};
+
+    const tr = document.createElement('tr');
+    tr.dataset.batchRow = idx;
+    tr.innerHTML = `
+        <td class="row-num">${idx}</td>
+        <td><input type="text" class="batch-engine-name" placeholder="如：D2.5-160" value="${d.name || ''}"></td>
+        <td><input type="number" class="batch-engine-hp" placeholder="如：160" min="50" max="800" value="${d.hp || ''}"></td>
+        <td><select class="batch-engine-supplier">${getBatchSupplierOptions(d.supplier || 'cummins')}</select></td>
+        <td><select class="batch-engine-fuel">${getBatchFuelOptions(d.fuel || 'diesel')}</select></td>
+        <td><input type="number" class="batch-engine-maxtemp" placeholder="如：105" min="80" max="130" step="0.5" value="${d.maxTemp || '105'}"></td>
+        <td><button class="row-remove" onclick="removeBatchRow(this)" title="删除此行">×</button></td>
+    `;
+    tbody.appendChild(tr);
+    updateBatchAddBtn();
+}
+
+/**
+ * 删除一行批量输入
+ */
+function removeBatchRow(btn) {
+    const tbody = document.getElementById('batchInputBody');
+    if (tbody.children.length <= 1) {
+        alert('至少保留1行');
+        return;
+    }
+    btn.closest('tr').remove();
+    // 重新编号
+    Array.from(tbody.children).forEach((tr, i) => {
+        tr.querySelector('.row-num').textContent = i + 1;
+    });
+    batchRowCount = tbody.children.length;
+    updateBatchAddBtn();
+}
+
+/**
+ * 更新添加按钮状态
+ */
+function updateBatchAddBtn() {
+    const btn = document.getElementById('batchAddRowBtn');
+    const count = document.getElementById('batchInputBody').children.length;
+    btn.disabled = count >= 10;
+    btn.innerHTML = count >= 10 ? '<span>✓</span> 已达上限（10行）' : '<span>＋</span> 添加一行（最多10行）';
+}
+
+/**
+ * 解析粘贴的表格数据
+ */
+function parseBatchPaste() {
+    const raw = document.getElementById('batchPasteData').value.trim();
+    if (!raw) { alert('请粘贴数据'); return []; }
+
+    const lines = raw.split('\n').filter(l => l.trim());
+    const results = [];
+
+    for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        // 检测分隔符：Tab优先，否则逗号
+        const sep = line.includes('\t') ? '\t' : ',';
+        const cols = line.split(sep).map(c => c.trim());
+
+        // 跳过标题行（首行且第一列不是数字）
+        if (i === 0 && isNaN(parseFloat(cols[1]))) continue;
+
+        if (cols.length < 2) continue;
+
+        const name = cols[0] || `发动机${i + 1}`;
+        const hp = parseFloat(cols[1]);
+        const supplier = (cols[2] || 'cummins').toLowerCase();
+        const fuel = (cols[3] || 'diesel').toLowerCase();
+        const maxTemp = parseFloat(cols[4]) || 105;
+
+        if (isNaN(hp) || hp <= 0) continue;
+
+        results.push({ name, hp, supplier, fuel, maxTemp });
+        if (results.length >= 10) break;
+    }
+    return results;
+}
+
+/**
+ * 执行批量计算
+ */
+function runBatchCalculation() {
+    const vehicleType = document.getElementById('batchVehicleType').value;
+    const ambientTemp = parseFloat(document.getElementById('batchAmbientTemp').value) || 30;
+    const altitude = parseFloat(document.getElementById('batchAltitude').value) || 500;
+    const regionType = document.getElementById('batchRegionType').value;
+
+    let engines = [];
+    const isPasteMode = document.getElementById('batchTabPaste').classList.contains('active');
+
+    if (isPasteMode) {
+        engines = parseBatchPaste();
+        if (engines.length === 0) {
+            alert('未解析到有效数据，请检查格式');
+            return;
+        }
+    } else {
+        // 从手动输入表格读取
+        const rows = document.getElementById('batchInputBody').querySelectorAll('tr');
+        for (const row of rows) {
+            const name = row.querySelector('.batch-engine-name').value.trim();
+            const hp = parseFloat(row.querySelector('.batch-engine-hp').value);
+            const supplier = row.querySelector('.batch-engine-supplier').value;
+            const fuel = row.querySelector('.batch-engine-fuel').value;
+            const maxTemp = parseFloat(row.querySelector('.batch-engine-maxtemp').value);
+
+            if (!hp || hp <= 0) {
+                alert(`请为 "${name || '未命名'}" 输入有效的马力值`);
+                return;
+            }
+            if (!maxTemp || maxTemp <= 0) {
+                alert(`请为 "${name || '未命名'}" 输入有效的最高温度`);
+                return;
+            }
+            engines.push({ name: name || `发动机#${row.dataset.batchRow}`, hp, supplier, fuel, maxTemp });
+        }
+    }
+
+    if (engines.length === 0) {
+        alert('请至少输入一个发动机型号');
+        return;
+    }
+
+    // 逐个计算
+    batchResults = [];
+    const btn = document.getElementById('batchRunBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span>⏳</span> 计算中...';
+
+    try {
+        for (const eng of engines) {
+            // 计算目标LAT
+            let targetLAT;
+            if (vehicleType === 'light') {
+                targetLAT = regionType === 'I' ? latStandards.light.I.power : latStandards.light.II.power;
+            } else {
+                targetLAT = regionType === 'I' ? latStandards.heavy.normal : latStandards.heavy.highTemp;
+            }
+
+            // 散热量计算
+            const heatCalc = calculateHeatDissipation(eng.hp, eng.fuel, eng.supplier);
+            const radHeat = parseFloat(heatCalc.q_water);
+            const icHeat = parseFloat(heatCalc.q_ic);
+            const qTotal = radHeat + icHeat;
+
+            // 配置选型（临时切换 currentVehicle）
+            const origVehicle = currentVehicle;
+            currentVehicle = vehicleType;
+
+            let config;
+            if (vehicleType === 'light') {
+                config = selectLightTruckModule(
+                    parseFloat(heatCalc.power_kW), qTotal, eng.maxTemp, eng.hp, eng.supplier, eng.fuel
+                );
+            } else {
+                config = selectHeavyTruckConfig(
+                    parseFloat(heatCalc.power_kW), qTotal, eng.maxTemp, eng.hp, eng.supplier, eng.fuel
+                );
+            }
+            currentVehicle = origVehicle;
+
+            const latPredict = config.latPredict;
+            const latVal = parseFloat(latPredict.lat);
+
+            // LAT等级判定
+            let latLevel, latText;
+            if (latVal < targetLAT) { latLevel = 'danger'; latText = '不满足'; }
+            else if (latVal < targetLAT + 5) { latLevel = 'warning'; latText = '勉强满足'; }
+            else { latLevel = 'success'; latText = '优良'; }
+
+            // 提取推荐规格
+            let radSpec = '', icSpec = '', fanDia = '';
+            if (vehicleType === 'light') {
+                const r = config.recommended.radiator;
+                const ic = config.recommended.intercooler;
+                radSpec = `${r.coreSize[0]}×${r.coreSize[1]}×${r.coreSize[2]}mm`;
+                icSpec = `${ic.coreSize[0]}×${ic.coreSize[1]}×${ic.coreSize[2]}mm`;
+                fanDia = `Φ${config.fanSize.diameter}`;
+            } else {
+                const r = config.radiator;
+                const ic = config.intercooler;
+                radSpec = `${r.coreSize[0]}×${r.coreSize[1]}×${r.coreSize[2]}mm (${r.frameType})`;
+                icSpec = `${ic.coreSize[0]}×${ic.coreSize[1]}×${ic.coreSize[2]}mm`;
+                fanDia = `Φ${config.fanSize.diameter}`;
+            }
+
+            batchResults.push({
+                name: eng.name,
+                hp: eng.hp,
+                supplier: eng.supplier,
+                fuel: eng.fuel,
+                maxTemp: eng.maxTemp,
+                radSpec: radSpec,
+                icSpec: icSpec,
+                latPredict: latVal,
+                latLevel: latLevel,
+                latText: latText,
+                targetLAT: targetLAT,
+                fanDia: fanDia,
+                qTotal: qTotal.toFixed(1),
+                powerKW: heatCalc.power_kW,
+                margin: config.margin,
+                vehicleType: vehicleType,
+                regionType: regionType,
+                ambientTemp: ambientTemp,
+                altitude: altitude,
+                radHeat: radHeat.toFixed(1),
+                icHeat: icHeat.toFixed(1)
+            });
+        }
+
+        renderBatchResults();
+    } catch (err) {
+        console.error('批量计算出错:', err);
+        alert('计算出错: ' + err.message);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<span>🚀</span> 开始批量计算';
+    }
+}
+
+/**
+ * 渲染批量结果表格
+ */
+function renderBatchResults() {
+    const section = document.getElementById('batchResultSection');
+    section.classList.add('show');
+    document.getElementById('batchExportBtn').style.display = 'flex';
+
+    // 统计摘要
+    const total = batchResults.length;
+    const passCount = batchResults.filter(r => r.latLevel !== 'danger').length;
+    const avgLAT = (batchResults.reduce((s, r) => s + r.latPredict, 0) / total).toFixed(1);
+    const hpRange = `${Math.min(...batchResults.map(r => r.hp))} ~ ${Math.max(...batchResults.map(r => r.hp))}`;
+
+    document.getElementById('batchResultSummary').innerHTML = `
+        <div class="batch-result-stat">
+            <div class="stat-label">计算型号数</div>
+            <div class="stat-value">${total}<span class="unit">个</span></div>
+        </div>
+        <div class="batch-result-stat">
+            <div class="stat-label">马力范围</div>
+            <div class="stat-value">${hpRange}<span class="unit">HP</span></div>
+        </div>
+        <div class="batch-result-stat">
+            <div class="stat-label">平均预测LAT</div>
+            <div class="stat-value">${avgLAT}<span class="unit">℃</span></div>
+        </div>
+        <div class="batch-result-stat">
+            <div class="stat-label">LAT达标率</div>
+            <div class="stat-value" style="color:${passCount === total ? 'var(--success)' : passCount > 0 ? 'var(--warning)' : 'var(--danger)'}">${passCount}/${total}</div>
+        </div>
+    `;
+
+    // 渲染表格
+    renderBatchTable();
+}
+
+/**
+ * 渲染/重渲染批量结果表格（支持排序）
+ */
+function renderBatchTable() {
+    let data = [...batchResults];
+
+    // 排序
+    if (batchSortColumn !== null) {
+        const key = batchSortColumn;
+        data.sort((a, b) => {
+            let va = a[key], vb = b[key];
+            if (typeof va === 'number' && typeof vb === 'number') {
+                return batchSortAsc ? va - vb : vb - va;
+            }
+            va = String(va); vb = String(vb);
+            return batchSortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+        });
+    }
+
+    const supplierNames = { cummins: '康明斯', yunnei: '云内', yuchai: '玉柴', other: '其他' };
+    const fuelNames = { diesel: '柴油', gas: '天然气' };
+
+    const columns = [
+        { key: 'name', label: '发动机代号', sortable: true },
+        { key: 'hp', label: '马力(HP)', sortable: true },
+        { key: '_supplierName', label: '供应商', sortable: true },
+        { key: 'radSpec', label: '推荐散热器规格', sortable: false },
+        { key: 'icSpec', label: '推荐中冷器规格', sortable: false },
+        { key: 'latPredict', label: '预测LAT(℃)', sortable: true },
+        { key: '_latText', label: 'LAT等级', sortable: true },
+        { key: 'fanDia', label: '风扇直径', sortable: false }
+    ];
+
+    const sortArrow = (key) => {
+        if (batchSortColumn === key) {
+            return `<span class="sort-arrow">${batchSortAsc ? '▲' : '▼'}</span>`;
+        }
+        return '<span class="sort-arrow">⇅</span>';
+    };
+
+    let html = '<thead><tr>';
+    for (const col of columns) {
+        const cls = batchSortColumn === col.key ? (batchSortAsc ? 'sorted-asc' : 'sorted-desc') : '';
+        const clickHandler = col.sortable ? `onclick="sortBatchResults('${col.key}')"` : '';
+        html += `<th class="${cls}" ${clickHandler}>${col.label}${col.sortable ? sortArrow(col.key) : ''}</th>`;
+    }
+    html += '</tr></thead><tbody>';
+
+    for (const row of data) {
+        row._supplierName = supplierNames[row.supplier] || row.supplier;
+        row._fuelName = fuelNames[row.fuel] || row.fuel;
+        row._latText = row.latText;
+
+        html += '<tr>';
+        html += `<td style="font-weight:600;">${row.name}</td>`;
+        html += `<td>${row.hp}</td>`;
+        html += `<td>${row._supplierName}</td>`;
+        html += `<td style="font-size:12px;">${row.radSpec}</td>`;
+        html += `<td style="font-size:12px;">${row.icSpec}</td>`;
+        html += `<td style="font-weight:700;">${row.latPredict}</td>`;
+        html += `<td><span class="lat-badge ${row.latLevel}">${row.latText}</span></td>`;
+        html += `<td>${row.fanDia}</td>`;
+        html += '</tr>';
+    }
+    html += '</tbody>';
+
+    document.getElementById('batchResultTable').innerHTML = html;
+}
+
+/**
+ * 排序批量结果
+ */
+function sortBatchResults(column) {
+    if (batchSortColumn === column) {
+        batchSortAsc = !batchSortAsc;
+    } else {
+        batchSortColumn = column;
+        batchSortAsc = true;
+    }
+    renderBatchTable();
+}
+
+/**
+ * 清空批量结果
+ */
+function clearBatchResults() {
+    batchResults = [];
+    batchSortColumn = null;
+    batchSortAsc = true;
+    document.getElementById('batchResultSection').classList.remove('show');
+    document.getElementById('batchExportBtn').style.display = 'none';
+    document.getElementById('batchResultSummary').innerHTML = '';
+    document.getElementById('batchResultTable').innerHTML = '';
+}
+
+/**
+ * 导出批量结果为Excel文件
+ */
+function exportBatchExcel() {
+    if (batchResults.length === 0) {
+        alert('没有可导出的结果');
+        return;
+    }
+
+    // 检查 SheetJS 是否已加载
+    if (typeof XLSX === 'undefined') {
+        alert('Excel导出库未加载，请检查网络连接后刷新页面');
+        return;
+    }
+
+    const supplierNames = { cummins: '康明斯', yunnei: '云内', yuchai: '玉柴', other: '其他' };
+    const fuelNames = { diesel: '柴油', gas: '天然气' };
+    const vehicleNames = { light: '轻卡', heavy: '重卡' };
+    const regionNames = { 'I': 'I类（普通地区）', 'II': 'II类（高温地区）' };
+
+    // 构建导出数据
+    const exportData = batchResults.map((r, i) => ({
+        '序号': i + 1,
+        '发动机代号': r.name,
+        '马力(HP)': r.hp,
+        '供应商': supplierNames[r.supplier] || r.supplier,
+        '燃料类型': fuelNames[r.fuel] || r.fuel,
+        '发动机功率(kW)': r.powerKW,
+        '散热器散热量(kW)': r.radHeat,
+        '中冷器散热量(kW)': r.icHeat,
+        '总散热量(kW)': r.qTotal,
+        '推荐散热器规格': r.radSpec,
+        '推荐中冷器规格': r.icSpec,
+        '预测LAT(℃)': r.latPredict,
+        '目标LAT(℃)': r.targetLAT,
+        'LAT判定': r.latText,
+        '风扇直径': r.fanDia,
+        '裕量(%)': r.margin,
+        '车型类别': vehicleNames[r.vehicleType] || r.vehicleType,
+        '地区类型': regionNames[r.regionType] || r.regionType,
+        '环境温度(℃)': r.ambientTemp,
+        '海拔(m)': r.altitude,
+        '最高允许温度(℃)': r.maxTemp
+    }));
+
+    // 创建工作簿
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(exportData);
+
+    // 设置列宽
+    ws['!cols'] = [
+        { wch: 6 },   // 序号
+        { wch: 16 },  // 发动机代号
+        { wch: 10 },  // 马力
+        { wch: 10 },  // 供应商
+        { wch: 10 },  // 燃料类型
+        { wch: 14 },  // 功率
+        { wch: 16 },  // 散热器散热量
+        { wch: 16 },  // 中冷器散热量
+        { wch: 14 },  // 总散热量
+        { wch: 30 },  // 散热器规格
+        { wch: 30 },  // 中冷器规格
+        { wch: 14 },  // 预测LAT
+        { wch: 14 },  // 目标LAT
+        { wch: 12 },  // LAT判定
+        { wch: 10 },  // 风扇直径
+        { wch: 10 },  // 裕量
+        { wch: 10 },  // 车型类别
+        { wch: 18 },  // 地区类型
+        { wch: 14 },  // 环境温度
+        { wch: 10 },  // 海拔
+        { wch: 16 }   // 最高温度
+    ];
+
+    XLSX.utils.book_append_sheet(wb, ws, '批量选型结果');
+
+    // 添加一个参数摘要sheet
+    const summaryData = [{
+        '项目': '生成时间',
+        '值': new Date().toLocaleString('zh-CN')
+    }, {
+        '项目': '发动机数量',
+        '值': batchResults.length + '个'
+    }, {
+        '项目': '车型类别',
+        '值': vehicleNames[batchResults[0].vehicleType] || ''
+    }, {
+        '项目': '地区类型',
+        '值': regionNames[batchResults[0].regionType] || ''
+    }, {
+        '项目': '环境温度',
+        '值': batchResults[0].ambientTemp + '℃'
+    }, {
+        '项目': '海拔',
+        '值': batchResults[0].altitude + 'm'
+    }, {
+        '项目': '马力范围',
+        '值': Math.min(...batchResults.map(r => r.hp)) + ' ~ ' + Math.max(...batchResults.map(r => r.hp)) + ' HP'
+    }, {
+        '项目': '平均预测LAT',
+        '值': (batchResults.reduce((s, r) => s + r.latPredict, 0) / batchResults.length).toFixed(1) + '℃'
+    }, {
+        '项目': 'LAT达标率',
+        '值': batchResults.filter(r => r.latLevel !== 'danger').length + '/' + batchResults.length
+    }];
+
+    const ws2 = XLSX.utils.json_to_sheet(summaryData);
+    ws2['!cols'] = [{ wch: 16 }, { wch: 30 }];
+    XLSX.utils.book_append_sheet(wb, ws2, '计算参数摘要');
+
+    // 生成文件名
+    const now = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    const timestamp = `${now.getFullYear()}${pad(now.getMonth()+1)}${pad(now.getDate())}_${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`;
+    const fileName = `批量选型结果_${timestamp}.xlsx`;
+
+    // 下载
+    XLSX.writeFile(wb, fileName);
+}
+
+
 </script>
-</body>
-</html>
+
+
+</body></html>
