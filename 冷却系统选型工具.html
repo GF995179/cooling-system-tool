@@ -2383,6 +2383,18 @@ body {
         height: 500px;
     }
 }
+
+
+.kg-wrap{position:relative;width:100%;height:560px;background:#fff;border-radius:var(--radius);border:1px solid var(--gray-200);overflow:hidden}
+.kg-wrap canvas{display:block;width:100%;height:100%}
+.kg-tip{position:absolute;pointer-events:none;background:rgba(30,41,59,.9);color:#fff;padding:4px 8px;border-radius:5px;font-size:12px;display:none;z-index:10}
+.kg-bar{display:flex;gap:5px;flex-wrap:wrap;padding:7px;background:var(--gray-50);border-radius:var(--radius);margin-bottom:8px}
+.kg-bar select,.kg-bar input{padding:3px 7px;border:1px solid var(--gray-200);border-radius:5px;font-size:12px;background:#fff}
+.kg-bar input{flex:1;min-width:100px}
+.kg-bar button{padding:3px 9px;border-radius:5px;cursor:pointer;font-size:12px;border:1px solid var(--gray-200);background:#fff}
+.kg-lg{display:flex;gap:10px;margin-bottom:5px;font-size:12px;color:var(--gray-500)}
+.kg-lg i{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:2px}
+@media(max-width:768px){.kg-wrap{height:360px}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -2411,6 +2423,7 @@ body {
     <button class="tab-btn" onclick="switchTab('sensitivity')">
         <span class="icon">📊</span> 敏感性分析
     </button>
+    <button class="tab-btn" onclick="switchTab('knowledge-graph')"><span class="icon">🔗</span> 故障图谱</button>
     </div>
 
     <!-- ========== 选型推荐 ========== -->
@@ -3482,9 +3495,19 @@ body {
         <input type="text" id="chatInput" placeholder="输入你的问题..." onkeydown="if(event.key==='Enter')sendChatMsg()">
         <button class="chat-send-btn" id="chatSendBtn" onclick="sendChatMsg()">➤</button>
     </div>
-</div>
+    </div>
 
-<script>
+    <div id="tab-knowledge-graph" class="result-section">
+        <div class="card">
+            <div class="card-title"><span class="icon">🔗</span> 故障知识图谱</div>
+            <p style="color:var(--gray-500);font-size:12px;margin-bottom:8px;">点击症状展开关联路径，支持拖拽。</p>
+            <div class="kg-bar"><select id="kgF" onchange="kgFocus(this.value)"><option value="">选择症状</option></select><input id="kgS" placeholder="搜索" oninput="kgFind(this.value)"><button onclick="kgReset()">重置</button><button onclick="kgAll()" style="color:var(--primary)">展开</button></div>
+            <div class="kg-lg"><span><i style="background:#f97316"></i>症状</span><span><i style="background:#ef4444"></i>原因</span><span><i style="background:#3b82f6"></i>排查</span><span><i style="background:#10b981"></i>方案</span></div>
+            <div class="kg-wrap" id="kgW"><canvas id="kgC"></canvas><div class="kg-tip" id="kgT"></div></div>
+        </div>
+    </div>
+
+    <script>
 // ========== ML LAT Prediction Model (V3) ==========
 // Auto-generated from trained sklearn models
 // Light: gb 60trees d=4 MAE=4.37°C R²=0.4047
@@ -3661,7 +3684,7 @@ let currentDiagVehicle = 'light';
 
 // ========== Tab切换 ==========
 function switchTab(tab) {
-    const tabs = ['selection', 'diagnosis', 'reference', 'sensitivity'];
+    const tabs = ['selection', 'diagnosis', 'reference', 'sensitivity', 'knowledge-graph'];
     document.querySelectorAll('.tab-btn').forEach((btn, i) => {
         btn.classList.toggle('active', tabs[i] === tab);
     });
@@ -7601,6 +7624,44 @@ function exportBatchExcel() {
         localStorage.setItem('tool_version','v20260903');
     }
 })();
+// ===== 故障知识图谱 =====
+(function(){
+var N=[['LAT偏高',0,22],['水温差偏小',0,20],['中冷压降过大',0,18],['风扇频繁启停',0,17],['冷却液消耗快',0,18],['发动机过热',0,22],
+['散热器偏小',1,18],['散热器过厚',1,15],['风扇不足',1,18],['流量不足',1,17],['翅片堵塞',1,18],['中冷器干涉',1,17],['水泵下降',1,17],['节温器故障',1,16],
+['查散热器面积',2,14],['查风扇转速',2,14],['查液位循环',2,14],['查翅片清洁',2,13],['查中冷压降',2,13],['查水泵状态',2,13],['查节温器',2,13],
+['换大散热器',3,13],['换薄散热器',3,13],['换风扇',3,12],['清洗翅片',3,12],['调中冷位置',3,12],['换水泵',3,11],['换节温器',3,12]];
+var E=[[0,6,.9],[0,8,.85],[0,9,.7],[0,10,.8],[0,11,.6],[0,12,.65],[0,13,.6],[1,9,.85],[1,12,.8],[1,13,.7],[2,10,.7],[2,11,.85],[2,7,.6],[3,8,.5],[5,6,.85],[5,8,.8],[5,12,.7],[5,13,.65],[6,14,.9],[6,18,.7],[7,14,.7],[8,15,.9],[8,14,.5],[9,16,.85],[9,19,.8],[10,17,.95],[10,14,.5],[11,18,.7],[12,19,.95],[13,20,.95],[13,18,.6],
+[6,21,.9],[7,22,.85],[8,23,.9],[10,24,.95],[11,25,.9],[12,26,.95],[13,27,.95]];
+var CC=['#f97316','#ef4444','#3b82f6','#10b981'],CL=['故障症状','可能原因','排查步骤','解决方案'];
+var nd=[],ed=[],cv,cx,W,H,dp,dr=null,hv=null,px=0,py=0,zm=1,lm={x:0,y:0},pn=false,al=1,ini=false;
+function gid(i){return['S','C','T','L'][N[i][1]]+(i<6?i+1:i<14?i-5:i<21?i-13:i-20);}
+function init(){if(ini)return;ini=true;cv=document.getElementById('kgC');if(!cv)return;cx=cv.getContext('2d');rsz();addEventListener('resize',rsz);cv.onmousedown=md;cv.onmousemove=mm;cv.onmouseup=cv.onmouseleave=mu;cv.addEventListener('wheel',wh,{passive:false});var s=document.getElementById('kgF');for(var i=0;i<6;i++){var o=document.createElement('option');o.value=gid(i);o.textContent=N[i][0];s.appendChild(o);}ld0();requestAnimationFrame(lp);}
+function rsz(){var w=document.getElementById('kgW');if(!w)return;dp=devicePixelRatio||1;W=w.clientWidth;H=w.clientHeight;cv.width=W*dp;cv.height=H*dp;cv.style.width=W+'px';cv.style.height=H+'px';cx.setTransform(dp,0,0,dp,0,0);}
+function ld0(){nd=[];ed=[];var r=Math.min(W,H)*.3;for(var i=0;i<6;i++){var a=2*Math.PI*i/6-Math.PI/2;nd.push({i:i,id:gid(i),nm:N[i][0],ct:0,r:N[i][2],x:W/2+r*Math.cos(a),y:H/2+r*Math.sin(a),vx:0,vy:0,v:1,ex:0});}al=1;}
+function lp(){if(al>.001){al*=.98;fc();}dr2();requestAnimationFrame(lp);}
+function fc(){var vs=nd.filter(function(n){return n.v}),cX=W/2,cY=H/2;
+for(var i=0;i<vs.length;i++)for(var j=i+1;j<vs.length;j++){var dx=vs[j].x-vs[i].x,dy=vs[j].y-vs[i].y,d2=dx*dx+dy*dy||1,d=Math.sqrt(d2),f=2600*al/d2;vs[i].vx-=f*dx/d;vs[i].vy-=f*dy/d;vs[j].vx+=f*dx/d;vs[j].vy+=f*dy/d;}
+ed.forEach(function(e){var a=nd.find(function(n){return n.id===e[0]&&n.v}),b=nd.find(function(n){return n.id===e[1]&&n.v});if(!a||!b)return;var dx=b.x-a.x,dy=b.y-a.y,d=Math.sqrt(dx*dx+dy*dy)||1,f=(d-110)*.04*al;a.vx+=f*dx/d;a.vy+=f*dy/d;b.vx-=f*dx/d;b.vy-=f*dy/d;});
+vs.forEach(function(n){if(n===dr)return;n.vx=(n.vx+(cX-n.x)*.008*al)*.6;n.vy=(n.vy+(cY-n.y)*.008*al)*.6;n.x+=n.vx;n.y+=n.vy;n.x=n.x<n.r?n.r:n.x>W-n.r?W-n.r:n.x;n.y=n.y<n.r?n.r:n.y>H-n.r?H-n.r:n.y;});}
+function dr2(){cx.save();cx.clearRect(0,0,W,H);cx.translate(px,py);cx.scale(zm,zm);
+ed.forEach(function(e){var a=nd.find(function(n){return n.id===e[0]&&n.v}),b=nd.find(function(n){return n.id===e[1]&&n.v});if(!a||!b)return;cx.beginPath();cx.moveTo(a.x,a.y);cx.lineTo(b.x,b.y);cx.strokeStyle='rgba(148,163,184,'+(0.2+(e[2]||.5)*.5)+')';cx.lineWidth=.5+(e[2]||.5)*2;cx.stroke();});
+nd.filter(function(n){return n.v}).forEach(function(n){var c=CC[n.ct];if(n===hv){cx.beginPath();cx.arc(n.x,n.y,n.r+5,0,6.3);cx.fillStyle=c+'30';cx.fill();}cx.beginPath();cx.arc(n.x,n.y,n.r,0,6.3);cx.fillStyle=c+'18';cx.fill();cx.strokeStyle=c;cx.lineWidth=2;cx.stroke();cx.beginPath();cx.arc(n.x,n.y,3.5,0,6.3);cx.fillStyle=c;cx.fill();cx.font='11px sans-serif';cx.fillStyle='#334155';cx.textAlign='center';cx.textBaseline='top';cx.fillText(n.nm.length>6?n.nm.slice(0,5)+'\u2026':n.nm,n.x,n.y+n.r+3);});cx.restore();}
+function ht(mx,my){var sx=(mx-px)/zm,sy=(my-py)/zm,b=null,bd=1e9;nd.filter(function(n){return n.v}).forEach(function(n){var d=Math.hypot(n.x-sx,n.y-sy);if(d<n.r+4&&d<bd){bd=d;b=n;}});return b;}
+function ex(n){if(n.ex)return;n.ex=1;var tc={0:1,1:2,2:3}[n.ct];if(tc==null)return;
+E.forEach(function(e){if(e[0]!==n.i)return;var di=e[1];if(N[di][1]!==tc)return;var id=gid(di);if(nd.find(function(x){return x.id===id}))return;var a=Math.random()*6.3;nd.push({i:di,id:id,nm:N[di][0],ct:N[di][1],r:N[di][2],x:n.x+55*Math.cos(a),y:n.y+55*Math.sin(a),vx:0,vy:0,v:1,ex:0});ed.push([gid(e[0]),id,e[2]||.5]);});al=.5;}
+function md(e){var r=cv.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top,h=ht(mx,my);if(h){dr=h;lm={x:mx,y:my};ex(h);}else{pn=true;lm={x:mx,y:my};}}
+function mm(e){var r=cv.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;if(dr){dr.x+=(mx-lm.x)/zm;dr.y+=(my-lm.y)/zm;dr.vx=dr.vy=0;lm={x:mx,y:my};}else if(pn){px+=mx-lm.x;py+=my-lm.y;lm={x:mx,y:my};}else{hv=ht(mx,my);cv.style.cursor=hv?'pointer':'grab';var tip=document.getElementById('kgT');if(hv){tip.textContent=hv.nm+' '+CL[hv.ct];tip.style.display='block';tip.style.left=Math.min(mx+12,W-200)+'px';tip.style.top=(my-10)+'px';}else tip.style.display='none';}}
+function mu(){dr=null;pn=false;}
+function wh(e){e.preventDefault();var r=cv.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top,d=e.deltaY>0?.92:1.08,z=Math.max(.3,Math.min(3,zm*d));px=mx-(mx-px)*(z/zm);py=my-(my-py)*(z/zm);zm=z;}
+function fi(id){for(var i=0;i<N.length;i++)if(gid(i)===id)return i;return -1;}
+window.kgFocus=function(id){init();var n=nd.find(function(x){return x.i===fi(id)});if(n){ex(n);px=W/2-n.x*zm;py=H/2-n.y*zm;}};
+window.kgFind=function(q){hv=q?nd.find(function(n){return n.v&&n.nm.indexOf(q)>=0})||null:null;};
+window.kgReset=function(){init();px=py=0;zm=1;ld0();kgF.value='';kgS.value='';};
+window.kgAll=function(){init();nd.filter(function(n){return n.ct===0&&n.v}).forEach(function(n){n.ex=0;ex(n);});setTimeout(function(){nd.filter(function(n){return n.ct===1&&n.v}).forEach(function(n){n.ex=0;ex(n);});},150);setTimeout(function(){nd.filter(function(n){return n.ct===2&&n.v}).forEach(function(n){n.ex=0;ex(n);});},300);};
+var _st=window.switchTab;window.switchTab=function(t){if(_st)_st(t);if(t==='knowledge-graph')init();};
+})();
+
+
 </script>
 </body>
 </html>
