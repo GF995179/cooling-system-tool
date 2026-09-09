@@ -2395,6 +2395,39 @@ body {
 .kg-lg{display:flex;gap:10px;margin-bottom:5px;font-size:12px;color:var(--gray-500)}
 .kg-lg i{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:2px}
 @media(max-width:768px){.kg-wrap{height:360px}}
+
+/* ===== 闭环学习 - 反馈与学习面板 ===== */
+.fb-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;border:2px dashed var(--success);background:var(--success-light);color:var(--success);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;margin-top:12px}
+.fb-btn:hover{background:var(--success);color:#fff;border-style:solid}
+.fb-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;background:rgba(0,0,0,.45);align-items:center;justify-content:center}
+.fb-modal.show{display:flex}
+.fb-modal-box{background:#fff;border-radius:16px;padding:28px;width:380px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.2);animation:fadeIn .2s}
+.fb-modal-box h3{margin-bottom:16px;font-size:16px;color:var(--gray-800)}
+.fb-modal-box label{font-size:13px;color:var(--gray-600);display:block;margin-bottom:4px}
+.fb-modal-box input{width:100%;padding:10px 12px;border:1.5px solid var(--gray-200);border-radius:8px;font-size:15px;margin-bottom:12px}
+.fb-modal-box input:focus{outline:none;border-color:var(--primary)}
+.fb-preview{background:var(--gray-50);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--gray-600);margin-bottom:16px;line-height:1.8}
+.fb-preview b{color:var(--gray-800)}
+.fb-actions{display:flex;gap:10px;justify-content:flex-end}
+.fb-actions button{padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none}
+.fb-actions .fb-cancel{background:var(--gray-100);color:var(--gray-600)}
+.fb-actions .fb-submit{background:var(--primary);color:#fff}
+.fb-actions .fb-submit:hover{background:var(--primary-dark)}
+.fb-comp{background:var(--warning-light);border:1px solid #fbbf24;border-radius:8px;padding:8px 14px;font-size:12px;color:#92400e;margin-top:8px;line-height:1.6}
+.lp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.lp-stat{background:var(--gray-50);border-radius:12px;padding:16px;text-align:center}
+.lp-stat .v{font-size:24px;font-weight:700;color:var(--primary)}
+.lp-stat .l{font-size:11px;color:var(--gray-500);margin-top:4px}
+.lp-chart{background:var(--gray-50);border-radius:12px;padding:16px;margin-bottom:20px}
+.lp-chart h4{font-size:13px;margin-bottom:12px;color:var(--gray-700)}
+.lp-bars{display:flex;align-items:flex-end;gap:3px;height:100px}
+.lp-bar{flex:1;background:var(--primary);border-radius:3px 3px 0 0;min-width:4px;max-width:16px;position:relative;transition:height .3s}
+.lp-bar:hover::after{content:attr(data-v);position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--gray-700);white-space:nowrap}
+.lp-cases h4{font-size:13px;margin-bottom:10px;color:var(--gray-700)}
+.lp-case{background:var(--danger-light);border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:12px;line-height:1.6;color:var(--gray-700)}
+.lp-case b{color:var(--danger)}
+.lp-empty{text-align:center;padding:40px;color:var(--gray-400);font-size:14px}
+@media(max-width:768px){.lp-grid{grid-template-columns:repeat(2,1fr)}}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -2424,6 +2457,7 @@ body {
         <span class="icon">📊</span> 敏感性分析
     </button>
     <button class="tab-btn" onclick="switchTab('knowledge-graph')"><span class="icon">🔗</span> 故障图谱</button>
+<button class="tab-btn" onclick="switchTab('learning')"><span class="icon">📈</span> 学习进度</button>
     </div>
 
     <!-- ========== 选型推荐 ========== -->
@@ -2657,6 +2691,9 @@ body {
                 <summary>📐 查看完整计算过程</summary>
                 <div id="calcDetail"></div>
             </details>
+
+            <!-- 实测反馈入口 -->
+            <div id="feedbackArea" style="display:none;"></div>
         </div>
 
         <!-- ========== 多方案对比区域 ========== -->
@@ -3502,6 +3539,29 @@ body {
         </div>
     </div>
 
+
+    <div id="tab-learning" class="result-section">
+        <div class="card">
+            <div class="card-title"><span class="icon">📈</span> 模型学习进度</div>
+            <div id="learningPanel"></div>
+        </div>
+    </div>
+
+    <!-- 实测值录入弹窗 -->
+    <div class="fb-modal" id="fbModal">
+        <div class="fb-modal-box">
+            <h3>📝 录入实测LAT值</h3>
+            <label>预测LAT值</label>
+            <div id="fbPredictedVal" style="font-size:15px;font-weight:600;color:var(--primary);margin-bottom:12px;"></div>
+            <label>请输入实测LAT值（℃）</label>
+            <input type="number" id="fbActualVal" step="0.1" placeholder="如：42.5" oninput="previewDeviation()">
+            <div class="fb-preview" id="fbPreview" style="display:none;"></div>
+            <div class="fb-actions">
+                <button class="fb-cancel" onclick="closeFbModal()">取消</button>
+                <button class="fb-submit" onclick="submitFeedback()">提交反馈</button>
+            </div>
+        </div>
+    </div>
     <!-- 页脚 -->
     <div class="footer">
         <p>💡 本工具为选型辅助工具，计算结果仅供参考。最终选型应以整车热平衡试验验证为准。</p>
@@ -3685,7 +3745,7 @@ let currentDiagVehicle = 'light';
 
 // ========== Tab切换 ==========
 function switchTab(tab) {
-    const tabs = ['selection', 'diagnosis', 'reference', 'sensitivity', 'knowledge-graph'];
+    const tabs = ['selection', 'diagnosis', 'reference', 'sensitivity', 'knowledge-graph', 'learning'];
     document.querySelectorAll('.tab-btn').forEach((btn, i) => {
         btn.classList.toggle('active', tabs[i] === tab);
     });
@@ -4470,12 +4530,18 @@ function renderSelectionResult(heat, config, latPredict, targetLAT, regionType, 
     if (mlLat !== null) {
         var mlDiff = (mlLat - parseFloat(latPredict.lat)).toFixed(1);
         var mlDiffSign = mlDiff >= 0 ? '+' : '';
+        // Apply bias compensation
+        var comp = applyBiasCompensation(mlLat, _lastMLParams.p, _lastMLParams.vt, supplier, hp);
+        var displayMlLat = comp.lat;
         var mlCardHtml = '<div class="summary-card" style="border-left: 4px solid var(--success);">' +
-            '<div class="summary-label">ML 预测 LAT</div>' +
-            '<div class="summary-value" style="color: var(--success);">' + mlLat + '<span class="unit">℃</span></div>' +
-            '<div style="font-size:11px; color:var(--gray-500); margin-top:4px;">公式法: ' + latPredict.lat + '℃ | 差值: ' + mlDiffSign + mlDiff + '℃</div>' +
+            '<div class="summary-label">ML 预测 LAT' + (comp.count >= 3 ? ' <span style="font-size:10px;color:var(--warning);">已补偿</span>' : '') + '</div>' +
+            '<div class="summary-value" style="color: var(--success);">' + displayMlLat + '<span class="unit">℃</span></div>' +
+            '<div style="font-size:11px; color:var(--gray-500); margin-top:4px;">公式法: ' + latPredict.lat + '℃ | 原始ML: ' + mlLat + '℃' + (comp.count >= 3 ? ' | 补偿: ' + (comp.bias >= 0 ? '+' : '') + comp.bias.toFixed(1) + '℃' : '') + '</div>' +
             '</div>';
         document.getElementById('summaryCards').innerHTML += mlCardHtml;
+        showFeedbackBtn(mlLat, _lastMLParams.p, _lastMLParams.vt, supplier, hp);
+    } else {
+        document.getElementById('feedbackArea').style.display = 'none';
     }
 
     
@@ -7659,9 +7725,171 @@ window.kgFocus=function(id){init();var n=nd.find(function(x){return x.i===fi(id)
 window.kgFind=function(q){hv=q?nd.find(function(n){return n.v&&n.nm.indexOf(q)>=0})||null:null;};
 window.kgReset=function(){init();px=py=0;zm=1;ld0();kgF.value='';kgS.value='';};
 window.kgAll=function(){init();nd.filter(function(n){return n.ct===0&&n.v}).forEach(function(n){n.ex=0;ex(n);});setTimeout(function(){nd.filter(function(n){return n.ct===1&&n.v}).forEach(function(n){n.ex=0;ex(n);});},150);setTimeout(function(){nd.filter(function(n){return n.ct===2&&n.v}).forEach(function(n){n.ex=0;ex(n);});},300);};
-var _st=window.switchTab;window.switchTab=function(t){if(_st)_st(t);if(t==='knowledge-graph')init();};
+var _st=window.switchTab;window.switchTab=function(t){if(_st)_st(t);if(t==='knowledge-graph')init();if(t==='learning')renderLearningPanel();};
 })();
 
+
+
+
+// ========== 闭环学习：反馈采集与偏差补偿 ==========
+var _fbCtx = null; // {predictedLat, params, vehicleType, supplier, hp}
+var FB_KEY = 'cooling_fb_data';
+var FB_MAX = 100;
+
+function getFbData() {
+    try { return JSON.parse(localStorage.getItem(FB_KEY)) || []; } catch(e) { return []; }
+}
+function saveFbData(arr) {
+    if (arr.length > FB_MAX) arr = arr.slice(arr.length - FB_MAX);
+    localStorage.setItem(FB_KEY, JSON.stringify(arr));
+}
+
+function showFeedbackBtn(predictedLat, params, vehicleType, supplier, hp) {
+    _fbCtx = { predictedLat: predictedLat, params: params, vehicleType: vehicleType, supplier: supplier, hp: hp };
+    var compensation = getBiasCompensation(params, vehicleType, supplier, hp);
+    var html = '<button class="fb-btn" onclick="openFbModal()">📝 录入实测值</button>';
+    if (compensation.count >= 3) {
+        html += '<div class="fb-comp">💡 基于' + compensation.count + '条相似工况历史反馈，已补偿' + (compensation.avgBias >= 0 ? '+' : '') + compensation.avgBias.toFixed(1) + '℃（补偿后LAT: ' + (predictedLat + compensation.avgBias).toFixed(1) + '℃）</div>';
+    }
+    document.getElementById('feedbackArea').innerHTML = html;
+    document.getElementById('feedbackArea').style.display = 'block';
+}
+
+function openFbModal() {
+    if (!_fbCtx) return;
+    document.getElementById('fbPredictedVal').textContent = _fbCtx.predictedLat.toFixed(1) + '℃';
+    document.getElementById('fbActualVal').value = '';
+    document.getElementById('fbPreview').style.display = 'none';
+    document.getElementById('fbModal').classList.add('show');
+}
+function closeFbModal() { document.getElementById('fbModal').classList.remove('show'); }
+
+function previewDeviation() {
+    var actual = parseFloat(document.getElementById('fbActualVal').value);
+    var preview = document.getElementById('fbPreview');
+    if (isNaN(actual) || !_fbCtx) { preview.style.display = 'none'; return; }
+    var dev = (_fbCtx.predictedLat - actual).toFixed(1);
+    var sign = dev >= 0 ? '+' : '';
+    preview.innerHTML = '预测值: <b>' + _fbCtx.predictedLat.toFixed(1) + '℃</b> | 实测值: <b>' + actual.toFixed(1) + '℃</b><br>偏差(预测-实测): <b style="color:' + (Math.abs(dev) > 3 ? 'var(--danger)' : 'var(--success)') + '">' + sign + dev + '℃</b>';
+    preview.style.display = 'block';
+}
+
+function submitFeedback() {
+    var actual = parseFloat(document.getElementById('fbActualVal').value);
+    if (isNaN(actual) || !_fbCtx) return;
+    var data = getFbData();
+    var p = _fbCtx.params;
+    data.push({
+        ts: Date.now(),
+        vt: _fbCtx.vehicleType,
+        hp: _fbCtx.hp,
+        sup: _fbCtx.supplier,
+        predicted: _fbCtx.predictedLat,
+        actual: actual,
+        deviation: +(_fbCtx.predictedLat - actual).toFixed(1),
+        radW: p['散热器宽_mm'] || 0,
+        radH: p['散热器高_mm'] || 0,
+        fanDia: p['风扇直径_mm'] || 0
+    });
+    saveFbData(data);
+    closeFbModal();
+    alert('✅ 反馈已保存！当前共' + data.length + '条记录。');
+    renderLearningPanel();
+}
+
+function getBiasCompensation(params, vehicleType, supplier, hp) {
+    var data = getFbData();
+    var hpRange = hp * 0.1;
+    var similar = data.filter(function(d) {
+        return d.vt === vehicleType && d.sup === supplier && Math.abs(d.hp - hp) <= hpRange;
+    });
+    if (similar.length < 1) return { count: 0, avgBias: 0 };
+    var sum = 0;
+    similar.forEach(function(d) { sum += d.deviation; });
+    return { count: similar.length, avgBias: +(sum / similar.length).toFixed(2) };
+}
+
+function applyBiasCompensation(originalLat, params, vehicleType, supplier, hp) {
+    var comp = getBiasCompensation(params, vehicleType, supplier, hp);
+    if (comp.count >= 3) return { lat: +(originalLat + comp.avgBias).toFixed(1), count: comp.count, bias: comp.avgBias };
+    return { lat: originalLat, count: 0, bias: 0 };
+}
+
+function renderLearningPanel() {
+    var data = getFbData();
+    var panel = document.getElementById('learningPanel');
+    if (!data.length) {
+        panel.innerHTML = '<div class="lp-empty">📭 暂无反馈数据<br><span style="font-size:12px;margin-top:8px;display:block;">完成选型计算后，点击「录入实测值」按钮开始积累学习数据</span></div>';
+        return;
+    }
+    var absDevs = data.map(function(d) { return Math.abs(d.deviation); });
+    var mae = (absDevs.reduce(function(a, b) { return a + b; }, 0) / absDevs.length).toFixed(1);
+    var maxDev = Math.max.apply(null, absDevs).toFixed(1);
+    var avgDev = (data.reduce(function(a, d) { return a + d.deviation; }, 0) / data.length).toFixed(1);
+    
+    // Stats grid
+    var html = '<div class="lp-grid">';
+    html += '<div class="lp-stat"><div class="v">' + data.length + '</div><div class="l">反馈数据点</div></div>';
+    html += '<div class="lp-stat"><div class="v" style="color:var(--success)">' + mae + '℃</div><div class="l">平均绝对误差(MAE)</div></div>';
+    html += '<div class="lp-stat"><div class="v" style="color:var(--danger)">' + maxDev + '℃</div><div class="l">最大偏差</div></div>';
+    html += '<div class="lp-stat"><div class="v" style="color:' + (Math.abs(avgDev) > 2 ? 'var(--warning)' : 'var(--success)') + '">' + (avgDev >= 0 ? '+' : '') + avgDev + '℃</div><div class="l">平均偏差方向</div></div>';
+    html += '</div>';
+    
+    // MAE trend chart (simple bar chart)
+    var maxPts = 30;
+    var recent = data.slice(-maxPts);
+    var maxAbs = Math.max.apply(null, recent.map(function(d) { return Math.abs(d.deviation); })) || 1;
+    html += '<div class="lp-chart"><h4>📊 偏差趋势（最近' + recent.length + '条）</h4><div class="lp-bars">';
+    recent.forEach(function(d) {
+        var h = Math.max(4, Math.abs(d.deviation) / maxAbs * 90);
+        var color = Math.abs(d.deviation) > 3 ? 'var(--danger)' : Math.abs(d.deviation) > 1.5 ? 'var(--warning)' : 'var(--success)';
+        html += '<div class="lp-bar" style="height:' + h + 'px;background:' + color + '" data-v="' + (d.deviation >= 0 ? '+' : '') + d.deviation + '℃" title="预测' + d.predicted + ' / 实测' + d.actual + '"></div>';
+    });
+    html += '</div><div style="font-size:11px;color:var(--gray-400);margin-top:8px;">柱高=偏差绝对值 | 颜色: 绿&lt;1.5℃ 黄&lt;3℃ 红≥3℃</div></div>';
+    
+    // High deviation cases
+    var highCases = data.slice().sort(function(a, b) { return Math.abs(b.deviation) - Math.abs(a.deviation); }).slice(0, 5);
+    if (highCases.length && Math.abs(highCases[0].deviation) > 1) {
+        html += '<div class="lp-cases"><h4>⚠️ 最近高偏差案例（Top 5）</h4>';
+        highCases.forEach(function(d) {
+            if (Math.abs(d.deviation) < 1) return;
+            var dt = new Date(d.ts).toLocaleDateString('zh-CN');
+            html += '<div class="lp-case">';
+            html += '<b>' + (d.deviation >= 0 ? '+' : '') + d.deviation + '℃</b> | ' + dt + ' | ';
+            html += (d.vt === 'light' ? '轻卡' : '重卡') + ' ' + d.hp + 'HP ';
+            var supNames = {cummins:'康明斯',yunnei:'云内',yuchai:'玉柴',other:'其他'};
+            html += (supNames[d.sup] || d.sup) + ' | 预测' + d.predicted + '℃ → 实测' + d.actual + '℃';
+            html += '</div>';
+        });
+        html += '</div>';
+    }
+    
+    // Data management
+    html += '<div style="margin-top:20px;text-align:right;"><button onclick="exportFbData()" style="padding:6px 14px;border-radius:6px;border:1px solid var(--gray-200);background:#fff;font-size:12px;cursor:pointer;margin-right:8px;">📤 导出数据</button>';
+    html += '<button onclick="clearFbData()" style="padding:6px 14px;border-radius:6px;border:1px solid var(--danger);background:var(--danger-light);color:var(--danger);font-size:12px;cursor:pointer;">🗑️ 清空数据</button></div>';
+    
+    panel.innerHTML = html;
+}
+
+function exportFbData() {
+    var data = getFbData();
+    if (!data.length) return alert('暂无数据可导出');
+    var csv = '时间,车型,马力,供应商,预测LAT,实测LAT,偏差\n';
+    data.forEach(function(d) {
+        csv += new Date(d.ts).toLocaleString('zh-CN') + ',' + (d.vt === 'light' ? '轻卡' : '重卡') + ',' + d.hp + ',' + d.sup + ',' + d.predicted + ',' + d.actual + ',' + d.deviation + '\n';
+    });
+    var blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'cooling_feedback_' + new Date().toISOString().slice(0, 10) + '.csv';
+    a.click();
+}
+
+function clearFbData() {
+    if (!confirm('确定清空所有反馈数据？此操作不可恢复。')) return;
+    localStorage.removeItem(FB_KEY);
+    renderLearningPanel();
+}
 
 </script>
 </body>
