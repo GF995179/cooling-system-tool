@@ -3212,6 +3212,26 @@ body {
             </div>
             <div id="diagContent"></div>
         </div>
+
+        <!-- AI智能诊断区域 -->
+        <div class="card" id="aiDiagCard" style="margin-top:16px;">
+            <div class="card-title"><span class="icon">🤖</span> AI智能诊断</div>
+            <p style="color:var(--gray-500);font-size:12px;margin-bottom:12px;">选择故障症状并补充描述，AI将分析根因并给出排查建议。</p>
+            <div id="aiDiagSymptoms" class="ai-symptoms-bar">
+                <label class="ai-symptom-tag"><input type="checkbox" value="LAT超标"> LAT超标</label>
+                <label class="ai-symptom-tag"><input type="checkbox" value="进水温差偏小"> 进水温差偏小</label>
+                <label class="ai-symptom-tag"><input type="checkbox" value="风扇转速异常"> 风扇转速异常</label>
+                <label class="ai-symptom-tag"><input type="checkbox" value="冷却液流量不足"> 冷却液流量不足</label>
+                <label class="ai-symptom-tag"><input type="checkbox" value="散热器堵塞"> 散热器堵塞</label>
+                <label class="ai-symptom-tag"><input type="checkbox" value="中冷器压降过大"> 中冷器压降过大</label>
+            </div>
+            <div style="display:flex;gap:8px;margin-bottom:12px;">
+                <textarea id="aiDiagDesc" placeholder="补充描述故障现象（可选）…" rows="2" style="flex:1;padding:8px 12px;border:1px solid var(--gray-300);border-radius:8px;font-size:13px;resize:vertical;font-family:inherit;"></textarea>
+                <button onclick="diagnoseFaultWithAI()" id="aiDiagBtn" style="padding:8px 20px;border:none;border-radius:8px;background:var(--primary);color:#fff;cursor:pointer;font-size:13px;font-weight:600;white-space:nowrap;align-self:flex-end;">🤖 AI诊断</button>
+            </div>
+            <div id="aiDiagLoading" style="display:none;text-align:center;padding:24px;color:var(--primary);"><div class="ai-spinner"></div><p style="margin-top:8px;font-size:13px;">AI分析中，请稍候…</p></div>
+            <div id="aiDiagResult" style="display:none;margin-top:12px;"></div>
+        </div>
     </div>
 
     <!-- ========== 参考数据 ========== -->
@@ -3601,25 +3621,6 @@ body {
             <div class="kg-wrap" id="kgW"><canvas id="kgC"></canvas><div class="kg-tip" id="kgT"></div></div>
         </div>
 
-        <!-- AI智能诊断区域 -->
-        <div class="card" id="aiDiagCard" style="margin-top:16px;">
-            <div class="card-title"><span class="icon">🤖</span> AI智能诊断</div>
-            <p style="color:var(--gray-500);font-size:12px;margin-bottom:12px;">选择故障症状并补充描述，AI将分析根因并给出排查建议。</p>
-            <div id="aiDiagSymptoms" class="ai-symptoms-bar">
-                <label class="ai-symptom-tag"><input type="checkbox" value="LAT超标"> LAT超标</label>
-                <label class="ai-symptom-tag"><input type="checkbox" value="进水温差偏小"> 进水温差偏小</label>
-                <label class="ai-symptom-tag"><input type="checkbox" value="风扇转速异常"> 风扇转速异常</label>
-                <label class="ai-symptom-tag"><input type="checkbox" value="冷却液流量不足"> 冷却液流量不足</label>
-                <label class="ai-symptom-tag"><input type="checkbox" value="散热器堵塞"> 散热器堵塞</label>
-                <label class="ai-symptom-tag"><input type="checkbox" value="中冷器压降过大"> 中冷器压降过大</label>
-            </div>
-            <div style="display:flex;gap:8px;margin-bottom:12px;">
-                <textarea id="aiDiagDesc" placeholder="补充描述故障现象（可选）…" rows="2" style="flex:1;padding:8px 12px;border:1px solid var(--gray-300);border-radius:8px;font-size:13px;resize:vertical;font-family:inherit;"></textarea>
-                <button onclick="diagnoseFaultWithAI()" id="aiDiagBtn" style="padding:8px 20px;border:none;border-radius:8px;background:var(--primary);color:#fff;cursor:pointer;font-size:13px;font-weight:600;white-space:nowrap;align-self:flex-end;">🤖 AI诊断</button>
-            </div>
-            <div id="aiDiagLoading" style="display:none;text-align:center;padding:24px;color:var(--primary);"><div class="ai-spinner"></div><p style="margin-top:8px;font-size:13px;">AI分析中，请稍候…</p></div>
-            <div id="aiDiagResult" style="display:none;margin-top:12px;"></div>
-        </div>
 
     </div>
 
@@ -8344,10 +8345,29 @@ var _origSwitchTab = window.switchTab;
 window.switchTab = function(tab) {
     _origSwitchTab(tab);
     if (tab === 'viewer3d' && !scene3dInitialized) {
-        setTimeout(function() { init3DScene(); }, 100);
+        requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+                init3DScene();
+                if (!scene3dInitialized) {
+                    var c = document.getElementById('viewer3dContainer');
+                    if (c && typeof THREE === 'undefined') {
+                        c.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#fff;flex-direction:column;gap:12px;"><div style="font-size:48px">⚠️</div><div style="font-size:14px">3D 引擎加载失败</div><div style="font-size:12px;opacity:0.7">请检查网络连接后刷新页面</div></div>';
+                    }
+                }
+            });
+        });
     }
 };
 
+
+
+
+// Auto-render learning panel on first visit
+document.addEventListener('DOMContentLoaded', function() {
+    if (typeof renderLearningPanel === 'function') {
+        renderLearningPanel();
+    }
+});
 
 function renderSimpleMarkdown(md) {
     if (!md) return '';
