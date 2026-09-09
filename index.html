@@ -2548,6 +2548,7 @@ body {
 
             <!-- 核心指标 -->
             <div id="summaryCards" class="result-summary"></div>
+            <div id="shapChartArea" style="margin-top:16px;display:none;"></div>
 
             <!-- 公式法 vs ML预测 对比说明 -->
             <div class="collapsible-section" id="latComparePanel">
@@ -4253,6 +4254,63 @@ function getMLPrediction(config, hp, supplier, fuelType) {
 }
 // ========== End ML Integration Helper ==========
 
+// ========== SHAP Explainability (Saabas Approximation) ==========
+function _treeSHAP(node, fv) {
+  if (node.l !== undefined) return { value: node.l, shap: {} };
+  var fi = node[0], th = node[1], lR = _treeSHAP(node[2], fv), rR = _treeSHAP(node[3], fv);
+  var exp = (lR.value + rR.value) / 2.0;
+  var actual, cs;
+  if (fv[fi] <= th) { actual = lR.value; cs = lR.shap; }
+  else { actual = rR.value; cs = rR.shap; }
+  var ns = {}; for (var k in cs) ns[k] = cs[k];
+  ns[fi] = (ns[fi] || 0) + (actual - exp);
+  return { value: actual, shap: ns };
+}
+function computeSHAP(vt, params) {
+  var cfg = ML_MODEL[vt]; if (!cfg) return null;
+  var fn = cfg.feature_names;
+  var fv = fn.map(function(n) { var v = parseFloat(params[n]); return isNaN(v) ? 0 : v; });
+  var tot = {}; for (var i = 0; i < fn.length; i++) tot[i] = 0;
+  for (var i = 0; i < cfg.trees.length; i++) {
+    var r = _treeSHAP(cfg.trees[i], fv);
+    for (var fi in r.shap) tot[fi] += r.shap[fi] * cfg.learning_rate;
+  }
+  var ctr = [];
+  for (var i = 0; i < fn.length; i++) {
+    var sv = Math.round((tot[i] || 0) * 10000) / 10000;
+    if (Math.abs(sv) > 0.001) ctr.push({ feature: fn[i], shap_value: sv });
+  }
+  ctr.sort(function(a, b) { return Math.abs(b.shap_value) - Math.abs(a.shap_value); });
+  return { base_value: cfg.init_value, top_contributors: ctr.slice(0, 10) };
+}
+function renderSHAPChart() {
+  if (typeof _lastMLParams === 'undefined' || !_lastMLParams) return;
+  var result = computeSHAP(_lastMLParams.vt, _lastMLParams.p);
+  if (!result) return;
+  var ctr = result.top_contributors, bv = result.base_value;
+  if (!ctr.length) return;
+  var mx = 0; ctr.forEach(function(c) { mx = Math.max(mx, Math.abs(c.shap_value)); });
+  var h = '<div style="background:var(--bg);border-radius:var(--radius-lg);padding:20px;border:2px solid var(--primary-light);">';
+  h += '<div style="font-size:16px;font-weight:700;color:var(--primary);margin-bottom:16px;">\ud83d\udd0d SHAP \u7279\u5f81\u8d21\u732e\u5206\u89e3</div>';
+  ctr.forEach(function(c) {
+    var pct = Math.abs(c.shap_value) / mx * 42;
+    var pos = c.shap_value > 0, col = pos ? '#16a34a' : '#dc2626', bg = pos ? '#dcfce7' : '#fee2e2';
+    var dir = pos ? '\u2191\u63a8\u9ad8' : '\u2193\u964d\u4f4e';
+    h += '<div style="display:flex;align-items:center;margin-bottom:7px;font-size:12px;">';
+    h += '<div style="width:110px;text-align:right;padding-right:8px;color:var(--gray-700);font-weight:500;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + c.feature + '</div>';
+    h += '<div style="flex:1;display:flex;align-items:center;">';
+    h += '<div style="width:' + pct + '%;min-width:3px;height:20px;background:' + col + ';border-radius:3px;"></div>';
+    h += '<span style="margin-left:6px;color:' + col + ';font-weight:600;font-size:11px;">' + (c.shap_value > 0 ? '+' : '') + c.shap_value.toFixed(2) + '\u00b0C ' + dir + '</span>';
+    h += '</div></div>';
+  });
+  h += '<div style="margin-top:14px;padding-top:10px;border-top:1px solid var(--gray-300);font-size:11px;color:var(--gray-500);">';
+  h += '\ud83d\udccd \u57fa\u51c6\u503c: ' + bv + '\u00b0C | \ud83d\udcca \u7279\u5f81\u8d21\u732e\u53e0\u52a0\u540e\u5f97\u5230\u6700\u7ec8\u9884\u6d4b\u503c<br>';
+  h += '\u26a0\ufe0f SHAP\u503c\u4e3a\u8fd1\u4f3c\u8ba1\u7b97(Saabas\u65b9\u6cd5)\uff0c\u6392\u540d\u53ef\u9760\uff0c\u7edd\u5bf9\u503c\u4ec5\u4f9b\u53c2\u8003</div></div>';
+  var el = document.getElementById('shapChartArea');
+  if (el) { el.innerHTML = h; el.style.display = 'block'; }
+}
+// ========== End SHAP Explainability ==========
+
 function calculateSelection() {
     const supplier = document.getElementById('supplier').value;
     const fuelType = document.getElementById('fuelType').value;
@@ -4376,6 +4434,7 @@ function renderSelectionResult(heat, config, latPredict, targetLAT, regionType, 
 
     // ===== ML Prediction Card =====
     var mlLat = getMLPrediction(config, hp, supplier, fuelType);
+        _lastMLParams = { vt: currentVehicle, p: buildMLParams(config, hp, supplier, fuelType) };
     if (mlLat !== null) {
         var mlDiff = (mlLat - parseFloat(latPredict.lat)).toFixed(1);
         var mlDiffSign = mlDiff >= 0 ? '+' : '';
@@ -4388,6 +4447,8 @@ function renderSelectionResult(heat, config, latPredict, targetLAT, regionType, 
     }
 
     
+    renderSHAPChart();
+
     // 推荐配置
     let configHtml = '';
     if (currentVehicle === 'light') {
