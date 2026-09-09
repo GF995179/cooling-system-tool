@@ -4296,13 +4296,13 @@ function renderSHAPChart() {
   h += '<summary style="cursor:pointer;font-size:13px;font-weight:600;color:#2563eb;user-select:none;">📖 如何看懂这张图？点击展开</summary>';
   h += '<div style="margin-top:10px;font-size:12px;line-height:1.8;color:#1e40af;">';
   h += '<p style="margin-bottom:8px;"><b>这张图展示了什么？</b><br>每个参数对LAT预测值的贡献大小和方向。模型先有一个基准值，然后每个参数根据实际取值推高或拉低预测结果。</p>';
-  h += '<p style="margin-bottom:8px;"><b>颜色含义：</b><br><span style="color:#16a34a;font-weight:700;">■ 绿色条</span> = 该参数<b>推高了</b>LAT（不利于散热）<br><span style="color:#dc2626;font-weight:700;">■ 红色条</span> = 该参数<b>拉低了</b>LAT（有利于散热）</p>';
+  h += '<p style="margin-bottom:8px;"><b>颜色含义：</b><br><span style="color:#dc2626;font-weight:700;">■ 红色条</span> = 该参数<b>推高了</b>LAT（需关注，不利于散热）<br><span style="color:#16a34a;font-weight:700;">■ 绿色条</span> = 该参数<b>拉低了</b>LAT（优化项，有利于散热）</p>';
   h += '<p style="margin-bottom:8px;"><b>数值含义：</b><br>条形长度和右侧数值表示贡献大小。例如"+2.5℃"表示该参数使LAT升高了2.5℃，"-1.8℃"表示使LAT降低了1.8℃。</p>';
-  h += '<p><b>举个例子：</b><br>如果"马力"显示绿色+1.5℃，说明因为马力较大，导致预测LAT升高1.5℃；如果"风扇直径"显示红色-0.8℃，说明因为风扇较大，帮助散热降低了0.8℃。</p>';
+  h += '<p><b>举个例子：</b><br>如果"马力"显示红色+1.5℃，说明因为马力较大，导致预测LAT升高1.5℃（需关注）；如果"风扇直径"显示绿色-0.8℃，说明因为风扇较大，帮助散热降低了0.8℃（优化项）。</p>';
   h += '</div></details>';
   ctr.forEach(function(c) {
     var pct = Math.abs(c.shap_value) / mx * 42;
-    var pos = c.shap_value > 0, col = pos ? '#16a34a' : '#dc2626', bg = pos ? '#dcfce7' : '#fee2e2';
+    var pos = c.shap_value > 0, col = pos ? '#dc2626' : '#16a34a', bg = pos ? '#fee2e2' : '#dcfce7';
     var dir = pos ? '\u2191\u63a8\u9ad8' : '\u2193\u964d\u4f4e';
     h += '<div style="display:flex;align-items:center;margin-bottom:7px;font-size:12px;">';
     h += '<div style="width:110px;text-align:right;padding-right:8px;color:var(--gray-700);font-weight:500;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + c.feature + '</div>';
