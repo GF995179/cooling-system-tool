@@ -8064,7 +8064,7 @@ function buildCoolingSystem(dims) {
         roughness: 0.3, metalness: 0.6, side: THREE.DoubleSide
     });
     radiatorMesh = new THREE.Mesh(radGeo, radMat);
-    radiatorMesh.position.set(0, 0, 2);
+    radiatorMesh.position.set(0, 0, 1);
     radiatorMesh.castShadow = true;
     scene3d.add(radiatorMesh);
     addEdgeLines(radiatorMesh, 0x60a5fa);
@@ -8076,7 +8076,7 @@ function buildCoolingSystem(dims) {
         roughness: 0.3, metalness: 0.5, side: THREE.DoubleSide
     });
     intercoolerMesh = new THREE.Mesh(icGeo, icMat);
-    intercoolerMesh.position.set(0, 0, 1);
+    intercoolerMesh.position.set(0, 0, 2);
     intercoolerMesh.castShadow = true;
     scene3d.add(intercoolerMesh);
     addEdgeLines(intercoolerMesh, 0x4ade80);
@@ -8134,15 +8134,15 @@ function buildCoolingSystem(dims) {
     var upperCurve = new THREE.CatmullRomCurve3([
         new THREE.Vector3(0, 0.5, -2.5),
         new THREE.Vector3(1.0, 0.8, -1.0),
-        new THREE.Vector3(1.0, 0.8, 1.0),
-        new THREE.Vector3(0, 0.5, 2)
+        new THREE.Vector3(1.0, 0.8, 2.0),
+        new THREE.Vector3(0, 0.5, 1)
     ]);
     var upperTubeGeo = new THREE.TubeGeometry(upperCurve, 20, 0.04, 8, false);
     var upperTube = new THREE.Mesh(upperTubeGeo, new THREE.MeshStandardMaterial({ color: 0xff4444, roughness: 0.5 }));
     
     var lowerCurve = new THREE.CatmullRomCurve3([
-        new THREE.Vector3(0, -0.5, 2),
-        new THREE.Vector3(-1.0, -0.8, 1.0),
+        new THREE.Vector3(0, -0.5, 1),
+        new THREE.Vector3(-1.0, -0.8, 2.0),
         new THREE.Vector3(-1.0, -0.8, -1.0),
         new THREE.Vector3(0, -0.5, -2.5)
     ]);
