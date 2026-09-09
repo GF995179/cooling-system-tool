@@ -2428,10 +2428,39 @@ body {
 .lp-case b{color:var(--danger)}
 .lp-empty{text-align:center;padding:40px;color:var(--gray-400);font-size:14px}
 @media(max-width:768px){.lp-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ===== 3D Visualization Styles ===== */
+.label3d {
+    position: absolute;
+    color: #fff;
+    font-size: 11px;
+    padding: 3px 8px;
+    background: rgba(37,99,235,0.8);
+    border-radius: 4px;
+    white-space: nowrap;
+    transform: translate(-50%, -100%);
+    pointer-events: none;
+    font-weight: 500;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}
+.label3d::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid rgba(37,99,235,0.8);
+}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
 <div class="container">
@@ -2458,6 +2487,7 @@ body {
     </button>
     <button class="tab-btn" onclick="switchTab('knowledge-graph')"><span class="icon">🔗</span> 故障图谱</button>
 <button class="tab-btn" onclick="switchTab('learning')"><span class="icon">📈</span> 学习进度</button>
+        <button class="tab-btn" onclick="switchTab('viewer3d')"><span class="icon">🔧</span> 3D 可视化</button>
     </div>
 
     <!-- ========== 选型推荐 ========== -->
@@ -3546,6 +3576,25 @@ body {
             <div id="learningPanel"></div>
         </div>
     </div>
+    <!-- ========== 3D 可视化 ========== -->
+    <div id="tab-viewer3d" class="result-section">
+        <div class="card">
+            <div class="card-title"><span class="icon">🔧</span> 冷却系统 3D 可视化</div>
+            <div style="position:relative;width:100%;height:600px;background:#1a1a2e;border-radius:12px;overflow:hidden;" id="viewer3dContainer">
+                <canvas id="threeCanvas" style="width:100%;height:100%;display:block;"></canvas>
+                <div id="labels3d" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;overflow:hidden;"></div>
+                <div style="position:absolute;top:12px;right:12px;display:flex;gap:8px;z-index:10;">
+                    <button onclick="reset3DView()" style="padding:6px 14px;border:none;border-radius:6px;background:rgba(255,255,255,0.15);color:#fff;cursor:pointer;font-size:13px;backdrop-filter:blur(4px);">🔄 重置视角</button>
+                    <button onclick="toggle3DAutoRotate()" style="padding:6px 14px;border:none;border-radius:6px;background:rgba(255,255,255,0.15);color:#fff;cursor:pointer;font-size:13px;backdrop-filter:blur(4px);" id="autoRotateBtn">⏸ 暂停旋转</button>
+                </div>
+                <div id="info3dPanel" style="position:absolute;bottom:12px;left:12px;background:rgba(0,0,0,0.6);color:#fff;padding:10px 16px;border-radius:8px;font-size:12px;line-height:1.6;backdrop-filter:blur(4px);max-width:320px;">
+                    <div style="font-weight:600;margin-bottom:4px;">📋 组件参数</div>
+                    <div id="param3dInfo">请先在"选型推荐"中完成计算，组件尺寸将按比例显示。</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     <!-- 实测值录入弹窗 -->
     <div class="fb-modal" id="fbModal">
@@ -3745,7 +3794,7 @@ let currentDiagVehicle = 'light';
 
 // ========== Tab切换 ==========
 function switchTab(tab) {
-    const tabs = ['selection', 'diagnosis', 'reference', 'sensitivity', 'knowledge-graph', 'learning'];
+    const tabs = ['selection', 'diagnosis', 'reference', 'sensitivity', 'knowledge-graph', 'learning', 'viewer3d'];
     document.querySelectorAll('.tab-btn').forEach((btn, i) => {
         btn.classList.toggle('active', tabs[i] === tab);
     });
@@ -4474,6 +4523,11 @@ function calculateSelection() {
     
     // 5. 结果展示
     renderSelectionResult(heat, config, latPredict, targetLAT, regionType, hp, supplier, fuelType, maxTemp, ambientTemp, altitude, dimRecommend);
+
+    // Update 3D visualization
+    if (typeof update3DFromCalcResult === "function" && dimRecommend) {
+        update3DFromCalcResult(dimRecommend);
+    }
 }
 
 function renderSelectionResult(heat, config, latPredict, targetLAT, regionType, hp, supplier, fuelType, maxTemp, ambientTemp, altitude, dimRecommend) {
@@ -7890,6 +7944,355 @@ function clearFbData() {
     localStorage.removeItem(FB_KEY);
     renderLearningPanel();
 }
+
+
+
+// ========== 3D Visualization Module ==========
+var scene3d, camera3d, renderer3d, controls3d, fanMesh, animId3d;
+var radiatorMesh, intercoolerMesh, engineMesh, pipeLines;
+var arrowGroup;
+var scene3dInitialized = false;
+var calcResult3d = null;
+var edgeLines3d = [];
+
+var defaultDims = {
+    radW: 600, radH: 500, radT: 42,
+    icW: 550, icH: 450, icT: 42,
+    fanD: 500
+};
+
+function init3DScene() {
+    if (scene3dInitialized) return;
+    var container = document.getElementById('viewer3dContainer');
+    var canvas = document.getElementById('threeCanvas');
+    if (!container || !canvas || typeof THREE === 'undefined') {
+        console.warn('3D init failed: missing container/canvas/THREE');
+        return;
+    }
+    
+    var w = container.clientWidth;
+    var h = container.clientHeight;
+    
+    scene3d = new THREE.Scene();
+    scene3d.background = new THREE.Color(0x1a1a2e);
+    scene3d.fog = new THREE.Fog(0x1a1a2e, 15, 40);
+    
+    camera3d = new THREE.PerspectiveCamera(50, w / h, 0.1, 100);
+    camera3d.position.set(6, 4, 8);
+    camera3d.lookAt(0, 0, 0);
+    
+    renderer3d = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+    renderer3d.setSize(w, h);
+    renderer3d.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer3d.shadowMap.enabled = true;
+    renderer3d.shadowMap.type = THREE.PCFSoftShadowMap;
+    
+    controls3d = new THREE.OrbitControls(camera3d, renderer3d.domElement);
+    controls3d.enableDamping = true;
+    controls3d.dampingFactor = 0.08;
+    controls3d.minDistance = 4;
+    controls3d.maxDistance = 25;
+    controls3d.target.set(0, 0, 0);
+    
+    var ambient = new THREE.AmbientLight(0xffffff, 0.5);
+    scene3d.add(ambient);
+    
+    var dirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    dirLight.position.set(5, 8, 6);
+    dirLight.castShadow = true;
+    dirLight.shadow.mapSize.set(1024, 1024);
+    scene3d.add(dirLight);
+    
+    var fillLight = new THREE.DirectionalLight(0x4488ff, 0.3);
+    fillLight.position.set(-3, 2, -4);
+    scene3d.add(fillLight);
+    
+    var grid = new THREE.GridHelper(20, 20, 0x333355, 0x222244);
+    grid.position.y = -3;
+    scene3d.add(grid);
+    
+    buildCoolingSystem(defaultDims);
+    buildAirflowArrows();
+    animate3D();
+    
+    if (typeof ResizeObserver !== 'undefined') {
+        var ro = new ResizeObserver(function() {
+            var nw = container.clientWidth;
+            var nh = container.clientHeight;
+            if (nw > 0 && nh > 0) {
+                camera3d.aspect = nw / nh;
+                camera3d.updateProjectionMatrix();
+                renderer3d.setSize(nw, nh);
+            }
+        });
+        ro.observe(container);
+    }
+    
+    scene3dInitialized = true;
+    console.log('3D scene initialized');
+}
+
+function addEdgeLines(mesh, color) {
+    var geo = new THREE.EdgesGeometry(mesh.geometry);
+    var mat = new THREE.LineBasicMaterial({ color: color });
+    var line = new THREE.LineSegments(geo, mat);
+    line.position.copy(mesh.position);
+    line.userData._isEdgeLine3d = true;
+    scene3d.add(line);
+    edgeLines3d.push(line);
+}
+
+function clearEdgeLines() {
+    edgeLines3d.forEach(function(l) { scene3d.remove(l); });
+    edgeLines3d = [];
+}
+
+function buildCoolingSystem(dims) {
+    if (radiatorMesh) scene3d.remove(radiatorMesh);
+    if (intercoolerMesh) scene3d.remove(intercoolerMesh);
+    if (fanMesh) scene3d.remove(fanMesh);
+    if (engineMesh) scene3d.remove(engineMesh);
+    if (pipeLines) scene3d.remove(pipeLines);
+    clearEdgeLines();
+    
+    var s = 1 / 200;
+    
+    // Radiator
+    var radGeo = new THREE.BoxGeometry(dims.radW * s, dims.radH * s, dims.radT * s * 0.5);
+    var radMat = new THREE.MeshPhysicalMaterial({
+        color: 0x2563eb, transparent: true, opacity: 0.55,
+        roughness: 0.3, metalness: 0.6, side: THREE.DoubleSide
+    });
+    radiatorMesh = new THREE.Mesh(radGeo, radMat);
+    radiatorMesh.position.set(0, 0, 2);
+    radiatorMesh.castShadow = true;
+    scene3d.add(radiatorMesh);
+    addEdgeLines(radiatorMesh, 0x60a5fa);
+    
+    // Intercooler
+    var icGeo = new THREE.BoxGeometry(dims.icW * s, dims.icH * s, dims.icT * s * 0.5);
+    var icMat = new THREE.MeshPhysicalMaterial({
+        color: 0x16a34a, transparent: true, opacity: 0.5,
+        roughness: 0.3, metalness: 0.5, side: THREE.DoubleSide
+    });
+    intercoolerMesh = new THREE.Mesh(icGeo, icMat);
+    intercoolerMesh.position.set(0, 0, 1);
+    intercoolerMesh.castShadow = true;
+    scene3d.add(intercoolerMesh);
+    addEdgeLines(intercoolerMesh, 0x4ade80);
+    
+    // Fan with blades
+    var fanGroup = new THREE.Group();
+    var hubGeo = new THREE.CylinderGeometry(0.08, 0.08, 0.06, 16);
+    var hubMat = new THREE.MeshStandardMaterial({ color: 0x888888, metalness: 0.8, roughness: 0.2 });
+    var hub = new THREE.Mesh(hubGeo, hubMat);
+    hub.rotation.x = Math.PI / 2;
+    fanGroup.add(hub);
+    
+    var bladeCount = 7;
+    var fanRadius = (dims.fanD * s) / 2;
+    for (var i = 0; i < bladeCount; i++) {
+        var angle = (i / bladeCount) * Math.PI * 2;
+        var bladeShape = new THREE.Shape();
+        bladeShape.moveTo(0, 0);
+        bladeShape.quadraticCurveTo(fanRadius * 0.3, 0.12, fanRadius * 0.85, 0.06);
+        bladeShape.lineTo(fanRadius * 0.9, 0);
+        bladeShape.quadraticCurveTo(fanRadius * 0.3, -0.04, 0, 0);
+        
+        var bladeGeo = new THREE.ShapeGeometry(bladeShape);
+        var bladeMat = new THREE.MeshStandardMaterial({
+            color: 0xaabbcc, metalness: 0.7, roughness: 0.3,
+            side: THREE.DoubleSide, transparent: true, opacity: 0.8
+        });
+        var blade = new THREE.Mesh(bladeGeo, bladeMat);
+        blade.rotation.z = angle;
+        blade.rotation.y = 0.3;
+        fanGroup.add(blade);
+    }
+    
+    var ringGeo = new THREE.TorusGeometry(fanRadius, 0.03, 8, 32);
+    var ringMat = new THREE.MeshStandardMaterial({ color: 0x666666, metalness: 0.9, roughness: 0.1 });
+    var ring = new THREE.Mesh(ringGeo, ringMat);
+    fanGroup.add(ring);
+    
+    fanMesh = fanGroup;
+    scene3d.add(fanGroup);
+    
+    // Engine
+    var engGeo = new THREE.BoxGeometry(1.2, 1.0, 0.8);
+    var engMat = new THREE.MeshStandardMaterial({
+        color: 0xff6b35, transparent: true, opacity: 0.7,
+        roughness: 0.4, metalness: 0.5
+    });
+    engineMesh = new THREE.Mesh(engGeo, engMat);
+    engineMesh.position.set(0, 0, -2.5);
+    engineMesh.castShadow = true;
+    scene3d.add(engineMesh);
+    addEdgeLines(engineMesh, 0xff9966);
+    
+    // Coolant pipes
+    var upperCurve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(0, 0.5, -2.5),
+        new THREE.Vector3(1.0, 0.8, -1.0),
+        new THREE.Vector3(1.0, 0.8, 1.0),
+        new THREE.Vector3(0, 0.5, 2)
+    ]);
+    var upperTubeGeo = new THREE.TubeGeometry(upperCurve, 20, 0.04, 8, false);
+    var upperTube = new THREE.Mesh(upperTubeGeo, new THREE.MeshStandardMaterial({ color: 0xff4444, roughness: 0.5 }));
+    
+    var lowerCurve = new THREE.CatmullRomCurve3([
+        new THREE.Vector3(0, -0.5, 2),
+        new THREE.Vector3(-1.0, -0.8, 1.0),
+        new THREE.Vector3(-1.0, -0.8, -1.0),
+        new THREE.Vector3(0, -0.5, -2.5)
+    ]);
+    var lowerTubeGeo = new THREE.TubeGeometry(lowerCurve, 20, 0.04, 8, false);
+    var lowerTube = new THREE.Mesh(lowerTubeGeo, new THREE.MeshStandardMaterial({ color: 0x4488ff, roughness: 0.5 }));
+    
+    pipeLines = new THREE.Group();
+    pipeLines.add(upperTube);
+    pipeLines.add(lowerTube);
+    scene3d.add(pipeLines);
+}
+
+function buildAirflowArrows() {
+    if (arrowGroup) scene3d.remove(arrowGroup);
+    arrowGroup = new THREE.Group();
+    for (var i = 0; i < 5; i++) {
+        for (var j = 0; j < 3; j++) {
+            var coneGeo = new THREE.ConeGeometry(0.06, 0.2, 6);
+            var coneMat = new THREE.MeshBasicMaterial({ color: 0x00ddff, transparent: true, opacity: 0.6 });
+            var cone = new THREE.Mesh(coneGeo, coneMat);
+            cone.rotation.x = -Math.PI / 2;
+            cone.position.set((i - 2) * 0.6, (j - 1) * 0.5, 3.5);
+            cone.userData = { baseZ: 3.5, speed: 0.02 + Math.random() * 0.01 };
+            arrowGroup.add(cone);
+        }
+    }
+    scene3d.add(arrowGroup);
+}
+
+function updateAirflowArrows() {
+    if (!arrowGroup) return;
+    arrowGroup.children.forEach(function(arrow) {
+        arrow.position.z -= arrow.userData.speed;
+        if (arrow.position.z < -0.5) {
+            arrow.position.z = arrow.userData.baseZ;
+        }
+        arrow.material.opacity = 0.3 + 0.4 * Math.abs(Math.sin(arrow.position.z * 2));
+    });
+}
+
+function update3DLabels() {
+    var labelsDiv = document.getElementById('labels3d');
+    if (!labelsDiv || !camera3d || !renderer3d) return;
+    labelsDiv.innerHTML = '';
+    
+    var labels = [
+        { name: '\u6563\u70ed\u5668', mesh: radiatorMesh,
+          info: calcResult3d ? calcResult3d.radW + 'x' + calcResult3d.radH + 'x' + calcResult3d.radT + 'mm' : '' },
+        { name: '\u4e2d\u51b7\u5668', mesh: intercoolerMesh,
+          info: calcResult3d ? calcResult3d.icW + 'x' + calcResult3d.icH + 'x' + calcResult3d.icT + 'mm' : '' },
+        { name: '\u98ce\u6247', mesh: fanMesh,
+          info: calcResult3d ? '\u2300' + calcResult3d.fanD + 'mm' : '' },
+        { name: '\u53d1\u52a8\u673a', mesh: engineMesh, info: '' }
+    ];
+    
+    labels.forEach(function(l) {
+        if (!l.mesh) return;
+        var vec = new THREE.Vector3(l.mesh.position.x, l.mesh.position.y + 0.8, l.mesh.position.z);
+        vec.project(camera3d);
+        
+        var hw = renderer3d.domElement.clientWidth / 2;
+        var hh = renderer3d.domElement.clientHeight / 2;
+        var x = (vec.x * hw) + hw;
+        var y = -(vec.y * hh) + hh;
+        
+        if (vec.z > 1) return;
+        
+        var label = document.createElement('div');
+        label.className = 'label3d';
+        label.style.left = x + 'px';
+        label.style.top = y + 'px';
+        label.innerHTML = '<b>' + l.name + '</b>' + (l.info ? '<br>' + l.info : '');
+        labelsDiv.appendChild(label);
+    });
+}
+
+function animate3D() {
+    animId3d = requestAnimationFrame(animate3D);
+    if (fanMesh) fanMesh.rotation.z += 0.05;
+    updateAirflowArrows();
+    update3DLabels();
+    if (controls3d) controls3d.update();
+    if (renderer3d && scene3d && camera3d) renderer3d.render(scene3d, camera3d);
+}
+
+function reset3DView() {
+    if (!camera3d || !controls3d) return;
+    camera3d.position.set(6, 4, 8);
+    controls3d.target.set(0, 0, 0);
+    controls3d.update();
+}
+
+function toggle3DAutoRotate() {
+    if (!controls3d) return;
+    controls3d.autoRotate = !controls3d.autoRotate;
+    controls3d.autoRotateSpeed = 1.5;
+    var btn = document.getElementById('autoRotateBtn');
+    if (btn) {
+        btn.textContent = controls3d.autoRotate ? '\u25b6 \u5f00\u59cb\u65cb\u8f6c' : '\u23f8 \u6682\u505c\u65cb\u8f6c';
+    }
+}
+
+function update3DFromCalcResult(dimRecommend) {
+    if (!scene3dInitialized || !dimRecommend) return;
+    
+    var radW, radH, radT, icW, icH, icT, fanD;
+    
+    if (dimRecommend.radiators && dimRecommend.radiators.length > 0) {
+        var b1 = dimRecommend.radiators[0];
+        radW = b1.width; radH = b1.height; radT = b1.thickness;
+    } else {
+        radW = defaultDims.radW; radH = defaultDims.radH; radT = defaultDims.radT;
+    }
+    
+    if (dimRecommend.intercoolers && dimRecommend.intercoolers.length > 0) {
+        var b2 = dimRecommend.intercoolers[0];
+        icW = b2.width; icH = b2.height; icT = b2.thickness;
+    } else {
+        icW = defaultDims.icW; icH = defaultDims.icH; icT = defaultDims.icT;
+    }
+    
+    if (dimRecommend.fan && dimRecommend.fan.diameter) {
+        fanD = dimRecommend.fan.diameter;
+    } else {
+        fanD = defaultDims.fanD;
+    }
+    
+    calcResult3d = { radW: radW, radH: radH, radT: radT, icW: icW, icH: icH, icT: icT, fanD: fanD };
+    
+    buildCoolingSystem(calcResult3d);
+    buildAirflowArrows();
+    
+    var info = document.getElementById('param3dInfo');
+    if (info) {
+        info.innerHTML = 
+            '<div>\ud83d\udd35 <b>\u6563\u70ed\u5668</b>: ' + radW + ' x ' + radH + ' x ' + radT + ' mm</div>' +
+            '<div>\ud83d\udfe2 <b>\u4e2d\u51b7\u5668</b>: ' + icW + ' x ' + icH + ' x ' + icT + ' mm</div>' +
+            '<div>\u26aa <b>\u98ce\u6247</b>: \u2300' + fanD + ' mm</div>' +
+            '<div style="margin-top:4px;color:#aaa;">\u62d6\u62fd\u65cb\u8f6c | \u6eda\u8f6e\u7f29\u653e</div>';
+    }
+}
+
+// Override switchTab to init 3D scene on first visit
+var _origSwitchTab = window.switchTab;
+window.switchTab = function(tab) {
+    _origSwitchTab(tab);
+    if (tab === 'viewer3d' && !scene3dInitialized) {
+        setTimeout(function() { init3DScene(); }, 100);
+    }
+};
 
 </script>
 </body>
