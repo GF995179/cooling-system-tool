@@ -2507,6 +2507,11 @@ body {
 
     <!-- ========== 选型推荐 ========== -->
     <div id="tab-selection" class="result-section active">
+<div class="card" style="background:linear-gradient(135deg,rgba(37,99,235,.04),rgba(99,102,241,.04));border:1px solid rgba(37,99,235,.12)">
+<div class="card-title"><span class="icon">⚡</span>快速选型<span style="font-size:11px;color:var(--gray-500);font-weight:400;margin-left:6px">自然语言描述工况，AI自动填充参数</span></div>
+<div style="display:flex;gap:8px"><input type="text" id="aiQsI" placeholder="例如：轻卡云内160马力，LAT 55℃，海拔1000m" style="flex:1;padding:9px 12px;border:1px solid var(--gray-300);border-radius:8px;font-size:13px;font-family:inherit">
+<button onclick="aiQs()" id="aiQsB" style="padding:9px 20px;border:none;border-radius:8px;background:var(--primary);color:#fff;cursor:pointer;font-size:13px;font-weight:600;white-space:nowrap">🤖 AI解析</button></div>
+<div id="aiQsM" style="display:none;margin-top:8px;padding:8px 12px;border-radius:8px;font-size:13px"></div></div>
         <!-- 车型选择 -->
         <div class="card">
             <div class="card-title">
@@ -3525,6 +3530,10 @@ body {
                 <!-- 敏感性摘要 -->
                 <div id="sensSummary" style="background:var(--gray-50);border-radius:var(--radius);padding:16px;border:1px solid var(--gray-200);">
                 </div>
+<div style="margin-top:14px"><button onclick="aiSI()" id="aiSB" style="padding:9px 22px;border:none;border-radius:8px;background:linear-gradient(135deg,var(--primary),#6366f1);color:#fff;cursor:pointer;font-size:13px;font-weight:600">🤖 AI解读</button>
+<div id="aiSL" style="display:none;text-align:center;padding:20px;color:var(--primary)"><div class="ai-spinner"></div><p style="margin-top:8px;font-size:13px">AI正在分析…</p></div>
+<div id="aiSR" style="display:none;margin-top:10px"></div></div>
+
             </div>
         </div>
     </div>
@@ -8452,6 +8461,26 @@ async function evaluateConfigWithAI() {
         document.getElementById('aiEvalBtn').textContent = '🤖 AI配置评估';
     }
 }
+
+async function aiQs(){var d=document.getElementById('aiQsI').value.trim();if(!d)return alert('请输入工况描述');var b=document.getElementById('aiQsB'),m=document.getElementById('aiQsM');b.disabled=true;b.textContent='解析中…';m.style.display='none';
+var p='从用户描述提取参数，严格返回JSON(无其他文字)：'+d+'\n字段：engine_brand(cummins/yunnei/yuchai/other),vehicle_type(light/heavy),horsepower(数字),target_lat(数字),altitude(数字),ambient_temp(数字),fuel_type(diesel/gas)。未提及设null。只返回JSON';
+try{var r=await callCozeAPI(p),j=r.match(/\{[\s\S]*?\}/);if(!j)throw Error('格式异常');var D=JSON.parse(j[0]),B={cummins:'康明斯',yunnei:'云内',yuchai:'玉柴',other:'其他'},V={light:'轻卡',heavy:'重卡'},F={diesel:'柴油',gas:'燃气'},P=[];
+if(D.engine_brand){document.getElementById('supplier').value=D.engine_brand;P.push(B[D.engine_brand])}
+if(D.vehicle_type){selectVehicle(D.vehicle_type);P.push(V[D.vehicle_type])}
+if(D.horsepower!=null){document.getElementById('horsepower').value=D.horsepower;P.push(D.horsepower+'马力')}
+if(D.target_lat!=null){document.getElementById('maxTemp').value=D.target_lat;P.push('LAT'+D.target_lat+'℃')}
+if(D.altitude!=null){document.getElementById('altitude').value=D.altitude;P.push('海拔'+D.altitude+'m')}
+if(D.ambient_temp!=null){document.getElementById('ambientTemp').value=D.ambient_temp;P.push(D.ambient_temp+'℃')}
+if(D.fuel_type){document.getElementById('fuelType').value=D.fuel_type;P.push(F[D.fuel_type])}
+m.style.display='block';
+if(!P.length){m.style.background='#fef2f2';m.style.color='#dc2626';m.textContent='未识别有效参数'}else{m.style.background='#f0fdf4';m.style.color='#16a34a';m.textContent='✅ '+P.join(' / ')+'，请确认后点击计算'}
+}catch(e){m.style.display='block';m.style.background='#fef2f2';m.style.color='#dc2626';m.textContent='❌ '+e.message}finally{b.disabled=false;b.textContent='🤖 AI解析'}}
+
+async function aiSI(){var b=document.getElementById('aiSB'),l=document.getElementById('aiSL'),re=document.getElementById('aiSR');b.disabled=true;b.textContent='分析中…';l.style.display='block';re.style.display='none';
+var pn=document.getElementById('sens_param').value==='radiator'?'散热器':'中冷器',hp=document.getElementById('sens_hp').value,vt=document.getElementById('sens_vehicleType').value==='light'?'轻卡':'重卡',sp=document.getElementById('sens_supplier').value,ft=document.getElementById('sens_fuelType').value,tb=document.getElementById('sensTableBody'),td='';
+if(tb&&tb.rows.length){for(var r of tb.rows){var w=[];for(var c of r.cells)w.push(c.textContent.trim());td+=w.join('|')+'\n'}}
+var q='你是商用车冷却系统专家。敏感性分析数据：车型'+vt+' '+hp+'HP 供应商'+sp+' '+ft+' 参数:'+pn+'散热量(kW)\n'+td+'\n用markdown简洁回答：1最敏感参数 2次敏感参数 3针对性建议 4LAT超标风险 5工程余量建议。500字内';
+try{var res=await callCozeAPI(q,function(t){re.style.display='block';re.innerHTML='<div class="ai-result-card">'+renderSimpleMarkdown(t)+'</div>'});re.style.display='block';re.innerHTML='<div class="ai-result-card">'+renderSimpleMarkdown(res)+'</div>'}catch(e){re.style.display='block';re.innerHTML='<div class="ai-result-card" style="color:#dc2626">❌ '+e.message+'</div>'}finally{l.style.display='none';b.disabled=false;b.textContent='🤖 AI解读'}}
 
 </script>
 </body>
