@@ -51,6 +51,8 @@ body {
     min-height: 100vh;
     color: var(--gray-800);
     line-height: 1.6;
+
+    overflow-x: hidden;
 }
 
 .container {
@@ -230,8 +232,10 @@ body {
     position: fixed;
     bottom: 100px;
     right: 30px;
-    width: 560px;
-    height: 640px;
+    width: 420px;
+    max-width: 90vw;
+    height: 520px;
+    max-height: 80vh;
     background: white;
     border-radius: 20px;
     box-shadow: 0 12px 48px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04);
@@ -1259,27 +1263,150 @@ body {
 
 /* ===== 响应式 ===== */
 @media (max-width: 768px) {
-    .container { padding: 12px; }
-    .header { padding: 20px; }
-    .header h1 { font-size: 22px; }
+    /* === 全局 === */
+    body { font-size: 14px; overflow-x: hidden; }
+    .container { padding: 10px; max-width: 100%; }
+    .header { padding: 18px 16px; border-radius: 12px; }
+    .header h1 { font-size: 20px; margin-bottom: 4px; }
+    .header p { font-size: 13px; }
+    
+    /* === Tab 导航栏 === */
+    .tabs {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        flex-wrap: nowrap;
+        gap: 4px;
+        margin-bottom: 16px;
+        padding-bottom: 2px;
+    }
+    .tabs::-webkit-scrollbar { display: none; }
+    .tabs { -ms-overflow-style: none; scrollbar-width: none; }
+    .tab-btn {
+        flex-shrink: 0;
+        padding: 8px 16px;
+        font-size: 13px;
+        min-height: 40px;
+    }
+    
+    /* === 卡片 === */
+    .card { padding: 14px; margin-bottom: 14px; border-radius: 10px; }
+    .card-title { font-size: 15px; margin-bottom: 12px; padding-bottom: 10px; }
+    
+    /* === 表单布局 === */
+    .form-grid { grid-template-columns: 1fr; gap: 10px; }
+    .form-group { gap: 6px; }
+    .form-group label { font-size: 13px; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        padding: 10px 12px;
+        font-size: 14px;
+        min-height: 44px;
+    }
+    
+    /* === 按钮 === */
+    .btn {
+        padding: 12px 20px;
+        font-size: 14px;
+        min-height: 44px;
+        justify-content: center;
+    }
+    .btn-group { flex-direction: column; gap: 8px; }
+    .btn-group .btn { width: 100%; }
+    
+    /* === 结果展示区 === */
+    .result-summary {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+    
+    /* === 配置诊断 === */
+    .diagnosis-result { padding: 14px; }
+    .diagnosis-title { font-size: 15px; }
+    
+    /* === 表格 === */
+    .config-table { font-size: 12px; display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .config-table th, .config-table td { padding: 8px 10px; }
+    
+    /* === 车型选择器 === */
     .vehicle-type-selector { grid-template-columns: 1fr; }
-    .form-grid { grid-template-columns: 1fr; }
-    .result-summary { grid-template-columns: repeat(2, 1fr); }
-    .card { padding: 16px; }
-    .tabs { overflow-x: auto; }
-    .tab-btn { flex-shrink: 0; }
-    .config-table { font-size: 12px; }
-    .config-table th, .config-table td { padding: 8px; }
-    .chat-panel { width: 95vw; right: 2.5vw; height: 500px; }
+    
+    /* === 聊天面板 === */
+    .chat-panel {
+        width: 95vw;
+        right: 2.5vw;
+        height: 500px;
+    }
     .chat-msg { max-width: 95%; }
 }
 
 @media (max-width: 480px) {
-    .result-summary { grid-template-columns: 1fr; }
-    .btn-group { flex-direction: column; }
-    .btn { justify-content: center; }
+    body { font-size: 13px; }
+    .container { padding: 8px; }
+    .header { padding: 14px 12px; }
+    .header h1 { font-size: 18px; }
+    
+    .tab-btn { padding: 7px 12px; font-size: 12px; min-height: 38px; }
+    
+    .card { padding: 12px; border-radius: 8px; }
+    .card-title { font-size: 14px; margin-bottom: 10px; padding-bottom: 8px; }
+    
+    .result-summary { grid-template-columns: 1fr; gap: 8px; }
+    
+    .btn { padding: 10px 16px; font-size: 13px; min-height: 42px; }
+    .btn-group { flex-direction: column; gap: 8px; }
+    .btn-group .btn { width: 100%; justify-content: center; }
+    
+    .form-grid { gap: 8px; }
+    .form-group label { font-size: 12px; }
+    .form-group input,
+    .form-group select { padding: 9px 10px; font-size: 13px; min-height: 42px; }
+    
+    .chat-input-area { flex-direction: column; gap: 8px; }
+    .chat-input-area textarea { font-size: 13px; }
+    .chat-input-area button { width: 100%; justify-content: center; }
 }
 
+
+/* ===== 移动端补充样式 - 敏感性分析及其他 ===== */
+@media (max-width: 768px) {
+    /* 敏感性分析 Canvas 容器 */
+    #sensChart {
+        width: 100% !important;
+        height: auto !important;
+        max-width: 100%;
+    }
+    
+    /* 敏感性分析参数字段 - 单列 */
+    #tab-sensitivity .form-row {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    #tab-sensitivity .form-row .form-group {
+        width: 100%;
+    }
+    
+    /* 批量选型 - 输入标签缩小 */
+    .batch-input-tabs {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        flex-wrap: nowrap;
+    }
+    .batch-input-tab {
+        flex-shrink: 0;
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    /* 敏感性分析 Canvas 更小 */
+    #sensChart {
+        width: 100% !important;
+        max-height: 300px;
+    }
+}
 /* ===== 动画 ===== */
 .fade-in {
     animation: fadeIn 0.3s ease;
@@ -1820,17 +1947,43 @@ body {
 
 /* 移动端适配 */
 @media (max-width: 768px) {
-    .compare-section { padding: 16px; margin-top: 16px; }
-    .compare-shared-grid { grid-template-columns: 1fr 1fr; }
-    .compare-scheme-form { grid-template-columns: 1fr 1fr; }
-    .compare-actions { flex-direction: column; }
-    .compare-btn-run { width: 100%; justify-content: center; }
+    .compare-section { padding: 14px; margin-top: 14px; border-radius: 12px; }
+    .compare-shared-grid { grid-template-columns: 1fr; gap: 10px; }
+    .compare-scheme-form { grid-template-columns: 1fr; gap: 10px; }
+    .compare-actions { flex-direction: column; gap: 8px; }
+    .compare-btn-run { width: 100%; justify-content: center; min-height: 44px; }
+    
+    /* 方案卡片全宽 */
+    .compare-schemes-container > div { width: 100%; }
+    
+    /* 对比表格可横向滚动 */
+    .compare-table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        overflow-y: hidden;
+    }
+    .compare-table { min-width: 600px; font-size: 12px; }
+    .compare-table th, .compare-table td { padding: 8px 10px; }
+    
+    /* 批量表格横向滚动 */
+    .batch-manual-table {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .batch-manual-table table { min-width: 700px; }
 }
 
 @media (max-width: 480px) {
-    .compare-shared-grid { grid-template-columns: 1fr; }
-    .compare-scheme-form { grid-template-columns: 1fr; }
-    .compare-table { min-width: 500px; }
+    .compare-section { padding: 12px; border-radius: 10px; }
+    .compare-shared-grid { grid-template-columns: 1fr; gap: 8px; }
+    .compare-scheme-form { grid-template-columns: 1fr; gap: 8px; }
+    .compare-table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .compare-table { min-width: 500px; font-size: 11px; }
+    .compare-table th, .compare-table td { padding: 6px 8px; }
+    .batch-manual-table table { min-width: 600px; font-size: 12px; }
 }
 
 
@@ -2205,6 +2358,31 @@ body {
 .batch-result-stat .stat-value { font-size: 20px; font-weight: 800; color: var(--gray-800); }
 .batch-result-stat .stat-value .unit { font-size: 12px; font-weight: 600; color: var(--gray-500); margin-left: 2px; }
 
+
+@media (max-width: 768px) {
+    .chat-panel {
+        bottom: 0 !important;
+        right: 0 !important;
+        left: 0 !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        border-radius: 0 !important;
+    }
+    .chat-fab {
+        bottom: 15px !important;
+        right: 15px !important;
+        width: 50px !important;
+        height: 50px !important;
+    }
+}
+@media (min-width: 769px) and (max-width: 1200px) {
+    .chat-panel {
+        width: 420px;
+        height: 500px;
+    }
+}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -2370,6 +2548,59 @@ body {
 
             <!-- 核心指标 -->
             <div id="summaryCards" class="result-summary"></div>
+
+            <!-- 公式法 vs ML预测 对比说明 -->
+            <div class="collapsible-section" id="latComparePanel">
+                <div class="collapsible-header open" onclick="toggleCollapse(this)" style="cursor:pointer;">
+                    <span>📖 公式法 vs ML预测 —— 两种方法有什么区别？</span>
+                    <span class="arrow">▼</span>
+                </div>
+                <div class="collapsible-content open" style="padding: 0 16px 16px 16px;">
+                    <div style="background: #e8f4fd; border: 1.5px solid #4a90d9; border-radius: 12px; padding: 18px; font-size: 13px; line-height: 1.6;">
+                        <div style="overflow-x: auto;">
+                            <table style="width:100%; border-collapse: collapse; margin-bottom: 12px;">
+                                <thead>
+                                    <tr style="background: #d0e8f7;">
+                                        <th style="padding: 8px 10px; text-align: left; border-bottom: 2px solid #4a90d9; font-weight: 700; white-space: nowrap;">对比项</th>
+                                        <th style="padding: 8px 10px; text-align: left; border-bottom: 2px solid #4a90d9; font-weight: 700;">📐 公式法</th>
+                                        <th style="padding: 8px 10px; text-align: left; border-bottom: 2px solid #4a90d9; font-weight: 700;">🤖 ML预测</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td style="padding: 7px 10px; border-bottom: 1px solid #c8dff0; font-weight: 600; white-space: nowrap;">原理</td>
+                                        <td style="padding: 7px 10px; border-bottom: 1px solid #c8dff0;">基于传热学公式反推</td>
+                                        <td style="padding: 7px 10px; border-bottom: 1px solid #c8dff0;">从141条真实试验数据学习</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 7px 10px; border-bottom: 1px solid #c8dff0; font-weight: 600; white-space: nowrap;">需要参数</td>
+                                        <td style="padding: 7px 10px; border-bottom: 1px solid #c8dff0;">需要发动机最高允许温度</td>
+                                        <td style="padding: 7px 10px; border-bottom: 1px solid #c8dff0;">不需要，纯配置参数即可</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 7px 10px; border-bottom: 1px solid #c8dff0; font-weight: 600; white-space: nowrap;">优点</td>
+                                        <td style="padding: 7px 10px; border-bottom: 1px solid #c8dff0;">有物理意义，可解释性强</td>
+                                        <td style="padding: 7px 10px; border-bottom: 1px solid #c8dff0;">参数不全时也能估算</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 7px 10px; border-bottom: 1px solid #c8dff0; font-weight: 600; white-space: nowrap;">缺点</td>
+                                        <td style="padding: 7px 10px; border-bottom: 1px solid #c8dff0;">缺少关键参数时无法计算</td>
+                                        <td style="padding: 7px 10px; border-bottom: 1px solid #c8dff0;">数据量有限，遇到未见配置可能不准</td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding: 7px 10px; font-weight: 600; white-space: nowrap;">适用场景</td>
+                                        <td style="padding: 7px 10px;">参数完整、需向客户解释</td>
+                                        <td style="padding: 7px 10px;">快速估算、参数不全时</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div style="background: #fff8e1; border-left: 3px solid #f0ad4e; border-radius: 4px; padding: 10px 12px; margin-top: 4px;">
+                            💡 <strong>建议：</strong>两个结果接近（差&lt;3℃）说明配置合理；差距大（&gt;8℃）请人工复核配置参数。
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- 推荐配置 -->
             <div class="collapsible-section">
@@ -4928,8 +5159,13 @@ function drawSensChart(results, param) {
     const ctx = canvas.getContext('2d');
     const dpr = window.devicePixelRatio || 1;
 
-    // Set canvas size
-    const displayW = 700, displayH = 400;
+    // Set canvas size (responsive)
+    const parent = canvas.parentElement;
+    const maxW = parent ? parent.clientWidth - 24 : 700;
+    const baseW = Math.min(700, Math.max(300, maxW));
+    const aspectRatio = 400 / 700;
+    const displayW = baseW;
+    const displayH = baseW * aspectRatio;
     canvas.width = displayW * dpr;
     canvas.height = displayH * dpr;
     canvas.style.width = displayW + 'px';
