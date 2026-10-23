@@ -2471,7 +2471,7 @@ body {
 <div class="container">
     <!-- 头部 -->
     <div class="header">
-        <div class="version">V2.0 | 基于145条试验数据训练</div>
+        <div class="version">V2.0 | 基于过往试验数据训练</div>
         <h1>🔧 商用车冷却系统选型工具</h1>
         <p>基于 Q/SQCV 101087-2025（轻卡）、Q/SQCV 17111-2020（重卡）及 GB/T 12542-2020 标准</p>
     </div>
@@ -2657,7 +2657,7 @@ body {
                                     <tr>
                                         <td style="padding: 7px 10px; border-bottom: 1px solid #c8dff0; font-weight: 600; white-space: nowrap;">原理</td>
                                         <td style="padding: 7px 10px; border-bottom: 1px solid #c8dff0;">基于传热学公式反推</td>
-                                        <td style="padding: 7px 10px; border-bottom: 1px solid #c8dff0;">从141条真实试验数据学习</td>
+                                        <td style="padding: 7px 10px; border-bottom: 1px solid #c8dff0;">从过往真实试验数据学习</td>
                                     </tr>
                                     <tr>
                                         <td style="padding: 7px 10px; border-bottom: 1px solid #c8dff0; font-weight: 600; white-space: nowrap;">需要参数</td>
@@ -3572,7 +3572,7 @@ body {
         <h4 style="margin:0 0 12px;font-size:15px;">关于本工具</h4>
         <p style="margin:0 0 8px;font-size:13px;color:#666;line-height:1.6;">
             商用车冷却系统AI选型助手<br>
-            基于145条脱敏热平衡试验数据<br>
+            基于脱敏热平衡试验数据<br>
             支持轻卡/重卡散热器与中冷器选型
         </p>
         <p style="margin:0 0 8px;font-size:12px;color:#999;line-height:1.6;">
@@ -3646,7 +3646,7 @@ body {
     <!-- 页脚 -->
     <div class="footer">
         <p>💡 本工具为选型辅助工具，计算结果仅供参考。最终选型应以整车热平衡试验验证为准。</p>
-        <p>数据来源：Q/SQCV 101087-2025 | Q/SQCV 17111-2020 | GB/T 12542-2020 | 内部145条试验数据</p>
+        <p>数据来源：Q/SQCV 101087-2025 | Q/SQCV 17111-2020 | GB/T 12542-2020 | 内部试验数据</p>
     </div>
 
     <script>
@@ -3901,7 +3901,7 @@ function calculateHeatDissipation(hp, fuelType, supplier) {
     // 1 kW = 1.3596 HP
     const power_kW = hp / 1.3596;
     
-    // 散热量/制动功率 比值（基于145条试验数据统计）
+    // 散热量/制动功率 比值（基于过往试验数据统计）
     // 柴油机: 水套+中冷 约占制动功率的 70%
     // 燃气机: 水套散热量更高，但中冷略低，总散热量约 80%
     let waterJacketRatio = 0.52;  // 水套散热量/制动功率
@@ -5778,7 +5778,7 @@ function callLocalEngine(query) {
         if (q.includes('重卡') && q.includes('中冷')) return '重卡中冷器推荐K值：k = 75 W/(m²·K)（空空中冷典型值）';
         if (q.includes('轻卡')) return '轻卡散热器推荐K值：k = 95 W/(m²·K)（翅片密度约900 m²/m³时）';
         if (q.includes('重卡')) return '重卡散热器推荐K值：k = 80 W/(m²·K)（翅片密度约900 m²/m³时）';
-        return '散热器K值推荐：轻卡95 W/(m²·K)、重卡80 W/(m²·K)\n中冷器K值推荐：轻卡70 W/(m²·K)、重卡75 W/(m²·K)\n\nK值受翅片密度、管排数、流速等影响，以上为基于145条训练数据反算的典型值。';
+        return '散热器K值推荐：轻卡95 W/(m²·K)、重卡80 W/(m²·K)\n中冷器K值推荐：轻卡70 W/(m²·K)、重卡75 W/(m²·K)\n\nK值受翅片密度、管排数、流速等影响，以上为基于过往训练数据反算的典型值。';
     }
 
     // === LAT ===
@@ -5798,7 +5798,7 @@ function callLocalEngine(query) {
 
     // === 马力 ===
     if (q.includes('马力') && (q.includes('选配') || q.includes('推荐') || q.includes('多大'))) {
-        return '选型推荐（基于145条训练数据）：\n\n轻卡（N2类）：\n• 100~160HP：模块一/二（620×582 或 680×620）\n• 160~220HP：模块三（720×650）\n• 220HP+：模块四（780×700）\n\n重卡：\n• 200~300HP：750×650~800×700\n• 300~400HP：850×700~900×750\n• 400HP+：950×750以上\n\n建议结合散热量、迎风面积和LAT综合判断。';
+        return '选型推荐（基于过往训练数据）：\n\n轻卡（N2类）：\n• 100~160HP：模块一/二（620×582 或 680×620）\n• 160~220HP：模块三（720×650）\n• 220HP+：模块四（780×700）\n\n重卡：\n• 200~300HP：750×650~800×700\n• 300~400HP：850×700~900×750\n• 400HP+：950×750以上\n\n建议结合散热量、迎风面积和LAT综合判断。';
     }
 
     // === 膨胀水箱/溢流壶 ===
@@ -5838,7 +5838,7 @@ function callLocalEngine(query) {
 
     // === 脱敏 ===
     if (q.includes('脱敏') || q.includes('数据')) {
-        return '本项目使用145条脱敏热平衡试验数据：\n\n• 温度数据：±0.5℃扰动\n• 散热量数据：±2%扰动\n• 尺寸数据：±1~2mm微调\n• 供应商/车型：替换为代号\n• 核心计算方法和结论不受影响';
+        return '本项目使用脱敏热平衡试验数据：\n\n• 温度数据：±0.5℃扰动\n• 散热量数据：±2%扰动\n• 尺寸数据：±1~2mm微调\n• 供应商/车型：替换为代号\n• 核心计算方法和结论不受影响';
     }
 
     // === 散热器通用 ===
