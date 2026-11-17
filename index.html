@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0288)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E4%B8%89%E6%96%B9%E6%96%87%E4%BB%B6/index.html?sign=1797511115-144fff8754-0-e501b81a72ecfa3b99ffdc77c44e2c71d9a1c1537b752bcb7c0e70abd9f0a901 -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>商用车冷却系统选型工具</title>
 <style>
@@ -2461,11 +2461,11 @@ body {
 .ai-symptom-tag:has(input:checked){background:var(--primary);color:#fff;border-color:var(--primary)}
 .ai-error-msg{background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px 16px;color:#dc2626;font-size:13px}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="./商用车冷却系统选型工具_files/jspdf.umd.min.js.下载"></script>
+<script src="./商用车冷却系统选型工具_files/html2canvas.min.js.下载"></script>
+<script src="./商用车冷却系统选型工具_files/xlsx.full.min.js.下载"></script>
+<script src="./商用车冷却系统选型工具_files/three.min.js.下载"></script>
+<script src="./商用车冷却系统选型工具_files/OrbitControls.js.下载"></script>
 </head>
 <body>
 <div class="container">
@@ -2498,7 +2498,7 @@ body {
     <div id="tab-selection" class="result-section active">
 <div class="card" style="background:linear-gradient(135deg,rgba(37,99,235,.04),rgba(99,102,241,.04));border:1px solid rgba(37,99,235,.12)">
 <div class="card-title"><span class="icon">⚡</span>快速选型<span style="font-size:11px;color:var(--gray-500);font-weight:400;margin-left:6px">自然语言描述工况，AI自动填充参数</span></div>
-<div style="display:flex;gap:8px"><input type="text" id="aiQsI" placeholder="例如：轻卡云内160马力，LAT 55℃，海拔1000m" style="flex:1;padding:9px 12px;border:1px solid var(--gray-300);border-radius:8px;font-size:13px;font-family:inherit">
+<div style="display:flex;gap:8px"><input type="text" id="aiQsI" placeholder="例如：轻卡云内160马力，目标LAT 46℃，海拔1000m" style="flex:1;padding:9px 12px;border:1px solid var(--gray-300);border-radius:8px;font-size:13px;font-family:inherit">
 <button onclick="aiQs()" id="aiQsB" style="padding:9px 20px;border:none;border-radius:8px;background:var(--primary);color:#fff;cursor:pointer;font-size:13px;font-weight:600;white-space:nowrap">🤖 AI解析</button></div>
 <div id="aiQsM" style="display:none;margin-top:8px;padding:8px 12px;border-radius:8px;font-size:13px"></div></div>
         <!-- 车型选择 -->
@@ -2726,7 +2726,7 @@ body {
             </div>
 
             <!-- 计算详情 -->
-            <details class="calc-detail" open>
+            <details class="calc-detail" open="">
                 <summary>📐 查看完整计算过程</summary>
                 <div id="calcDetail"></div>
             </details>
@@ -2946,17 +2946,37 @@ body {
                         </thead>
                         <tbody id="batchInputBody">
                             <!-- 动态生成 -->
-                        </tbody>
+                        <tr data-batch-row="1">
+        <td class="row-num">1</td>
+        <td><input type="text" class="batch-engine-name" placeholder="如：D2.5-160" value=""></td>
+        <td><input type="number" class="batch-engine-hp" placeholder="如：160" min="50" max="800" value=""></td>
+        <td><select class="batch-engine-supplier"><option value="cummins" selected="">康明斯</option><option value="yunnei">云内</option><option value="yuchai">玉柴</option><option value="other">其他</option></select></td>
+        <td><select class="batch-engine-fuel"><option value="diesel" selected="">柴油</option><option value="gas">天然气</option></select></td>
+        <td><input type="number" class="batch-engine-maxtemp" placeholder="如：105" min="80" max="130" step="0.5" value="105"></td>
+        <td><button class="row-remove" onclick="removeBatchRow(this)" title="删除此行">×</button></td>
+    </tr><tr data-batch-row="2">
+        <td class="row-num">2</td>
+        <td><input type="text" class="batch-engine-name" placeholder="如：D2.5-160" value=""></td>
+        <td><input type="number" class="batch-engine-hp" placeholder="如：160" min="50" max="800" value=""></td>
+        <td><select class="batch-engine-supplier"><option value="cummins" selected="">康明斯</option><option value="yunnei">云内</option><option value="yuchai">玉柴</option><option value="other">其他</option></select></td>
+        <td><select class="batch-engine-fuel"><option value="diesel" selected="">柴油</option><option value="gas">天然气</option></select></td>
+        <td><input type="number" class="batch-engine-maxtemp" placeholder="如：105" min="80" max="130" step="0.5" value="105"></td>
+        <td><button class="row-remove" onclick="removeBatchRow(this)" title="删除此行">×</button></td>
+    </tr></tbody>
                     </table>
-                    <button class="batch-add-row-btn" id="batchAddRowBtn" onclick="addBatchRow()">
-                        <span>＋</span> 添加一行（最多10行）
-                    </button>
+                    <button class="batch-add-row-btn" id="batchAddRowBtn" onclick="addBatchRow()"><span>＋</span> 添加一行（最多10行）</button>
                 </div>
             </div>
 
             <!-- 粘贴输入区 -->
             <div class="batch-paste-area" id="batchPasteInput">
-                <textarea id="batchPasteData" placeholder="从Excel或CSV复制数据粘贴到这里...&#10;&#10;支持的格式（每行一个发动机，列之间用Tab或逗号分隔）：&#10;发动机代号,马力,供应商,燃料类型,最高温度&#10;D2.5-160,160,cummins,diesel,105&#10;D2.5-180,180,cummins,diesel,105&#10;WP4.1-220,220,yuchai,diesel,108"></textarea>
+                <textarea id="batchPasteData" placeholder="从Excel或CSV复制数据粘贴到这里...
+
+支持的格式（每行一个发动机，列之间用Tab或逗号分隔）：
+发动机代号,马力,供应商,燃料类型,最高温度
+D2.5-160,160,cummins,diesel,105
+D2.5-180,180,cummins,diesel,105
+WP4.1-220,220,yuchai,diesel,108"></textarea>
                 <div class="batch-paste-hint">
                     <strong>列顺序：</strong>发动机代号、马力(HP)、供应商、燃料类型、最高允许温度(℃)<br>
                     <strong>供应商可选值：</strong><code>cummins</code> 康明斯、<code>yunnei</code> 云内、<code>yuchai</code> 玉柴、<code>other</code> 其他<br>
@@ -3246,7 +3266,47 @@ body {
                             <th>进出水口</th>
                         </tr>
                     </thead>
-                    <tbody id="lightTruckConfigTable"></tbody>
+                    <tbody id="lightTruckConfigTable">
+        <tr>
+            <td class="config-name">模块一</td>
+            <td>600 × 542.5 × 36 mm</td>
+            <td>15.9 m²</td>
+            <td>0.32 m²</td>
+            <td>513 × 332 × 50 mm</td>
+            <td>4.8 m²</td>
+            <td>上左下右 (Φ38)</td>
+        </tr>
+    
+        <tr>
+            <td class="config-name">模块二</td>
+            <td>620 × 582.5 × 36 mm</td>
+            <td>16.7 m²</td>
+            <td>0.36 m²</td>
+            <td>535 × 352 × 50 mm</td>
+            <td>5.39 m²</td>
+            <td>上右下左 (Φ45)</td>
+        </tr>
+    
+        <tr>
+            <td class="config-name">模块三</td>
+            <td>620 × 582.5 × 36 mm</td>
+            <td>16.7 m²</td>
+            <td>0.36 m²</td>
+            <td>562 × 332 × 50 mm</td>
+            <td>5.26 m²</td>
+            <td>上左下右 (Φ45)</td>
+        </tr>
+    
+        <tr>
+            <td class="config-name">模块四</td>
+            <td>700 × 582 × 36 mm</td>
+            <td>18.64 m²</td>
+            <td>0.41 m²</td>
+            <td>559 × 412 × 50 mm</td>
+            <td>6.6 m²</td>
+            <td>上右下左 (Φ45)</td>
+        </tr>
+    </tbody>
                 </table>
             </div>
         </div>
@@ -3270,7 +3330,87 @@ body {
                             <th>匹配发动机</th>
                         </tr>
                     </thead>
-                    <tbody id="heavyTruckRadTable"></tbody>
+                    <tbody id="heavyTruckRadTable">
+        <tr>
+            <td>970-850变截梁</td>
+            <td>850 × 988 × 42 mm</td>
+            <td>83.9 dm²</td>
+            <td>对角线 (Φ60)</td>
+            <td>13L级燃气/柴油</td>
+        </tr>
+    
+        <tr>
+            <td>970-850变截梁</td>
+            <td>800 × 988 × 42 mm</td>
+            <td>79.1 dm²</td>
+            <td>对角线 (Φ60)</td>
+            <td>11L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>850直通梁/861直通梁/940-860变截梁</td>
+            <td>950 × 638 × 56 mm</td>
+            <td>61.6 dm²</td>
+            <td>上右下左 (Φ60)</td>
+            <td>11L级柴油/9L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>850直通梁/861直通梁/940-860变截梁</td>
+            <td>880 × 638 × 56 mm</td>
+            <td>56.1 dm²</td>
+            <td>上右下左 (Φ60)</td>
+            <td>6.7L级柴油/8L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>850 × 608 × 52 mm</td>
+            <td>51.6 dm²</td>
+            <td>对角线 (Φ上44下58)</td>
+            <td>6.7L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>800 × 608 × 52 mm</td>
+            <td>48.6 dm²</td>
+            <td>对角线 (Φ上44下58)</td>
+            <td>6L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>770 × 600 × 42 mm</td>
+            <td>46.2 dm²</td>
+            <td>对角线 (Φ上44下58)</td>
+            <td>4.5L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>770 × 576 × 42 mm</td>
+            <td>44.3 dm²</td>
+            <td>上右下左 (Φ45)</td>
+            <td>4.5L/4L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>650 × 576 × 32 mm</td>
+            <td>37.4 dm²</td>
+            <td>上右下左 (Φ45)</td>
+            <td>4L/2.8L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>600 × 576 × 32 mm</td>
+            <td>34.5 dm²</td>
+            <td>上右下左 (Φ45)</td>
+            <td>2.0L级柴油</td>
+        </tr>
+    </tbody>
                 </table>
             </div>
         </div>
@@ -3290,7 +3430,71 @@ body {
                             <th>匹配发动机</th>
                         </tr>
                     </thead>
-                    <tbody id="heavyTruckIcTable"></tbody>
+                    <tbody id="heavyTruckIcTable">
+        <tr>
+            <td>970-850变截梁</td>
+            <td>900 × 792 × 64 mm</td>
+            <td>71.2 dm²</td>
+            <td>右进左出 (Φ100)</td>
+            <td>13L级燃气/柴油</td>
+        </tr>
+    
+        <tr>
+            <td>970-850变截梁</td>
+            <td>900 × 652 × 64 mm</td>
+            <td>58.6 dm²</td>
+            <td>右进左出 (Φ100)</td>
+            <td>11L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>850直通梁/861直通梁/940-860变截梁</td>
+            <td>570 × 832 × 50 mm</td>
+            <td>47.4 dm²</td>
+            <td>右进左出 (Φ100)</td>
+            <td>11L级/9L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>850直通梁/861直通梁/940-860变截梁</td>
+            <td>570 × 712 × 50 mm</td>
+            <td>40.5 dm²</td>
+            <td>右进左出 (Φ100)</td>
+            <td>6.7L级/6L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>550 × 492 × 64 mm</td>
+            <td>27.1 dm²</td>
+            <td>右进左出 (Φ82)</td>
+            <td>6L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>860直通梁/860-850变截梁</td>
+            <td>550 × 552 × 64 mm</td>
+            <td>30.3 dm²</td>
+            <td>右进左出 (Φ82)</td>
+            <td>6.7L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>372 × 520 × 50 mm</td>
+            <td>25.1 dm²</td>
+            <td>右进左出 (Φ70)</td>
+            <td>4L级柴油</td>
+        </tr>
+    
+        <tr>
+            <td>800直通梁</td>
+            <td>545 × 482 × 38 mm</td>
+            <td>26.2 dm²</td>
+            <td>右进左出 (Φ76)</td>
+            <td>4L级/2.8L级柴油</td>
+        </tr>
+    </tbody>
                 </table>
             </div>
         </div>
@@ -3605,7 +3809,7 @@ body {
     <div id="tab-learning" class="result-section">
         <div class="card">
             <div class="card-title"><span class="icon">📈</span> 模型学习进度</div>
-            <div id="learningPanel"></div>
+            <div id="learningPanel"><div class="lp-empty">📭 暂无反馈数据<br><span style="font-size:12px;margin-top:8px;display:block;">完成选型计算后，点击「录入实测值」按钮开始积累学习数据</span></div></div>
         </div>
     </div>
     <!-- ========== 3D 可视化 ========== -->
@@ -4462,13 +4666,13 @@ function renderSHAPChart() {
   h += '<summary style="cursor:pointer;font-size:13px;font-weight:600;color:#2563eb;user-select:none;">📖 如何看懂这张图？点击展开</summary>';
   h += '<div style="margin-top:10px;font-size:12px;line-height:1.8;color:#1e40af;">';
   h += '<p style="margin-bottom:8px;"><b>这张图展示了什么？</b><br>每个参数对LAT预测值的贡献大小和方向。模型先有一个基准值，然后每个参数根据实际取值推高或拉低预测结果。</p>';
-  h += '<p style="margin-bottom:8px;"><b>颜色含义：</b><br><span style="color:#dc2626;font-weight:700;">■ 红色条</span> = 该参数<b>推高了</b>LAT（需关注，不利于散热）<br><span style="color:#16a34a;font-weight:700;">■ 绿色条</span> = 该参数<b>拉低了</b>LAT（优化项，有利于散热）</p>';
+  h += '<p style="margin-bottom:8px;"><b>颜色含义：</b><br><span style="color:#16a34a;font-weight:700;">■ 绿色条</span> = 该参数<b>推高了</b>LAT（散热裕量增加，有利于散热）<br><span style="color:#dc2626;font-weight:700;">■ 红色条</span> = 该参数<b>拉低了</b>LAT（散热裕量被吃掉，需关注）</p>';
   h += '<p style="margin-bottom:8px;"><b>数值含义：</b><br>条形长度和右侧数值表示贡献大小。例如"+2.5℃"表示该参数使LAT升高了2.5℃，"-1.8℃"表示使LAT降低了1.8℃。</p>';
-  h += '<p><b>举个例子：</b><br>如果"马力"显示红色+1.5℃，说明因为马力较大，导致预测LAT升高1.5℃（需关注）；如果"风扇直径"显示绿色-0.8℃，说明因为风扇较大，帮助散热降低了0.8℃（优化项）。</p>';
+  h += '<p><b>举个例子：</b><br>如果"散热器迎风面积"显示绿色+1.5℃，说明迎风面积较大，把预测LAT推高了1.5℃（散热能力更强）；如果"马力"显示红色-0.8℃，说明马力较大、散热量增加，把预测LAT拉低了0.8℃（需关注，可通过加大散热器或风量补偿）。</p>';
   h += '</div></details>';
   ctr.forEach(function(c) {
     var pct = Math.abs(c.shap_value) / mx * 42;
-    var pos = c.shap_value > 0, col = pos ? '#dc2626' : '#16a34a', bg = pos ? '#fee2e2' : '#dcfce7';
+    var pos = c.shap_value > 0, col = pos ? '#16a34a' : '#dc2626', bg = pos ? '#dcfce7' : '#fee2e2';
     var dir = pos ? '\u2191\u63a8\u9ad8' : '\u2193\u964d\u4f4e';
     h += '<div style="display:flex;align-items:center;margin-bottom:7px;font-size:12px;">';
     h += '<div style="width:110px;text-align:right;padding-right:8px;color:var(--gray-700);font-weight:500;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + c.feature + '</div>';
@@ -8444,5 +8648,6 @@ var q='你是商用车冷却系统专家。敏感性分析数据：车型'+vt+' 
 try{var res=await callCozeAPI(q,function(t){re.style.display='block';re.innerHTML='<div class="ai-result-card">'+renderSimpleMarkdown(t)+'</div>'});re.style.display='block';re.innerHTML='<div class="ai-result-card">'+renderSimpleMarkdown(res)+'</div>'}catch(e){re.style.display='block';re.innerHTML='<div class="ai-result-card" style="color:#dc2626">❌ '+e.message+'</div>'}finally{l.style.display='none';b.disabled=false;b.textContent='🤖 AI解读'}}
 
 </script>
-</body>
-</html>
+
+
+</body></html>
