@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0288)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E4%B8%89%E6%96%B9%E6%96%87%E4%BB%B6/index.html?sign=1797576173-d68981ef0a-0-83ff9629243acfdd7744349bfa618be20fdcd80c48086052ae4048b0816138ee -->
+<!-- saved from url=(0288)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E4%B8%89%E6%96%B9%E6%96%87%E4%BB%B6/index.html?sign=1797578568-17f34fe083-0-779dcb652f5037d0b33bf9cc541e534298a0442fd7bb6b4abb95875a3e58b9c1 -->
 <html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1400,6 +1400,14 @@ body {
 .ai-status-dot.offline {
     background: #f59e0b;
     box-shadow: 0 0 0 3px rgba(245,158,11,.18);
+}
+.ai-status-dot.checking {
+    background: #3b82f6;
+    animation: dotPulse 1s ease-in-out infinite;
+}
+@keyframes dotPulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 2px rgba(59,130,246,.15); }
+    50% { opacity: .45; box-shadow: 0 0 0 4px rgba(59,130,246,.05); }
 }
 
 /* ===== 动画 ===== */
@@ -5129,7 +5137,7 @@ WP4.1-220,220,yuchai,diesel,108"></textarea>
         <div class="avatar" style="background-image:url(data:image/jpeg;base64,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);background-size:cover;background-position:center;border-radius:12px"></div>
         <div class="info">
             <h3 id="chatAgentName">AI 选型助手</h3>
-            <p id="chatAgentDesc"><span class="ai-status-dot" id="aiStatusDot" title="AI 服务状态"></span>商用车冷却系统智能问答</p>
+            <p id="chatAgentDesc"><span class="ai-status-dot" id="aiStatusDot" title="AI 服务状态：待检测，提问后自动更新"></span>商用车冷却系统智能问答</p>
         </div>
         <button class="chat-settings-btn" onclick="toggleChatSettings()" title="智能体设置">⚙</button>
         <button class="chat-panel-clear" onclick="clearChatHistory()" title="清空对话记录">🗑️</button>
@@ -6955,12 +6963,20 @@ async function callAIWithRetry(query, onChunk) {
 /**
  * AI 连接状态指示灯
  */
-function setAIStatus(online) {
+function setAIStatus(state) {
     const dot = document.getElementById('aiStatusDot');
     if (!dot) return;
-    dot.classList.remove('online', 'offline');
-    dot.classList.add(online ? 'online' : 'offline');
-    dot.title = online ? 'AI 服务在线' : 'AI 服务暂时不可用，已切换本地知识库';
+    dot.classList.remove('online', 'offline', 'checking');
+    if (state === true || state === 'online') {
+        dot.classList.add('online');
+        dot.title = 'AI 服务在线';
+    } else if (state === 'checking') {
+        dot.classList.add('checking');
+        dot.title = '正在连接 AI…';
+    } else {
+        dot.classList.add('offline');
+        dot.title = 'AI 暂时连不上，已切本地知识库';
+    }
 }
 
 /**
@@ -7209,6 +7225,7 @@ async function sendChatMsg() {
     isChatLoading = true;
     document.getElementById('chatSendBtn').disabled = true;
     showTypingIndicator();
+    setAIStatus('checking');
     
     // 先创建空的bot气泡用于流式显示
     const streamingBubble = createStreamingBubble();
