@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0288)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E4%B8%89%E6%96%B9%E6%96%87%E4%BB%B6/index.html?sign=1797558733-0da4ebb248-0-862074d9ee6cf57c2ce0dd8b2597fbcbeaa13e6e60310056de90efd993567d7d -->
+<!-- saved from url=(0288)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E4%B8%89%E6%96%B9%E6%96%87%E4%BB%B6/index.html?sign=1797575084-ceb3d335f1-0-45b5a116321fc2f884e3dd61bc4446219c1b2168aacfc1c37c64f003070c67a8 -->
 <html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1368,25 +1368,8 @@ body {
 }
 
 
-/* ===== 移动端补充样式 - 敏感性分析及其他 ===== */
+/* ===== 移动端补充样式 - 批量选型及其他 ===== */
 @media (max-width: 768px) {
-    /* 敏感性分析 Canvas 容器 */
-    #sensChart {
-        width: 100% !important;
-        height: auto !important;
-        max-width: 100%;
-    }
-    
-    /* 敏感性分析参数字段 - 单列 */
-    #tab-sensitivity .form-row {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-    #tab-sensitivity .form-row .form-group {
-        width: 100%;
-    }
-    
     /* 批量选型 - 输入标签缩小 */
     .batch-input-tabs {
         overflow-x: auto;
@@ -1397,14 +1380,6 @@ body {
         flex-shrink: 0;
         padding: 8px 14px;
         font-size: 13px;
-    }
-}
-
-@media (max-width: 480px) {
-    /* 敏感性分析 Canvas 更小 */
-    #sensChart {
-        width: 100% !important;
-        max-height: 300px;
     }
 }
 /* ===== 动画 ===== */
@@ -3989,9 +3964,6 @@ t.sheetStubs=true}if(t.type=="array"){t.type="binary";var a=xk(e,t);t.type="arra
         <button class="tab-btn" onclick="switchTab('reference')">
             <span class="icon">📚</span> 参考数据
         </button>
-    <button class="tab-btn" onclick="switchTab('sensitivity')">
-        <span class="icon">📊</span> 敏感性分析
-    </button>
 <button class="tab-btn" onclick="switchTab('learning')"><span class="icon">📈</span> 学习进度</button>
         <button class="tab-btn" onclick="switchTab('viewer3d')"><span class="icon">🔧</span> 3D 可视化</button>
     </div>
@@ -5020,10 +4992,10 @@ WP4.1-220,220,yuchai,diesel,108"></textarea>
                     <tbody>
                         <tr>
                             <td><strong>云内</strong></td>
-                            <td style="color: var(--warning); font-weight: 600;">0.70</td>
+                            <td style="color: var(--success); font-weight: 600;">1.00</td>
                             <td>★★★★</td>
-                            <td>散热量虚高约40%</td>
-                            <td>过度设计倾向明显，需大幅下调</td>
+                            <td>无需修正</td>
+                            <td>原 0.70 结论已撤销（2026-11-18 复核）</td>
                         </tr>
                         <tr>
                             <td><strong>康明斯</strong></td>
@@ -5123,136 +5095,6 @@ WP4.1-220,220,yuchai,diesel,108"></textarea>
         </div>
     </div>
 
-
-    <!-- ========== 敏感性分析 ========== -->
-    <div id="tab-sensitivity" class="result-section">
-        <div class="card">
-            <div class="card-title">
-                <span class="icon">📊</span> 参数敏感性分析
-            </div>
-            <p style="color:var(--gray-500);font-size:13px;margin-bottom:16px;">
-                分析关键输入参数变化对选型结果的影响，识别高敏感参数，为选型决策提供依据。
-            </p>
-
-            <!-- 基础参数设置 -->
-            <div style="background:var(--gray-50);border-radius:var(--radius);padding:16px;margin-bottom:16px;">
-                <h4 style="font-size:14px;color:var(--gray-700);margin-bottom:12px;">🔧 基础参数设置</h4>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>车型选择</label>
-                        <select id="sens_vehicleType">
-                            <option value="light">轻卡 (N2类)</option>
-                            <option value="heavy">重卡</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>发动机马力 (HP)</label>
-                        <input type="number" id="sens_hp" value="180" min="100" max="600">
-                    </div>
-                    <div class="form-group">
-                        <label>燃料类型</label>
-                        <select id="sens_fuelType">
-                            <option value="diesel">柴油</option>
-                            <option value="gas">燃气</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>供应商</label>
-                        <select id="sens_supplier">
-                            <option value="cummins">康明斯</option>
-                            <option value="yuchai">玉柴</option>
-                            <option value="yunnei">云内</option>
-                            <option value="other">其他</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>最高允许水温 (℃)</label>
-                        <input type="number" id="sens_maxTemp" value="105" min="80" max="120">
-                    </div>
-                    <div class="form-group">
-                        <label>区域类型</label>
-                        <select id="sens_regionType">
-                            <option value="1">I类 (严寒区)</option>
-                            <option value="2">II类 (非严寒区)</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 分析参数设置 -->
-            <div style="background:var(--primary-light);border-radius:var(--radius);padding:16px;margin-bottom:16px;border:1px solid rgba(37,99,235,0.15);">
-                <h4 style="font-size:14px;color:var(--gray-700);margin-bottom:12px;">🎯 分析参数设置</h4>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>分析对象</label>
-                        <select id="sens_param" onchange="updateSensDefaults()">
-                            <option value="radiator">散热器需求散热量 (kW)</option>
-                            <option value="intercooler">中冷器需求散热量 (kW)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>最小值 (kW)</label>
-                        <input type="number" id="sens_min" value="10" min="1" step="1">
-                    </div>
-                    <div class="form-group">
-                        <label>最大值 (kW)</label>
-                        <input type="number" id="sens_max" value="80" min="2" step="1">
-                    </div>
-                    <div class="form-group">
-                        <label>步长 (kW)</label>
-                        <input type="number" id="sens_step" value="5" min="0.5" step="0.5">
-                    </div>
-                </div>
-                <div style="margin-top:12px;">
-                    <button class="btn-primary" onclick="runSensitivityAnalysis()" style="padding:10px 28px;font-size:14px;">
-                        🔍 开始分析
-                    </button>
-                </div>
-            </div>
-
-            <!-- 分析结果区域（默认隐藏） -->
-            <div id="sensResultArea" style="display:none;">
-                <!-- LAT变化曲线 -->
-                <div style="margin-bottom:20px;">
-                    <h4 style="font-size:14px;color:var(--gray-700);margin-bottom:12px;">📈 LAT变化曲线</h4>
-                    <div style="background:white;border-radius:var(--radius);padding:12px;border:1px solid var(--gray-200);text-align:center;">
-                        <canvas id="sensChart" width="700" height="400" style="max-width:100%;"></canvas>
-                    </div>
-                </div>
-
-                <!-- 结果表格 -->
-                <div style="margin-bottom:20px;">
-                    <h4 style="font-size:14px;color:var(--gray-700);margin-bottom:12px;">📋 详细结果</h4>
-                    <div style="overflow-x:auto;">
-                        <table id="sensTable" style="width:100%;border-collapse:collapse;font-size:13px;">
-                            <thead>
-                                <tr style="background:var(--gray-50);">
-                                    <th style="padding:8px 12px;border:1px solid var(--gray-200);text-align:left;">参数值(kW)</th>
-                                    <th style="padding:8px 12px;border:1px solid var(--gray-200);text-align:left;">LAT(℃)</th>
-                                    <th style="padding:8px 12px;border:1px solid var(--gray-200);text-align:left;">推荐宽(mm)</th>
-                                    <th style="padding:8px 12px;border:1px solid var(--gray-200);text-align:left;">推荐高(mm)</th>
-                                    <th style="padding:8px 12px;border:1px solid var(--gray-200);text-align:left;">推荐厚(mm)</th>
-                                    <th style="padding:8px 12px;border:1px solid var(--gray-200);text-align:left;">散热面积(m²)</th>
-                                </tr>
-                            </thead>
-                            <tbody id="sensTableBody"></tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- 敏感性摘要 -->
-                <div id="sensSummary" style="background:var(--gray-50);border-radius:var(--radius);padding:16px;border:1px solid var(--gray-200);">
-                </div>
-<div style="margin-top:14px"><button onclick="aiSI()" id="aiSB" style="padding:9px 22px;border:none;border-radius:8px;background:linear-gradient(135deg,var(--primary),#6366f1);color:#fff;cursor:pointer;font-size:13px;font-weight:600">🤖 AI解读</button>
-<div id="aiSL" style="display:none;text-align:center;padding:20px;color:var(--primary)"><div class="ai-spinner"></div><p style="margin-top:8px;font-size:13px">AI正在分析…</p></div>
-<div id="aiSR" style="display:none;margin-top:10px"></div></div>
-
-            </div>
-        </div>
-    </div>
-
 </div>
 
 <!-- AI 智能问答浮动按钮 -->
@@ -5283,7 +5125,7 @@ WP4.1-220,220,yuchai,diesel,108"></textarea>
         </p>
         <p style="margin:0 0 8px;font-size:12px;color:#999;line-height:1.6;">
             AI智能体 · 实时对话<br>
-            修正系数: 云内0.70 / 康明斯1.00 / 玉柴1.05<br>
+            修正系数: 云内1.00 / 康明斯1.00 / 玉柴1.05<br>
             K值: 轻卡散热器95 / 重卡80 W/(m²·K)
         </p>
         <div class="settings-status" style="color:#52c41a;">✓ 知识库已加载</div>
@@ -5501,7 +5343,7 @@ const heavyTruckIntercoolers = [
 // 供应商修正系数
 const supplierCorrection = {
     cummins: { alpha: 1.00, name: '康明斯', confidence: '高' },
-    yunnei: { alpha: 0.70, name: '云内', confidence: '中高' },
+    yunnei: { alpha: 1.00, name: '云内', confidence: '高' },
     yuchai: { alpha: 1.05, name: '玉柴', confidence: '中高' },
     other: { alpha: 0.97, name: '其他', confidence: '中' }
 };
@@ -5532,7 +5374,7 @@ let currentDiagVehicle = 'light';
 
 // ========== Tab切换 ==========
 function switchTab(tab) {
-    const tabs = ['selection', 'diagnosis', 'reference', 'sensitivity', 'learning', 'viewer3d'];
+    const tabs = ['selection', 'diagnosis', 'reference', 'learning', 'viewer3d'];
     document.querySelectorAll('.tab-btn').forEach((btn, i) => {
         btn.classList.toggle('active', tabs[i] === tab);
     });
@@ -5621,10 +5463,12 @@ function calculateHeatDissipation(hp, fuelType, supplier) {
     let q_water = power_kW * waterJacketRatio;
     let q_ic = power_kW * intercoolerRatio;
     
-    // 供应商修正系数（基于历史数据校准）
-    // 云内: 0.70（散热量虚高约40%）
-    // 康明斯: 1.00（数据准确）
-    // 玉柴: 1.05（轻微偏低约5%）
+    // 供应商修正系数（2026-11-18 复核修订）
+    // 原「云内 0.70 / 散热量虚高约40%」结论已撤销：
+    //   α 的定义是 α = (k×A×LAT) / Q_provided，LAT 直接进分子，
+    //   云内 α 偏低实为配套车辆 LAT 偏低（均值48.5℃、合格率62%，四家最低），
+    //   而非厂方散热量虚高。按原系数会让云内选型偏小，方向相反。
+    // 现云内取 1.00（不做修正）。玉柴 1.05、其他 0.97 沿用旧值，来源同一算法，待重新标定。
     const correction = supplierCorrection[supplier] || supplierCorrection.other;
     q_water = q_water * correction.alpha;
     q_ic = q_ic * correction.alpha;
@@ -5775,23 +5619,10 @@ function selectLightTruckModule(power_kW, q_total, maxTemp, hp, supplier, fuelTy
         recommended = sorted[sorted.length - 1];
     }
     
-    // 如果是云内发动机（修正系数0.7），可以下调一级
-    if (supplier === 'yunnei' && recommended !== sorted[0]) {
-        const recIndex = sorted.findIndex(m => m.name === recommended.name);
-        // 云内散热量低一级，可以考虑小一号模块
-        const prevModule = sorted[recIndex - 1];
-        if (prevModule) {
-            // 验证小一号是否满足LAT要求
-            const lat_prev = calculateLAT(
-                q_total, prevModule.radiator.heatArea, maxTemp, 'light',
-                prevModule.radiator.coreSize[2]
-            );
-            // 如果云内的话，小一号也可能满足，按LAT≥41（II类）判断
-            if (parseFloat(lat_prev.lat) >= 41) {
-                recommended = prevModule;
-            }
-        }
-    }
+    // 【2026-11-18 停用】原「云内可下调一级模块」逻辑已移除。
+    // 该逻辑建立在「云内散热量虚高40%」的错误结论上，会把云内车型的散热器选小一号，
+    // 而历史数据显示云内配套车辆 LAT 均值仅48.5℃、合格率62%（四家最低），
+    // 再降一档会进一步恶化。恢复需先补齐风速相关的 k 值并重新标定 α。
     
     // 燃气机需要加大一级
     if (fuelType === 'gas') {
@@ -6555,7 +6386,7 @@ function generateRisks(vehicleType, hp, supplier, fuelType, config, latPredict, 
     
     // 供应商数据风险
     if (supplier === 'yunnei') {
-        risks.push({ level: 'low', title: '云内散热量虚高已修正', desc: '已按修正系数0.7下调云内发动机散热量（散热量标称值虚高约40%），注意与发动机厂确认实际散热量。' });
+        risks.push({ level: 'medium', title: '云内配套车辆LAT偏低', desc: '历史数据中云内配套车型 LAT 均值48.5℃、合格率62%（四家供应商最低）。建议选型时重点核对散热器实际散热面积与迎风面积是否充足，不要依赖厂方标称散热量下调。' });
     }
     
     // 安装风险
@@ -6964,364 +6795,6 @@ function renderReferenceData() {
 }
 
 
-// ========== 敏感性分析 ==========
-function updateSensDefaults() {
-    const param = document.getElementById('sens_param').value;
-    const minEl = document.getElementById('sens_min');
-    const maxEl = document.getElementById('sens_max');
-    const stepEl = document.getElementById('sens_step');
-    if (param === 'radiator') {
-        minEl.value = 10; maxEl.value = 80; stepEl.value = 5;
-    } else {
-        minEl.value = 5; maxEl.value = 40; stepEl.value = 2.5;
-    }
-}
-
-function runSensitivityAnalysis() {
-    const vehicleType = document.getElementById('sens_vehicleType').value;
-    const hp = parseFloat(document.getElementById('sens_hp').value);
-    const fuelType = document.getElementById('sens_fuelType').value;
-    const supplier = document.getElementById('sens_supplier').value;
-    const maxTemp = parseFloat(document.getElementById('sens_maxTemp').value);
-    const regionType = document.getElementById('sens_regionType').value;
-    const param = document.getElementById('sens_param').value;
-    const minVal = parseFloat(document.getElementById('sens_min').value);
-    const maxVal = parseFloat(document.getElementById('sens_max').value);
-    const stepVal = parseFloat(document.getElementById('sens_step').value);
-
-    if (minVal >= maxVal || stepVal <= 0) {
-        alert('请检查参数范围：最小值应小于最大值，步长应大于0');
-        return;
-    }
-
-    // Get base heat dissipation values
-    const baseHeat = calculateHeatDissipation(hp, fuelType, supplier);
-    const baseQwater = parseFloat(baseHeat.q_water);
-    const baseQic = parseFloat(baseHeat.q_ic);
-
-    // Target LAT for dimension calculation (use 85℃ as default target)
-    const targetLAT = 85;
-
-    // Determine ambient temp based on region type
-    const ambientTemp = regionType === '1' ? 35 : 40;
-
-    // Run analysis steps
-    const results = [];
-    const steps = [];
-    for (let v = minVal; v <= maxVal + stepVal * 0.01; v += stepVal) {
-        v = Math.round(v * 100) / 100; // avoid floating point drift
-        steps.push(v);
-    }
-
-    for (const val of steps) {
-        let radHeat, icHeat;
-        if (param === 'radiator') {
-            radHeat = val;
-            icHeat = baseQic;
-        } else {
-            radHeat = baseQwater;
-            icHeat = val;
-        }
-
-        const dims = calculateRecommendedDimensions(radHeat, icHeat, vehicleType, maxTemp, targetLAT);
-        if (!dims) continue;
-
-        // Use the first radiator option as the primary recommendation
-        const radOpt = dims.radiator.options[0];
-        const latVal = parseFloat(radOpt.estLAT);
-        const heatArea = parseFloat(radOpt.heatArea);
-
-        results.push({
-            paramVal: val,
-            lat: latVal,
-            width: radOpt.width,
-            height: radOpt.height,
-            thickness: radOpt.thickness,
-            heatArea: heatArea
-        });
-    }
-
-    // Show results
-    document.getElementById('sensResultArea').style.display = 'block';
-
-    // Draw chart
-    drawSensChart(results, param);
-
-    // Fill table
-    const tbody = document.getElementById('sensTableBody');
-    tbody.innerHTML = '';
-    for (const r of results) {
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td style="padding:6px 12px;border:1px solid var(--gray-200);">${r.paramVal.toFixed(1)}</td>
-            <td style="padding:6px 12px;border:1px solid var(--gray-200);">${r.lat.toFixed(1)}</td>
-            <td style="padding:6px 12px;border:1px solid var(--gray-200);">${r.width}</td>
-            <td style="padding:6px 12px;border:1px solid var(--gray-200);">${r.height}</td>
-            <td style="padding:6px 12px;border:1px solid var(--gray-200);">${r.thickness}</td>
-            <td style="padding:6px 12px;border:1px solid var(--gray-200);">${r.heatArea.toFixed(2)}</td>
-        `;
-        tbody.appendChild(tr);
-    }
-
-    // Sensitivity summary
-    const lats = results.map(r => r.lat);
-    const minLAT = Math.min(...lats);
-    const maxLAT = Math.max(...lats);
-    const deltaLAT = maxLAT - minLAT;
-    const paramName = param === 'radiator' ? '散热器需求散热量' : '中冷器需求散热量';
-    const isHighSens = deltaLAT > 5;
-    const sensLevel = isHighSens ? '高敏感' : '低敏感';
-    const sensColor = isHighSens ? 'var(--danger)' : 'var(--success)';
-    const sensBg = isHighSens ? 'var(--danger-light)' : 'var(--success-light)';
-
-    const summaryEl = document.getElementById('sensSummary');
-    summaryEl.innerHTML = `
-        <h4 style="font-size:14px;margin-bottom:10px;">📋 敏感性摘要</h4>
-        <div style="display:flex;gap:20px;flex-wrap:wrap;">
-            <div style="flex:1;min-width:200px;">
-                <p style="font-size:13px;color:var(--gray-600);margin-bottom:4px;">分析参数</p>
-                <p style="font-size:15px;font-weight:600;">${paramName}</p>
-            </div>
-            <div style="flex:1;min-width:200px;">
-                <p style="font-size:13px;color:var(--gray-600);margin-bottom:4px;">分析范围</p>
-                <p style="font-size:15px;font-weight:600;">${minVal} ~ ${maxVal} kW</p>
-            </div>
-            <div style="flex:1;min-width:200px;">
-                <p style="font-size:13px;color:var(--gray-600);margin-bottom:4px;">LAT变化幅度 (ΔLAT)</p>
-                <p style="font-size:15px;font-weight:600;">${deltaLAT.toFixed(1)} ℃ <span style="font-size:12px;color:var(--gray-400);">(${minLAT.toFixed(1)} ~ ${maxLAT.toFixed(1)} ℃)</span></p>
-            </div>
-            <div style="flex:1;min-width:200px;">
-                <p style="font-size:13px;color:var(--gray-600);margin-bottom:4px;">敏感性评级</p>
-                <p style="font-size:15px;font-weight:600;">
-                    <span style="display:inline-block;padding:2px 10px;border-radius:12px;background:${sensBg};color:${sensColor};">${sensLevel}</span>
-                </p>
-            </div>
-        </div>
-        <div style="margin-top:12px;padding:10px;background:var(--gray-50);border-radius:8px;font-size:13px;color:var(--gray-600);line-height:1.7;">
-            ${isHighSens
-                ? `⚠️ <strong>${paramName}</strong>对选型结果影响显著，LAT变化幅度达${deltaLAT.toFixed(1)}℃。建议重点确认该参数的准确性，并在选型时预留足够的性能裕量。`
-                : `✅ <strong>${paramName}</strong>对选型结果影响较小，LAT变化幅度仅${deltaLAT.toFixed(1)}℃。该参数的不确定性不会显著影响选型决策。`
-            }
-        </div>
-    `;
-}
-
-function drawSensChart(results, param) {
-    const canvas = document.getElementById('sensChart');
-    const ctx = canvas.getContext('2d');
-    const dpr = window.devicePixelRatio || 1;
-
-    // Set canvas size (responsive)
-    const parent = canvas.parentElement;
-    const maxW = parent ? parent.clientWidth - 24 : 700;
-    const baseW = Math.min(700, Math.max(300, maxW));
-    const aspectRatio = 400 / 700;
-    const displayW = baseW;
-    const displayH = baseW * aspectRatio;
-    canvas.width = displayW * dpr;
-    canvas.height = displayH * dpr;
-    canvas.style.width = displayW + 'px';
-    canvas.style.height = displayH + 'px';
-    ctx.scale(dpr, dpr);
-
-    // Clear
-    ctx.clearRect(0, 0, displayW, displayH);
-
-    // Chart area
-    const margin = { top: 40, right: 70, bottom: 55, left: 65 };
-    const chartW = displayW - margin.left - margin.right;
-    const chartH = displayH - margin.top - margin.bottom;
-
-    const paramVals = results.map(r => r.paramVal);
-    const latVals = results.map(r => r.lat);
-    const areaVals = results.map(r => r.heatArea);
-
-    const xMin = Math.min(...paramVals);
-    const xMax = Math.max(...paramVals);
-    const latMin = Math.min(...latVals) - 2;
-    const latMax = Math.max(...latVals) + 2;
-    const areaMin = Math.min(...areaVals) * 0.9;
-    const areaMax = Math.max(...areaVals) * 1.1;
-
-    function xPos(val) { return margin.left + (val - xMin) / (xMax - xMin) * chartW; }
-    function yLatPos(val) { return margin.top + (1 - (val - latMin) / (latMax - latMin)) * chartH; }
-    function yAreaPos(val) { return margin.top + (1 - (val - areaMin) / (areaMax - areaMin)) * chartH; }
-
-    // Background
-    ctx.fillStyle = '#fff';
-    ctx.fillRect(0, 0, displayW, displayH);
-
-    // Title
-    const paramLabel = param === 'radiator' ? '散热器需求散热量' : '中冷器需求散热量';
-    ctx.fillStyle = '#1e293b';
-    ctx.font = 'bold 14px -apple-system, sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText(paramLabel + ' 对选型结果的影响', displayW / 2, 22);
-
-    // Grid lines
-    ctx.strokeStyle = '#e2e8f0';
-    ctx.lineWidth = 0.5;
-    for (let i = 0; i <= 5; i++) {
-        const y = margin.top + (chartH / 5) * i;
-        ctx.beginPath();
-        ctx.moveTo(margin.left, y);
-        ctx.lineTo(margin.left + chartW, y);
-        ctx.stroke();
-    }
-
-    // Axes
-    ctx.strokeStyle = '#94a3b8';
-    ctx.lineWidth = 1;
-    // Y-axis left
-    ctx.beginPath();
-    ctx.moveTo(margin.left, margin.top);
-    ctx.lineTo(margin.left, margin.top + chartH);
-    ctx.stroke();
-    // X-axis
-    ctx.beginPath();
-    ctx.moveTo(margin.left, margin.top + chartH);
-    ctx.lineTo(margin.left + chartW, margin.top + chartH);
-    ctx.stroke();
-    // Y-axis right
-    ctx.beginPath();
-    ctx.moveTo(margin.left + chartW, margin.top);
-    ctx.lineTo(margin.left + chartW, margin.top + chartH);
-    ctx.stroke();
-
-    // X-axis labels
-    ctx.fillStyle = '#64748b';
-    ctx.font = '11px -apple-system, sans-serif';
-    ctx.textAlign = 'center';
-    const xStep = Math.max(1, Math.floor(paramVals.length / 8));
-    for (let i = 0; i < paramVals.length; i += xStep) {
-        ctx.fillText(paramVals[i].toFixed(1), xPos(paramVals[i]), margin.top + chartH + 18);
-    }
-    ctx.fillText(paramVals[paramVals.length-1].toFixed(1), xPos(paramVals[paramVals.length-1]), margin.top + chartH + 18);
-
-    // X-axis title
-    ctx.fillStyle = '#475569';
-    ctx.font = '12px -apple-system, sans-serif';
-    ctx.fillText(paramLabel + ' (kW)', displayW / 2, margin.top + chartH + 42);
-
-    // Y-axis left labels (LAT)
-    ctx.textAlign = 'right';
-    ctx.fillStyle = '#2563eb';
-    ctx.font = '11px -apple-system, sans-serif';
-    for (let i = 0; i <= 5; i++) {
-        const val = latMin + (latMax - latMin) * (1 - i / 5);
-        ctx.fillText(val.toFixed(1), margin.left - 8, margin.top + (chartH / 5) * i + 4);
-    }
-    // Y-axis left title
-    ctx.save();
-    ctx.translate(15, margin.top + chartH / 2);
-    ctx.rotate(-Math.PI / 2);
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#2563eb';
-    ctx.font = '12px -apple-system, sans-serif';
-    ctx.fillText('LAT预测值 (℃)', 0, 0);
-    ctx.restore();
-
-    // Y-axis right labels (Area)
-    ctx.textAlign = 'left';
-    ctx.fillStyle = '#ea580c';
-    ctx.font = '11px -apple-system, sans-serif';
-    for (let i = 0; i <= 5; i++) {
-        const val = areaMin + (areaMax - areaMin) * (1 - i / 5);
-        ctx.fillText(val.toFixed(2), margin.left + chartW + 8, margin.top + (chartH / 5) * i + 4);
-    }
-    // Y-axis right title
-    ctx.save();
-    ctx.translate(displayW - 8, margin.top + chartH / 2);
-    ctx.rotate(Math.PI / 2);
-    ctx.textAlign = 'center';
-    ctx.fillStyle = '#ea580c';
-    ctx.font = '12px -apple-system, sans-serif';
-    ctx.fillText('散热面积 (m²)', 0, 0);
-    ctx.restore();
-
-    // Draw LAT line (blue solid)
-    ctx.strokeStyle = '#2563eb';
-    ctx.lineWidth = 2.5;
-    ctx.setLineDash([]);
-    ctx.beginPath();
-    for (let i = 0; i < results.length; i++) {
-        const x = xPos(results[i].paramVal);
-        const y = yLatPos(results[i].lat);
-        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-    }
-    ctx.stroke();
-
-    // LAT dots
-    ctx.fillStyle = '#2563eb';
-    for (const r of results) {
-        ctx.beginPath();
-        ctx.arc(xPos(r.paramVal), yLatPos(r.lat), 4, 0, Math.PI * 2);
-        ctx.fill();
-    }
-
-    // Draw Area line (orange dashed)
-    ctx.strokeStyle = '#ea580c';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([6, 4]);
-    ctx.beginPath();
-    for (let i = 0; i < results.length; i++) {
-        const x = xPos(results[i].paramVal);
-        const y = yAreaPos(results[i].heatArea);
-        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-    }
-    ctx.stroke();
-    ctx.setLineDash([]);
-
-    // Area dots
-    ctx.fillStyle = '#ea580c';
-    for (const r of results) {
-        ctx.beginPath();
-        ctx.arc(xPos(r.paramVal), yAreaPos(r.heatArea), 3.5, 0, Math.PI * 2);
-        ctx.fill();
-    }
-
-    // Legend
-    const legX = margin.left + 15, legY = margin.top + 12;
-    ctx.fillStyle = 'rgba(255,255,255,0.9)';
-    ctx.strokeStyle = '#e2e8f0';
-    ctx.lineWidth = 1;
-    ctx.fillRect(legX, legY, 195, 48);
-    ctx.strokeRect(legX, legY, 195, 48);
-
-    // LAT legend
-    ctx.strokeStyle = '#2563eb';
-    ctx.lineWidth = 2.5;
-    ctx.setLineDash([]);
-    ctx.beginPath();
-    ctx.moveTo(legX + 10, legY + 16);
-    ctx.lineTo(legX + 35, legY + 16);
-    ctx.stroke();
-    ctx.fillStyle = '#2563eb';
-    ctx.beginPath();
-    ctx.arc(legX + 22, legY + 16, 3, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#334155';
-    ctx.font = '11px -apple-system, sans-serif';
-    ctx.textAlign = 'left';
-    ctx.fillText('LAT预测值 (℃)', legX + 42, legY + 20);
-
-    // Area legend
-    ctx.strokeStyle = '#ea580c';
-    ctx.lineWidth = 2;
-    ctx.setLineDash([6, 4]);
-    ctx.beginPath();
-    ctx.moveTo(legX + 10, legY + 36);
-    ctx.lineTo(legX + 35, legY + 36);
-    ctx.stroke();
-    ctx.setLineDash([]);
-    ctx.fillStyle = '#ea580c';
-    ctx.beginPath();
-    ctx.arc(legX + 22, legY + 36, 3, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.fillStyle = '#334155';
-    ctx.fillText('推荐散热面积 (m²)', legX + 42, legY + 40);
-}
-
 // ========== 页面初始化 ==========
 document.addEventListener('DOMContentLoaded', function() {
     renderReferenceData();
@@ -7470,10 +6943,10 @@ function callLocalEngine(query) {
     // === 修正系数 α ===
     if (q.includes('修正系数') || q.includes('云内') || q.includes('康明斯') || q.includes('玉柴')) {
         let parts = [];
-        if (q.includes('云内')) parts.push('云内动力修正系数 α = 0.70（云内发动机热效率较高，实际散热需求较低）');
+        if (q.includes('云内')) parts.push('云内修正系数 α = 1.00（2026-11-18 复核：原 0.70 结论已撤销，云内散热量不做下调）');
         if (q.includes('康明斯')) parts.push('康明斯修正系数 α = 1.00（基准值）');
         if (q.includes('玉柴')) parts.push('玉柴修正系数 α = 1.05（玉柴发动机散热需求略高于基准）');
-        if (parts.length === 0) parts.push('供应商修正系数α：云内0.70、康明斯1.00、玉柴1.05、其他0.97');
+        if (parts.length === 0) parts.push('供应商修正系数α：云内1.00、康明斯1.00、玉柴1.05、其他0.97（云内已于2026-11-18复核为1.00）');
         parts.push('\n修正后散热量 Q_actual = Q_engine × α');
         return parts.join('\n\n');
     }
@@ -7499,7 +6972,7 @@ function callLocalEngine(query) {
 
     // === 散热量计算 ===
     if (q.includes('散热量') && (q.includes('计算') || q.includes('公式') || q.includes('怎么算'))) {
-        return '发动机散热量计算：\n\n1. 基础散热量：Q_engine = 马力 × 系数\n   • 柴油发动机：系数 = 0.32 kW/hp\n   • 燃气发动机：系数 = 0.25 kW/hp\n\n2. 供应商修正：Q_actual = Q_engine × α\n   • 云内 α=0.70，康明斯 α=1.00，玉柴 α=1.05\n\n3. 迎风面积校核：A_required = Q_actual × 标准值\n   • 轻卡 27 cm²/kW，重卡 30 cm²/kW\n\n例如：200马力柴油轻卡（云内）→ Q = 200×0.32×0.70 = 44.8 kW';
+        return '发动机散热量计算：\n\n1. 基础散热量：Q_engine = 马力 × 系数\n   • 柴油发动机：系数 = 0.32 kW/hp\n   • 燃气发动机：系数 = 0.25 kW/hp\n\n2. 供应商修正：Q_actual = Q_engine × α\n   • 云内 α=1.00，康明斯 α=1.00，玉柴 α=1.05\n\n3. 迎风面积校核：A_required = Q_actual × 标准值\n   • 轻卡 27 cm²/kW，重卡 30 cm²/kW\n\n例如：200马力柴油轻卡（云内）→ Q = 200×0.32×1.00 = 64.0 kW';
     }
 
     // === 马力 ===
@@ -10142,12 +9615,6 @@ if(D.fuel_type){document.getElementById('fuelType').value=D.fuel_type;P.push(F[D
 m.style.display='block';
 if(!P.length){m.style.background='#fef2f2';m.style.color='#dc2626';m.textContent='未识别有效参数'}else{m.style.background='#f0fdf4';m.style.color='#16a34a';m.textContent='✅ '+P.join(' / ')+'，请确认后点击计算'}
 }catch(e){m.style.display='block';m.style.background='#fef2f2';m.style.color='#dc2626';m.textContent='❌ '+e.message}finally{b.disabled=false;b.textContent='🤖 AI解析'}}
-
-async function aiSI(){var b=document.getElementById('aiSB'),l=document.getElementById('aiSL'),re=document.getElementById('aiSR');b.disabled=true;b.textContent='分析中…';l.style.display='block';re.style.display='none';
-var pn=document.getElementById('sens_param').value==='radiator'?'散热器':'中冷器',hp=document.getElementById('sens_hp').value,vt=document.getElementById('sens_vehicleType').value==='light'?'轻卡':'重卡',sp=document.getElementById('sens_supplier').value,ft=document.getElementById('sens_fuelType').value,tb=document.getElementById('sensTableBody'),td='';
-if(tb&&tb.rows.length){for(var r of tb.rows){var w=[];for(var c of r.cells)w.push(c.textContent.trim());td+=w.join('|')+'\n'}}
-var q='你是商用车冷却系统专家。敏感性分析数据：车型'+vt+' '+hp+'HP 供应商'+sp+' '+ft+' 参数:'+pn+'散热量(kW)\n'+td+'\n用markdown简洁回答：1最敏感参数 2次敏感参数 3针对性建议 4LAT超标风险 5工程余量建议。500字内';
-try{var res=await callCozeAPI(q,function(t){re.style.display='block';re.innerHTML='<div class="ai-result-card">'+renderSimpleMarkdown(t)+'</div>'});re.style.display='block';re.innerHTML='<div class="ai-result-card">'+renderSimpleMarkdown(res)+'</div>'}catch(e){re.style.display='block';re.innerHTML='<div class="ai-result-card" style="color:#dc2626">❌ '+e.message+'</div>'}finally{l.style.display='none';b.disabled=false;b.textContent='🤖 AI解读'}}
 
 </script>
 
