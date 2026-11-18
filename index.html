@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- saved from url=(0288)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E4%B8%89%E6%96%B9%E6%96%87%E4%BB%B6/index.html?sign=1797575084-ceb3d335f1-0-45b5a116321fc2f884e3dd61bc4446219c1b2168aacfc1c37c64f003070c67a8 -->
+<!-- saved from url=(0288)https://static.coze.site/1782751879760968_0-data_volume/7670835645811556658-files/%E6%89%80%E6%9C%89%E5%AF%B9%E8%AF%9D/%E4%B8%BB%E5%AF%B9%E8%AF%9D/%E4%B8%89%E6%96%B9%E6%96%87%E4%BB%B6/index.html?sign=1797576173-d68981ef0a-0-83ff9629243acfdd7744349bfa618be20fdcd80c48086052ae4048b0816138ee -->
 <html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1382,6 +1382,26 @@ body {
         font-size: 13px;
     }
 }
+/* ===== AI 状态指示灯 ===== */
+.ai-status-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    margin-right: 5px;
+    vertical-align: middle;
+    transition: background .3s, box-shadow .3s;
+}
+.ai-status-dot.online {
+    background: #22c55e;
+    box-shadow: 0 0 0 3px rgba(34,197,94,.18);
+}
+.ai-status-dot.offline {
+    background: #f59e0b;
+    box-shadow: 0 0 0 3px rgba(245,158,11,.18);
+}
+
 /* ===== 动画 ===== */
 .fade-in {
     animation: fadeIn 0.3s ease;
@@ -5109,7 +5129,7 @@ WP4.1-220,220,yuchai,diesel,108"></textarea>
         <div class="avatar" style="background-image:url(data:image/jpeg;base64,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);background-size:cover;background-position:center;border-radius:12px"></div>
         <div class="info">
             <h3 id="chatAgentName">AI 选型助手</h3>
-            <p id="chatAgentDesc">商用车冷却系统智能问答</p>
+            <p id="chatAgentDesc"><span class="ai-status-dot" id="aiStatusDot" title="AI 服务状态"></span>商用车冷却系统智能问答</p>
         </div>
         <button class="chat-settings-btn" onclick="toggleChatSettings()" title="智能体设置">⚙</button>
         <button class="chat-panel-clear" onclick="clearChatHistory()" title="清空对话记录">🗑️</button>
@@ -6849,11 +6869,25 @@ async function callCozeAPI(query, onChunk) {
         project_id: PROJECT_ID
     };
 
-    const response = await fetch(WORKER_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-    });
+    // 超时控制：35 秒无响应即中断，避免界面永久卡在"正在输入"
+    const AI_TIMEOUT_MS = 35000;
+    const ctrl = new AbortController();
+    const timer = setTimeout(() => ctrl.abort(), AI_TIMEOUT_MS);
+
+    let response;
+    try {
+        response = await fetch(WORKER_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            signal: ctrl.signal
+        });
+    } catch (err) {
+        clearTimeout(timer);
+        if (err && err.name === 'AbortError') throw new Error('AI 响应超时（35秒）');
+        throw err;
+    }
+    clearTimeout(timer);
 
     if (!response.ok) {
         throw new Error('HTTP ' + response.status);
@@ -6895,6 +6929,38 @@ async function callCozeAPI(query, onChunk) {
     }
 
     return fullText || 'AI回复已完成，但内容解析为空。请检查智能体状态。';
+}
+
+/**
+ * 带自动重试的 AI 调用：失败或返回空内容时自动重试 1 次
+ */
+async function callAIWithRetry(query, onChunk) {
+    let lastErr = null;
+    for (let attempt = 1; attempt <= 2; attempt++) {
+        try {
+            const text = await callCozeAPI(query, onChunk);
+            if (text && text.trim() !== '') return text;
+            lastErr = new Error('返回内容为空');
+        } catch (e) {
+            lastErr = e;
+        }
+        if (attempt === 1) {
+            console.log('[AI] 第 1 次调用失败：' + (lastErr && lastErr.message) + '，800ms 后自动重试');
+            await new Promise(r => setTimeout(r, 800));
+        }
+    }
+    throw lastErr || new Error('AI 调用失败');
+}
+
+/**
+ * AI 连接状态指示灯
+ */
+function setAIStatus(online) {
+    const dot = document.getElementById('aiStatusDot');
+    if (!dot) return;
+    dot.classList.remove('online', 'offline');
+    dot.classList.add(online ? 'online' : 'offline');
+    dot.title = online ? 'AI 服务在线' : 'AI 服务暂时不可用，已切换本地知识库';
 }
 
 /**
@@ -6940,6 +7006,28 @@ function sendQuickMsg(text) {
 function callLocalEngine(query) {
     const q = query.toLowerCase();
 
+    // === 元问题：能力范围 / 身份 / 用法（最高优先级，永远本地直答） ===
+    if (/你能做什么|你可以做什么|你可以回答|能回答什么|能回答哪些|会回答什么|可以回答|能回答|会回答|哪些方面|哪些问题|你的功能|你的能力|能力范围|有什么功能|有哪些功能|你是谁|你叫什么|介绍一下你|怎么用|如何使用|使用说明|使用帮助|能干什么|你会什么|能帮我|^help$/.test(q)) {
+        return '我是商用车冷却系统选型助手，背后挂着 15 章技术知识库和两套选型算法。可以问我这几类：\n\n' +
+            '【选型推荐】\n' +
+            '• 160马力轻卡怎么配散热器？\n' +
+            '• 460马力重卡康明斯，II类地区选什么配置？\n' +
+            '• 云内发动机散热量要不要修正？\n\n' +
+            '【计算类】\n' +
+            '• 散热量怎么算？\n' +
+            '• LAT 怎么预测？\n' +
+            '• K 值取多少合适？\n\n' +
+            '【故障诊断】\n' +
+            '• 水温高开锅是什么原因？\n' +
+            '• 中冷温升超标怎么排查？\n\n' +
+            '【标准与术语】\n' +
+            '• 轻卡 LAT 判定标准是多少？\n' +
+            '• 中冷器压降限值多少？\n' +
+            '• 迎风面积怎么算？\n\n' +
+            '问的时候把车型、马力、供应商、燃料类型、地区类型说全，我答得最准。\n' +
+            '如果只是想直接出配置方案，用上面的选型计算器更快，那个不依赖网络。';
+    }
+
     // === 修正系数 α ===
     if (q.includes('修正系数') || q.includes('云内') || q.includes('康明斯') || q.includes('玉柴')) {
         let parts = [];
@@ -6971,7 +7059,7 @@ function callLocalEngine(query) {
     }
 
     // === 散热量计算 ===
-    if (q.includes('散热量') && (q.includes('计算') || q.includes('公式') || q.includes('怎么算'))) {
+    if (q.includes('散热量') && (q.includes('计算') || q.includes('公式') || q.includes('怎么算') || q.includes('算') || q.includes('多少') || q.includes('求') || q.includes('是'))) {
         return '发动机散热量计算：\n\n1. 基础散热量：Q_engine = 马力 × 系数\n   • 柴油发动机：系数 = 0.32 kW/hp\n   • 燃气发动机：系数 = 0.25 kW/hp\n\n2. 供应商修正：Q_actual = Q_engine × α\n   • 云内 α=1.00，康明斯 α=1.00，玉柴 α=1.05\n\n3. 迎风面积校核：A_required = Q_actual × 标准值\n   • 轻卡 27 cm²/kW，重卡 30 cm²/kW\n\n例如：200马力柴油轻卡（云内）→ Q = 200×0.32×1.00 = 64.0 kW';
     }
 
@@ -6983,6 +7071,67 @@ function callLocalEngine(query) {
     // === 膨胀水箱/溢流壶 ===
     if (q.includes('膨胀水箱') || q.includes('溢流壶') || q.includes('膨胀罐')) {
         return '膨胀水箱 vs 溢流壶：\n\n【溢流壶】（传统方案）\n• 仅收集冷却液热膨胀溢出的多余液体\n• 无压力，不参与系统循环\n• 结构简单、成本低\n• 适用于小型发动机\n\n【膨胀水箱】（现代方案）\n• 参与冷却系统循环，维持系统压力稳定\n• 有液位指示，便于观察\n• 可自动补充冷却液，减少维护\n• 适用于中重型商用车\n\n重卡推荐使用膨胀水箱，轻卡可根据成本选择。';
+    }
+
+    // === 风扇 / 硅油离合器 ===
+    if (q.includes('风扇') || q.includes('硅油') || q.includes('离合器')) {
+        return '风扇选型要点：\n\n' +
+            '• 直径：一般为散热器芯体宽度的 60~75%，过大易干涉、过小风量不足\n' +
+            '• 速比：风扇转速/发动机转速，轻卡常见 1.0~1.2，重卡 0.9~1.1\n' +
+            '• 风量：按散热量匹配，每 kW 约需 0.03~0.05 m³/s\n' +
+            '• 硅油离合器：温控感应散热器后方气温，低于设定值断开以省油降噪\n' +
+            '• 常见故障：硅油泄漏导致常啮合（噪音大、油耗高）或常分离（水温高）\n\n' +
+            '判定：水温高且风扇转速正常时，先查水泵流量和散热器堵塞，不要只盯风扇。';
+    }
+
+    // === 水泵 / 冷却液流量 ===
+    if (q.includes('水泵') || q.includes('流量') || q.includes('循环')) {
+        return '水泵与冷却液流量：\n\n' +
+            '• 流量经验值：每 kW 散热量约需 0.9~1.2 L/min\n' +
+            '• 例：160马力轻卡散热量约 118 kW，循环流量应 ≥ 106~142 L/min\n' +
+            '• 流量不足的表现：进出水温差偏大（>8℃）、水温高但散热器上下温差明显\n' +
+            '• 常见原因：水泵叶轮腐蚀、皮带打滑、管路气阻、节温器开度不足\n\n' +
+            '排查顺序：先看进出水温差 → 再看节温器开度 → 最后查水泵。';
+    }
+
+    // === 海拔 / 高原 / 沸点 ===
+    if (q.includes('海拔') || q.includes('高原') || q.includes('沸点')) {
+        return '海拔对冷却系统的影响：\n\n' +
+            '• 海拔每升高 1000m，大气压下降约 11.5 kPa，冷却液沸点下降约 3~3.5℃\n' +
+            '• 例：平原沸点 108℃（带压），海拔 3000m 时约降到 98℃\n' +
+            '• 后果：LAT 上限被压低，同样的散热能力在高海拔更容易开锅\n' +
+            '• 应对：提高系统压力盖开启压力、增大散热面积、降低目标 LAT 裕量\n\n' +
+            '选型时若已知高原工况，建议在计算器里把环境温度按实际值填，并额外留 3~5℃ 裕量。';
+    }
+
+    // === ΔTk / 冷却常数 ===
+    if (q.includes('δtk') || q.includes('dtk') || q.includes('冷却常数') || q.includes('液气温差')) {
+        return 'ΔTk（冷却常数 / 液气温差）：\n\n' +
+            'ΔTk = T₀ − Ta\n' +
+            '• T₀：冷却液平衡温度（℃）\n' +
+            '• Ta：环境温度（℃）\n\n' +
+            '它表示在给定散热量下，冷却液温度比环境高出多少，直接决定散热器需要多大面积：\n' +
+            'A = Q / (K × ΔTk)\n\n' +
+            'ΔTk 越小（环境越热），同样散热量需要的面积越大。这就是高温地区要加大散热器的原因。';
+    }
+
+    // === 中冷温升 / 压降 ===
+    if (q.includes('温升') || q.includes('压降') || q.includes('中冷效率')) {
+        return '中冷器考核指标：\n\n' +
+            '• 中冷温升：各工况 ≤30℃（国标要求），超标说明中冷器换热能力不足\n' +
+            '• 中冷压降：各工况 ≤13.5 kPa，过大影响进气充量和功率\n' +
+            '• 中冷效率：一般要求 ≥70%，计算式 η = (T_in − T_out) / (T_in − T_ambient)\n\n' +
+            '温升超标常见原因：中冷器芯体堵塞、风扇风量不足、中冷器与散热器叠置间距过小形成热风回流。';
+    }
+
+    // === 防冻液 / 乙二醇浓度 ===
+    if (q.includes('防冻液') || q.includes('乙二醇') || q.includes('浓度') || q.includes('冰点')) {
+        return '冷却液浓度与冰点：\n\n' +
+            '• 乙二醇 40%：冰点约 −24℃，沸点约 106℃\n' +
+            '• 乙二醇 50%：冰点约 −37℃，沸点约 108℃（最常用）\n' +
+            '• 乙二醇 60%：冰点约 −52℃，但比热下降，散热能力变差\n\n' +
+            '注意：浓度不是越高越好。超过 60% 后比热容明显下降，反而让水温更高。\n' +
+            '一般地区 40~50%，寒区不超过 60%。';
     }
 
     // === 冷却液 ===
@@ -7068,13 +7217,15 @@ async function sendChatMsg() {
     let usedAPI = false;
     
     try {
-        fullText = await callCozeAPI(msg, (text) => {
+        fullText = await callAIWithRetry(msg, (text) => {
             // 每收到新文本就更新气泡内容
             updateStreamingBubble(streamingBubble, text);
         });
         usedAPI = true;
+        setAIStatus(true);
     } catch (e) {
-        console.log('AI代理调用失败，切换到本地引擎:', e.message);
+        console.log('AI代理两次调用均失败，切换到本地引擎:', e.message);
+        setAIStatus(false);
         removeStreamingBubble();
     }
     
@@ -7092,7 +7243,7 @@ async function sendChatMsg() {
             addChatMessage('bot', localReply);
         } else {
             removeTypingIndicator();
-            addChatMessage('bot', '抱歉，暂时无法回答这个问题。你可以试试：\n\n• "K值是什么意思？"\n• "160马力轻卡怎么选型？"\n• "散热量怎么计算？"\n• "膨胀水箱和溢流壶有什么区别？"\n• "冷却系统常见故障有哪些？"\n• "LAT是什么意思？"');
+            addChatMessage('bot', '⚠️ **AI 服务暂时没响应**（已自动重试一次），我先用本地知识库查了一下，没找到直接对应的条目。\n\n你可以：\n• 把问题说得更具体些，比如带上车型、马力、供应商\n• 直接再发一次，我会重新连 AI\n• 或者用上面的选型计算器，那个不依赖网络\n\n我平时能答：选型推荐、散热量计算、LAT 预测、K 值、故障诊断、标准条文。');
         }
     } else {
         // API成功时，最终格式化气泡内容
